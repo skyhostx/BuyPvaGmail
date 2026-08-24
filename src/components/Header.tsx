@@ -19,6 +19,7 @@ import {
   Star,
   TrendingUp
 } from 'lucide-react';
+import { SiteIdentityLogo } from './GmailLogo';
 import { CartItem } from '../types';
 
 interface HeaderProps {
@@ -265,19 +266,10 @@ export const Header: React.FC<HeaderProps> = ({
                 e.preventDefault();
                 handleNavClick('home');
               }}
-              className="flex items-center gap-3 cursor-pointer group"
+              className="flex items-center cursor-pointer group"
+              title="BuyPvaGmail Home"
             >
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-red-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black tracking-tight text-slate-900 font-sans">
-                  BuyPva<span className="text-red-600">Gmail</span>
-                </span>
-                <span className="text-[11px] text-slate-500 font-medium">
-                  100% Real SIM Verified Accounts
-                </span>
-              </div>
+              <SiteIdentityLogo size="md" variant="light" />
             </a>
 
             {/* Desktop Navigation */}

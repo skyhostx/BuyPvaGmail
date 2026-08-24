@@ -18,6 +18,7 @@ import {
   Coins
 } from 'lucide-react';
 import { OrderDetails } from '../types';
+import { GmailLogo } from './GmailLogo';
 
 interface OrderTrackingModalProps {
   isOpen: boolean;
@@ -149,12 +150,12 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20">
-              <Package className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 p-1.5 flex items-center justify-center shadow-xs">
+              <GmailLogo className="w-full h-full" withBadge badgeText="PVA" />
             </div>
             <div>
               <h3 className="text-lg sm:text-xl font-black text-slate-900">
-                Order Tracking & Live Status
+                Order Tracking &amp; Live Status
               </h3>
               <p className="text-xs text-slate-500">
                 Check delivery progress, download credentials, or verify replacement warranty

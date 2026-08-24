@@ -11,6 +11,7 @@ import {
   Headphones,
   MessageSquare
 } from 'lucide-react';
+import { SiteIdentityLogo } from './GmailLogo';
 
 interface FooterProps {
   onOpenOrderModal: (productId?: string) => void;
@@ -46,14 +47,7 @@ export const Footer: React.FC<FooterProps> = ({
           
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black shadow-md">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <span className="text-xl font-black text-white tracking-tight">
-                BuyPva<span className="text-red-500">Gmail</span>
-              </span>
-            </div>
+            <SiteIdentityLogo size="md" variant="dark" subtitle={false} />
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               BuyPvaGmail is the leading platform for 100% real carrier phone-verified (PVA) and aged USA Gmail accounts. 

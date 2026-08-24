@@ -24,6 +24,7 @@ import {
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
 import { detailedServicesData } from '../data/servicesData';
+import { GmailLogo } from './GmailLogo';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -499,13 +500,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         {/* Top Header */}
         <div className="bg-slate-900 text-white px-5 sm:px-7 py-4 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center font-black text-white text-base shadow-md shadow-red-600/30">
-              BG
+            <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700/80 p-1.5 flex items-center justify-center shadow-md">
+              <GmailLogo className="w-full h-full" withBadge badgeText="PVA" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
-                  buypvagmail.com Order Portal
+                <h3 className="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-1.5">
+                  BuyPva<span className="text-red-500">Gmail</span> Order Portal
                 </h3>
                 <span className="bg-emerald-950/90 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-700/80 flex items-center gap-1">
                   <Lock className="w-2.5 h-2.5" />

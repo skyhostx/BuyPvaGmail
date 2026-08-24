@@ -10,6 +10,7 @@ import {
   ExternalLink,
   ChevronRight
 } from 'lucide-react';
+import { GmailLogo } from './GmailLogo';
 
 export const LiveSupportWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -91,8 +92,8 @@ export const LiveSupportWidget: React.FC = () => {
           {/* Header */}
           <div className="bg-slate-900 text-white p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center relative">
-                <Headphones className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 p-1.5 flex items-center justify-center relative shadow-sm">
+                <GmailLogo className="w-full h-full" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-900 absolute -top-0.5 -right-0.5" />
               </div>
               <div>
@@ -100,7 +101,7 @@ export const LiveSupportWidget: React.FC = () => {
                   BuyPvaGmail Specialist
                   <span className="bg-emerald-500/20 text-emerald-400 text-[10px] px-1.5 py-0.2 rounded font-semibold border border-emerald-500/30">Online</span>
                 </h4>
-                <p className="text-[11px] text-slate-400">PVA Verification & Agency Support</p>
+                <p className="text-[11px] text-slate-400">PVA Verification &amp; Agency Support</p>
               </div>
             </div>
             <button
