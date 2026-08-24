@@ -198,53 +198,29 @@ export default function App() {
     }, 3000);
   };
 
-  const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean) => {
+  const navigateToPage = (view: AppView, serviceId?: string) => {
     let targetUrl = '/';
 
     if (view === 'service-detail' && serviceId) {
       targetUrl = `/services/${encodeURIComponent(serviceId)}`;
-      setSelectedServiceId(serviceId);
-      setCurrentView('service-detail');
-      setActiveSection('services');
     } else if (view === 'services-catalog') {
       targetUrl = '/services';
-      setCurrentView('services-catalog');
-      setActiveSection('services');
     } else if (view === 'pricing') {
       targetUrl = '/pricing';
-      setCurrentView('pricing');
-      setActiveSection('pricing');
     } else if (view === 'about') {
       targetUrl = '/about';
-      setCurrentView('about');
-      setActiveSection('about');
     } else if (view === 'blog') {
       targetUrl = '/blog';
-      setCurrentView('blog');
-      setActiveSection('blog');
     } else if (view === 'faq') {
       targetUrl = '/faq';
-      setCurrentView('faq');
-      setActiveSection('faq');
     } else if (view === 'contact') {
       targetUrl = '/contact';
-      setCurrentView('contact');
-      setActiveSection('contact');
     } else {
       targetUrl = '/';
-      setCurrentView('home');
-      setActiveSection('home');
     }
 
-    if (!skipHistoryPush) {
-      try {
-        window.history.pushState({ view, serviceId }, '', targetUrl);
-      } catch {
-        // Ignore iframe security restriction if cross-origin
-      }
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Perform a full browser page reload/navigation to the requested page
+    window.location.href = targetUrl;
   };
 
   const handleAddToCart = (product: ServiceProduct, quantity: number) => {
