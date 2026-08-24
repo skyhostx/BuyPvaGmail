@@ -171,6 +171,31 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
           </div>
         </div>
 
+        {/* High Search Value Keywords Bar */}
+        <div className="mb-8 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-black text-slate-500 uppercase tracking-wider mr-1">
+            🔥 High-Search Value Tags:
+          </span>
+          {[
+            'buy old gmail accounts',
+            'buy email accounts',
+            'pva gmail accounts for sale',
+            'purchase email account',
+            'buy usa gmail accounts',
+            'Buy Pva Gmail',
+            'Buy Old Gmail',
+            'Buy Usa gmail'
+          ].map((tag, idx) => (
+            <button
+              key={idx}
+              onClick={() => setSearchQuery(tag.toLowerCase().includes('usa') ? 'usa' : tag.toLowerCase().includes('pva') ? 'pva' : tag.toLowerCase().includes('old') ? 'aged' : '')}
+              className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-300 transition-colors cursor-pointer"
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => {

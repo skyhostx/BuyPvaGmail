@@ -109,6 +109,30 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
               </button>
             ))}
           </div>
+
+          {/* High Search Value Tags Bar */}
+          <div className="mt-5 pt-4 border-t border-slate-200/70 flex items-center justify-center gap-1.5 flex-wrap">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mr-1">
+              Popular Tags:
+            </span>
+            {[
+              'buy old gmail accounts',
+              'buy email accounts',
+              'pva gmail accounts for sale',
+              'purchase email account',
+              'buy usa gmail accounts',
+              'Buy Pva Gmail',
+              'Buy Old Gmail',
+              'Buy Usa gmail'
+            ].map((tag, idx) => (
+              <span
+                key={idx}
+                className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white text-slate-700 border border-slate-200 shadow-2xs"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Services Cards Grid */}

@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo, ServicePackage } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
+import { ServiceSeoSection } from '../ServiceSeoSection';
 
 interface ServiceDetailPageProps {
   serviceId: string;
@@ -542,7 +543,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
         </div>
 
-        {/* 5. Related Services Navigation */}
+        {/* 5. 1,200+ Word 100% Unique SEO & Technical Authority Guide */}
+        <ServiceSeoSection serviceId={service.id} />
+
+        {/* 6. Related Services Navigation */}
         <div className="pt-8 border-t border-slate-200">
           <div className="flex items-center justify-between mb-6">
             <div>
