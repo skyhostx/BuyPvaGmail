@@ -25,6 +25,9 @@ import { AboutUsPage } from './components/pages/AboutUsPage';
 import { BlogPage } from './components/pages/BlogPage';
 import { FaqPage } from './components/pages/FaqPage';
 import { ContactPage } from './components/pages/ContactPage';
+import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
+import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData } from './data/servicesData';
@@ -38,7 +41,10 @@ export type AppView =
   | 'about' 
   | 'blog' 
   | 'faq' 
-  | 'contact';
+  | 'contact'
+  | 'privacy'
+  | 'terms'
+  | 'warranty';
 
 function getInitialRoute(): { view: AppView; serviceId: string } {
   try {
@@ -48,7 +54,17 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
     const serviceParam = searchParams.get('service');
     const rawHash = typeof window !== 'undefined' ? (window.location.hash || '').replace(/^#\/?/, '').trim() : '';
 
-    const effectivePath = rawHash && (rawHash.startsWith('service') || rawHash.startsWith('pricing') || rawHash.startsWith('about') || rawHash.startsWith('blog') || rawHash.startsWith('faq') || rawHash.startsWith('contact'))
+    const effectivePath = rawHash && (
+      rawHash.startsWith('service') || 
+      rawHash.startsWith('pricing') || 
+      rawHash.startsWith('about') || 
+      rawHash.startsWith('blog') || 
+      rawHash.startsWith('faq') || 
+      rawHash.startsWith('contact') ||
+      rawHash.startsWith('privacy') ||
+      rawHash.startsWith('terms') ||
+      rawHash.startsWith('warranty')
+    )
       ? '/' + rawHash
       : rawPath;
 
@@ -84,6 +100,23 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
     }
     if (effectivePath === '/contact' || viewParam === 'contact' || rawHash === 'contact') {
       return { view: 'contact', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/privacy' || effectivePath === '/privacy-policy' || viewParam === 'privacy' || rawHash === 'privacy' || rawHash === 'privacy-policy') {
+      return { view: 'privacy', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/terms' || effectivePath === '/terms-of-service' || viewParam === 'terms' || rawHash === 'terms' || rawHash === 'terms-of-service') {
+      return { view: 'terms', serviceId: 'usa-gmail-accounts' };
+    }
+    if (
+      effectivePath === '/warranty' || 
+      effectivePath === '/warranty-guidelines' || 
+      effectivePath === '/replacement-policy' || 
+      viewParam === 'warranty' || 
+      rawHash === 'warranty' || 
+      rawHash === 'warranty-guidelines' ||
+      rawHash === 'replacement-policy'
+    ) {
+      return { view: 'warranty', serviceId: 'usa-gmail-accounts' };
     }
   } catch {
     // fallback
@@ -224,6 +257,50 @@ export default function App() {
           return;
         }
 
+        // Privacy Policy
+        if (
+          effectivePath === '/privacy' || 
+          effectivePath === '/privacy-policy' || 
+          viewParam === 'privacy' || 
+          rawHash === 'privacy' || 
+          rawHash === 'privacy-policy'
+        ) {
+          setCurrentView('privacy');
+          setActiveSection('privacy');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        // Terms of Service
+        if (
+          effectivePath === '/terms' || 
+          effectivePath === '/terms-of-service' || 
+          viewParam === 'terms' || 
+          rawHash === 'terms' || 
+          rawHash === 'terms-of-service'
+        ) {
+          setCurrentView('terms');
+          setActiveSection('terms');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        // Warranty Guidelines
+        if (
+          effectivePath === '/warranty' || 
+          effectivePath === '/warranty-guidelines' || 
+          effectivePath === '/replacement-policy' || 
+          viewParam === 'warranty' || 
+          rawHash === 'warranty' || 
+          rawHash === 'warranty-guidelines' ||
+          rawHash === 'replacement-policy'
+        ) {
+          setCurrentView('warranty');
+          setActiveSection('warranty');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         // Default or Home (/)
         setCurrentView('home');
         setActiveSection('home');
@@ -292,6 +369,18 @@ export default function App() {
       setCurrentView('contact');
       setActiveSection('contact');
       targetUrl = '/contact';
+    } else if (view === 'privacy') {
+      setCurrentView('privacy');
+      setActiveSection('privacy');
+      targetUrl = '/privacy';
+    } else if (view === 'terms') {
+      setCurrentView('terms');
+      setActiveSection('terms');
+      targetUrl = '/terms';
+    } else if (view === 'warranty') {
+      setCurrentView('warranty');
+      setActiveSection('warranty');
+      targetUrl = '/warranty';
     } else {
       setCurrentView('home');
       setActiveSection('home');
@@ -476,6 +565,29 @@ export default function App() {
         {currentView === 'contact' && (
           <ContactPage 
             onNavigateHome={() => navigateToPage('home')}
+          />
+        )}
+
+        {currentView === 'privacy' && (
+          <PrivacyPolicyPage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToContact={() => navigateToPage('contact')}
+          />
+        )}
+
+        {currentView === 'terms' && (
+          <TermsOfServicePage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToContact={() => navigateToPage('contact')}
+            onNavigateToWarranty={() => navigateToPage('warranty')}
+          />
+        )}
+
+        {currentView === 'warranty' && (
+          <WarrantyGuidelinesPage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToContact={() => navigateToPage('contact')}
+            onNavigateToTerms={() => navigateToPage('terms')}
           />
         )}
 

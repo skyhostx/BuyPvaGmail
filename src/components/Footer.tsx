@@ -308,10 +308,10 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/faq"
+                  href="/warranty"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('faq');
+                    if (onNavigateToPage) onNavigateToPage('warranty');
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -357,34 +357,34 @@ export const Footer: React.FC<FooterProps> = ({
 
           <div className="flex items-center gap-3 text-[11px] flex-wrap justify-center">
             <a 
-              href="/faq"
+              href="/privacy"
               onClick={(e) => {
                 e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('faq');
+                if (onNavigateToPage) onNavigateToPage('privacy');
               }} 
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-white transition-colors cursor-pointer font-medium"
             >
               Privacy Policy
             </a>
             <span className="text-slate-700">•</span>
             <a 
-              href="/faq"
+              href="/terms"
               onClick={(e) => {
                 e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('faq');
+                if (onNavigateToPage) onNavigateToPage('terms');
               }} 
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-white transition-colors cursor-pointer font-medium"
             >
               Terms of Service
             </a>
             <span className="text-slate-700">•</span>
             <a 
-              href="/faq"
+              href="/warranty"
               onClick={(e) => {
                 e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('faq');
+                if (onNavigateToPage) onNavigateToPage('warranty');
               }} 
-              className="hover:text-white transition-colors cursor-pointer"
+              className="hover:text-white transition-colors cursor-pointer font-medium"
             >
               Warranty Guidelines
             </a>
