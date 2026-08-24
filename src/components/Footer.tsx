@@ -148,13 +148,6 @@ export const Footer: React.FC<FooterProps> = ({
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>WhatsApp: +1 (253) 408-0049</span>
               </a>
-              <button
-                onClick={onOpenTrackingModal}
-                className="bg-slate-900 hover:bg-amber-600 hover:text-white text-amber-400 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Track Order</span>
-              </button>
             </div>
           </div>
 

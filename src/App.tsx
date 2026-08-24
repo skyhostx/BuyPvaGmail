@@ -39,7 +39,59 @@ export type AppView =
   | 'faq' 
   | 'contact';
 
+function getInitialRoute(): { view: AppView; serviceId: string } {
+  try {
+    const rawPath = typeof window !== 'undefined' ? (window.location.pathname.replace(/\/+$/, '') || '/') : '/';
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
+    const viewParam = searchParams.get('view');
+    const serviceParam = searchParams.get('service');
+    const rawHash = typeof window !== 'undefined' ? (window.location.hash || '').replace(/^#\/?/, '').trim() : '';
+
+    const effectivePath = rawHash && (rawHash.startsWith('service') || rawHash.startsWith('pricing') || rawHash.startsWith('about') || rawHash.startsWith('blog') || rawHash.startsWith('faq') || rawHash.startsWith('contact'))
+      ? '/' + rawHash
+      : rawPath;
+
+    let targetServiceId: string | null = null;
+    if (effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
+      const parts = effectivePath.split('/');
+      if (parts[2]) {
+        targetServiceId = decodeURIComponent(parts[2]);
+      }
+    } else if (serviceParam) {
+      targetServiceId = serviceParam;
+    }
+
+    if (targetServiceId || viewParam === 'service-detail') {
+      const matched = detailedServicesData.find((s) => s.id === targetServiceId) || detailedServicesData[0];
+      return { view: 'service-detail', serviceId: matched.id };
+    }
+
+    if (effectivePath === '/services' || effectivePath === '/services-catalog' || viewParam === 'services' || rawHash === 'services') {
+      return { view: 'services-catalog', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/pricing' || viewParam === 'pricing' || rawHash === 'pricing') {
+      return { view: 'pricing', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/about' || effectivePath === '/about-us' || viewParam === 'about' || rawHash === 'about' || rawHash === 'about-us') {
+      return { view: 'about', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/blog' || effectivePath === '/guides' || viewParam === 'blog' || rawHash === 'blog' || rawHash === 'guides') {
+      return { view: 'blog', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/faq' || viewParam === 'faq' || rawHash === 'faq') {
+      return { view: 'faq', serviceId: 'usa-gmail-accounts' };
+    }
+    if (effectivePath === '/contact' || viewParam === 'contact' || rawHash === 'contact') {
+      return { view: 'contact', serviceId: 'usa-gmail-accounts' };
+    }
+  } catch {
+    // fallback
+  }
+  return { view: 'home', serviceId: 'usa-gmail-accounts' };
+}
+
 export default function App() {
+  const initialRoute = getInitialRoute();
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('buypvagmail_cart');
@@ -49,9 +101,9 @@ export default function App() {
     }
   });
 
-  const [activeSection, setActiveSection] = useState('home');
-  const [currentView, setCurrentView] = useState<AppView>('home');
-  const [selectedServiceId, setSelectedServiceId] = useState<string>('usa-gmail-accounts');
+  const [activeSection, setActiveSection] = useState(initialRoute.view === 'home' ? 'home' : (initialRoute.view === 'service-detail' || initialRoute.view === 'services-catalog' ? 'services' : initialRoute.view));
+  const [currentView, setCurrentView] = useState<AppView>(initialRoute.view);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>(initialRoute.serviceId);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderModalProduct, setOrderModalProduct] = useState<ServiceProduct>(servicesData[0]);
@@ -365,6 +417,7 @@ export default function App() {
 
         {currentView === 'service-detail' && (
           <ServiceDetailPage
+            key={selectedServiceId}
             serviceId={selectedServiceId}
             onBackToCatalog={() => navigateToPage('services-catalog')}
             onSelectOtherService={(id) => navigateToPage('service-detail', id)}
