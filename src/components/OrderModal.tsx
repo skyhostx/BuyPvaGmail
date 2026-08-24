@@ -24,7 +24,6 @@ import {
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
 import { detailedServicesData } from '../data/servicesData';
-import { addOrderToStore } from '../utils/orderStorage';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -434,32 +433,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           }
         ],
         email: deliveryEmail,
-        customerName: fullName,
-        telegramOrSkype: telegramUsername,
-        whatsapp: whatsappNumber,
-        country: country,
-        orderNotes: orderNotes,
+        telegramOrSkype: telegramUsername || whatsappNumber || fullName,
         paymentMethod: 'crypto',
         cryptoCurrency: activeCrypto.symbol,
         txHash: txHash,
         totalAmount: currentPricing.totalPrice,
-        date: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
-        status: 'delivered',
-        paymentStatus: 'confirmed'
+        date: new Date().toLocaleDateString(),
+        status: 'delivered'
       };
 
       setCompletedOrder(order);
-      try {
-        addOrderToStore(order);
-      } catch (e) {
-        // ignore
-      }
       if (onOrderSuccess) onOrderSuccess(order);
 
       try {
