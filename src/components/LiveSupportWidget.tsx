@@ -66,7 +66,7 @@ export const LiveSupportWidget: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       {/* Floating Trigger Button */}
       {!isOpen && (
         <button

@@ -15,6 +15,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { AccountCheckerModal } from './components/AccountCheckerModal';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { LiveSupportWidget } from './components/LiveSupportWidget';
+import { FloatingSocialButtons } from './components/FloatingSocialButtons';
 import { PageLoader } from './components/PageLoader';
 
 // Standalone dedicated pages
@@ -696,12 +697,15 @@ export default function App() {
         onClose={() => setIsCheckerModalOpen(false)}
       />
 
-      {/* 24/7 Live Support Bubble */}
+      {/* 24/7 Live Support Bubble (Left) */}
       <LiveSupportWidget />
+
+      {/* Floating Telegram & WhatsApp Buttons (Right) */}
+      <FloatingSocialButtons />
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3 animate-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3 animate-in slide-in-from-bottom-4 duration-200">
           <div className="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
             <Check className="w-4 h-4 stroke-[3]" />
           </div>
