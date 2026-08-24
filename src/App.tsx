@@ -15,6 +15,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { AccountCheckerModal } from './components/AccountCheckerModal';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { LiveSupportWidget } from './components/LiveSupportWidget';
+import { PageLoader } from './components/PageLoader';
 
 // Standalone dedicated pages
 import { ServicesCatalogPage } from './components/pages/ServicesCatalogPage';
@@ -112,6 +113,15 @@ export default function App() {
   const [isCheckerModalOpen, setIsCheckerModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
+  // Smooth page loading transition on reload / mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 850);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, /services/:id, etc.)
   useEffect(() => {
@@ -390,6 +400,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white">
       
+      {/* Full Page Reload & Mount Brand Logo Loader */}
+      <PageLoader 
+        isLoading={isPageLoading} 
+        onFinish={() => setIsPageLoading(false)} 
+      />
+
       {/* Sticky Top Header */}
       <Header
         cart={cart}

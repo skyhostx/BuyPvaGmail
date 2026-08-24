@@ -24,8 +24,42 @@
       }(window.location));
     </script>
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="bg-slate-950">
+    <div id="root">
+      <!-- Instant Preload Screen on Reload / Hard Refresh -->
+      <div id="initial-page-loader" style="position:fixed;inset:0;background:#020617;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#ffffff;user-select:none;">
+        <div style="position:relative;margin-bottom:20px;">
+          <div style="position:absolute;inset:-12px;border-radius:24px;background:linear-gradient(90deg,#4285F4,#EA4335,#FBBC05);opacity:0.25;filter:blur(10px);"></div>
+          <div style="position:relative;width:80px;height:80px;background:#0f172a;border:1px solid rgba(51,65,85,0.8);border-radius:22px;display:flex;align-items:center;justify-content:center;padding:16px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.5);">
+            <svg viewBox="0 0 48 48" fill="none" style="width:100%;height:100%;">
+              <rect x="5" y="9" width="38" height="30" rx="3.5" fill="#FFFFFF" />
+              <path d="M6 13V35.5C6 37.433 7.567 39 9.5 39H14V22L6 13Z" fill="#4285F4" />
+              <path d="M42 13V35.5C42 37.433 40.433 39 38.5 39H34V22L42 13Z" fill="#34A853" />
+              <path d="M14 22V39H34V22L24 29.5L14 22Z" fill="#EA4335" fill-opacity="0.94" />
+              <path d="M6 13L14 22L24 14.5L18.5 10C16.8 8.7 14.2 8.7 12.5 10L6 13Z" fill="#FBBC05" />
+              <path d="M42 13L34 22L24 14.5L29.5 10C31.2 8.7 33.8 8.7 35.5 10L42 13Z" fill="#EA4335" />
+              <path d="M18.5 10L24 14.5L29.5 10C27.8 8.6 25.9 8.2 24 8.2C22.1 8.2 20.2 8.6 18.5 10Z" fill="#C5221F" />
+            </svg>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:22px;height:22px;border-radius:9999px;background:#10b981;border:2px solid #020617;display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:11px;font-weight:900;">✓</div>
+          </div>
+        </div>
+        <div style="font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+          <span>BuyPva<span style="color:#ef4444;">Gmail</span></span>
+          <span style="background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.4);font-size:9px;font-weight:900;padding:2px 6px;border-radius:4px;letter-spacing:0.5px;">PVA</span>
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:16px;">100% Real Carrier SIM Verified Accounts</div>
+        <div style="width:200px;height:3px;background:#1e293b;border-radius:9999px;overflow:hidden;position:relative;">
+          <div style="width:100%;height:100%;background:linear-gradient(90deg,#4285F4,#EA4335,#FBBC05);border-radius:9999px;animation:pva-load 1.2s infinite ease-in-out;"></div>
+        </div>
+        <style>
+          @keyframes pva-load {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+          }
+        </style>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
