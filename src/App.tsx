@@ -61,51 +61,45 @@ export default function App() {
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, etc.)
+  // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, /services/:id, etc.)
   useEffect(() => {
     const handleUrlRouting = () => {
       try {
-        const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+        const rawPath = window.location.pathname.replace(/\/+$/, '') || '/';
         const searchParams = new URLSearchParams(window.location.search);
         const viewParam = searchParams.get('view');
         const serviceParam = searchParams.get('service');
-        const rawHash = (window.location.hash || '').replace('#', '').trim();
+        const rawHash = (window.location.hash || '').replace(/^#\/?/, '').trim();
 
-        // Clean up any remaining '#' from the address bar if present
-        if (window.location.hash) {
-          try {
-            window.history.replaceState(null, '', window.location.pathname + window.location.search);
-          } catch {
-            // Ignore iframe security error
-          }
-        }
+        // Effective path can come from pathname or hash
+        const effectivePath = rawHash && (rawHash.startsWith('service') || rawHash.startsWith('pricing') || rawHash.startsWith('about') || rawHash.startsWith('blog') || rawHash.startsWith('faq') || rawHash.startsWith('contact'))
+          ? '/' + rawHash
+          : rawPath;
 
-        // Match service detail: /services/:id or /service/:id or ?view=service-detail&service=:id
+        // Match service detail: /services/:id or /service/:id or ?service=:id or ?view=service-detail&service=:id
         let targetServiceId: string | null = null;
-        if (pathname.startsWith('/services/') || pathname.startsWith('/service/')) {
-          const parts = pathname.split('/');
+        if (effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
+          const parts = effectivePath.split('/');
           if (parts[2]) {
             targetServiceId = decodeURIComponent(parts[2]);
           }
-        } else if (viewParam === 'service-detail' && serviceParam) {
+        } else if (serviceParam) {
           targetServiceId = serviceParam;
         }
 
-        if (targetServiceId) {
-          const exists = detailedServicesData.some((s) => s.id === targetServiceId);
-          if (exists) {
-            setSelectedServiceId(targetServiceId);
-            setCurrentView('service-detail');
-            setActiveSection('services');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            return;
-          }
+        if (targetServiceId || viewParam === 'service-detail') {
+          const matchedService = detailedServicesData.find((s) => s.id === targetServiceId) || detailedServicesData[0];
+          setSelectedServiceId(matchedService.id);
+          setCurrentView('service-detail');
+          setActiveSection('services');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
         }
 
         // Services Catalog
         if (
-          pathname === '/services' ||
-          pathname === '/services-catalog' ||
+          effectivePath === '/services' ||
+          effectivePath === '/services-catalog' ||
           viewParam === 'services' ||
           viewParam === 'services-catalog' ||
           rawHash === 'services'
@@ -117,7 +111,7 @@ export default function App() {
         }
 
         // Pricing
-        if (pathname === '/pricing' || viewParam === 'pricing' || rawHash === 'pricing') {
+        if (effectivePath === '/pricing' || viewParam === 'pricing' || rawHash === 'pricing') {
           setCurrentView('pricing');
           setActiveSection('pricing');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -126,8 +120,8 @@ export default function App() {
 
         // About
         if (
-          pathname === '/about' ||
-          pathname === '/about-us' ||
+          effectivePath === '/about' ||
+          effectivePath === '/about-us' ||
           viewParam === 'about' ||
           rawHash === 'about' ||
           rawHash === 'about-us'
@@ -138,10 +132,10 @@ export default function App() {
           return;
         }
 
-        // Blog
+        // Blog / Guides
         if (
-          pathname === '/blog' ||
-          pathname === '/guides' ||
+          effectivePath === '/blog' ||
+          effectivePath === '/guides' ||
           viewParam === 'blog' ||
           rawHash === 'blog' ||
           rawHash === 'guides'
@@ -153,7 +147,7 @@ export default function App() {
         }
 
         // FAQ
-        if (pathname === '/faq' || viewParam === 'faq' || rawHash === 'faq') {
+        if (effectivePath === '/faq' || viewParam === 'faq' || rawHash === 'faq') {
           setCurrentView('faq');
           setActiveSection('faq');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -161,7 +155,7 @@ export default function App() {
         }
 
         // Contact
-        if (pathname === '/contact' || viewParam === 'contact' || rawHash === 'contact') {
+        if (effectivePath === '/contact' || viewParam === 'contact' || rawHash === 'contact') {
           setCurrentView('contact');
           setActiveSection('contact');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -179,7 +173,11 @@ export default function App() {
 
     handleUrlRouting();
     window.addEventListener('popstate', handleUrlRouting);
-    return () => window.removeEventListener('popstate', handleUrlRouting);
+    window.addEventListener('hashchange', handleUrlRouting);
+    return () => {
+      window.removeEventListener('popstate', handleUrlRouting);
+      window.removeEventListener('hashchange', handleUrlRouting);
+    };
   }, []);
 
   // Save cart to local storage
@@ -198,29 +196,60 @@ export default function App() {
     }, 3000);
   };
 
-  const navigateToPage = (view: AppView, serviceId?: string) => {
+  const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean) => {
     let targetUrl = '/';
 
-    if (view === 'service-detail' && serviceId) {
-      targetUrl = `/services/${encodeURIComponent(serviceId)}`;
+    if (view === 'service-detail') {
+      const validId = serviceId || selectedServiceId || detailedServicesData[0].id;
+      const targetService = detailedServicesData.find((s) => s.id === validId) || detailedServicesData[0];
+      setSelectedServiceId(targetService.id);
+      setCurrentView('service-detail');
+      setActiveSection('services');
+      targetUrl = `/services/${encodeURIComponent(targetService.id)}`;
     } else if (view === 'services-catalog') {
+      setCurrentView('services-catalog');
+      setActiveSection('services');
       targetUrl = '/services';
     } else if (view === 'pricing') {
+      setCurrentView('pricing');
+      setActiveSection('pricing');
       targetUrl = '/pricing';
     } else if (view === 'about') {
+      setCurrentView('about');
+      setActiveSection('about');
       targetUrl = '/about';
     } else if (view === 'blog') {
+      setCurrentView('blog');
+      setActiveSection('blog');
       targetUrl = '/blog';
     } else if (view === 'faq') {
+      setCurrentView('faq');
+      setActiveSection('faq');
       targetUrl = '/faq';
     } else if (view === 'contact') {
+      setCurrentView('contact');
+      setActiveSection('contact');
       targetUrl = '/contact';
     } else {
+      setCurrentView('home');
+      setActiveSection('home');
       targetUrl = '/';
     }
 
-    // Perform a full browser page reload/navigation to the requested page
-    window.location.href = targetUrl;
+    if (!skipHistoryPush) {
+      try {
+        window.history.pushState({ view, serviceId }, '', targetUrl);
+      } catch {
+        // Fallback for restricted iframe environments
+        try {
+          window.location.hash = targetUrl.replace(/^\//, '');
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleAddToCart = (product: ServiceProduct, quantity: number) => {
