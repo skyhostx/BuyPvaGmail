@@ -22,18 +22,32 @@ export interface DetailedServiceInfo extends ServiceProduct {
   packages: ServicePackage[];
 }
 
+export const VINTAGE_YEARS = [
+  2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025
+] as const;
+
+export type VintageYear = typeof VINTAGE_YEARS[number];
+
+export const VINTAGE_YEAR_TIERS = [
+  { era: 'Ultra-Vintage (2008 - 2012)', years: [2008, 2009, 2010, 2011, 2012], badge: '14-18 Yrs Aged', trustScore: '99.9%' },
+  { era: 'Golden Age (2013 - 2017)', years: [2013, 2014, 2015, 2016, 2017], badge: '9-13 Yrs Aged', trustScore: '99.5%' },
+  { era: 'Prime Authority (2018 - 2022)', years: [2018, 2019, 2020, 2021, 2022], badge: '4-8 Yrs Aged', trustScore: '98.8%' },
+  { era: 'Modern Seasoned (2023 - 2024)', years: [2023, 2024], badge: '2-3 Yrs Aged', trustScore: '97.5%' },
+  { era: 'Fresh Verified (2025)', years: [2025], badge: 'Fresh PVA', trustScore: '95.0%' }
+];
+
 export const detailedServicesData: DetailedServiceInfo[] = [
   {
     id: 'usa-gmail-accounts',
     name: 'USA Gmail Accounts',
-    shortDesc: 'Created on genuine USA residential IPs with real US mobile numbers. Perfect for US cold outreach, Google Workspace & marketing.',
-    heroTagline: '100% Genuine USA Residential IP Created with Physical US Carrier SIMs',
-    longDescription: 'Our USA Gmail accounts represent the pinnacle of email marketing reliability. Each account is registered exclusively using clean, dedicated USA residential ISP connections (Comcast, AT&T, Spectrum) and verified with non-VoIP physical SIM cards from major US carriers. They come pre-configured with recovery emails, 2FA backup codes, and full security protocols, ensuring maximum inbox deliverability for cold email campaigns and US-targeted business operations.',
+    shortDesc: 'Created on genuine USA residential IPs with real US mobile numbers. Available across all vintage years from 2008 to 2025.',
+    heroTagline: '100% Genuine USA Residential IP Created with Physical US Carrier SIMs (2008 - 2025 Vintage)',
+    longDescription: 'Our USA Gmail accounts represent the pinnacle of email marketing reliability, spanning all creation years from 2008 to 2025. Each account is registered exclusively using clean, dedicated USA residential ISP connections (Comcast, AT&T, Spectrum) and verified with non-VoIP physical SIM cards from major US carriers. They come pre-configured with recovery emails, 2FA backup codes, and full security protocols, ensuring maximum inbox deliverability for cold email campaigns and US-targeted business operations.',
     basePrice: 6,
     baseQuantity: 2,
     unitPrice: 3.0,
     popular: true,
-    age: '2020 - 2024 Aged',
+    age: '2008 - 2025 Aged (All Years Available)',
     category: 'usa',
     country: 'United States',
     countryCode: 'US',
@@ -41,6 +55,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.95,
     reviewsCount: 1240,
     features: [
+      'Available across all creation years: 2008 to 2025',
       '100% Real US Carrier SIM Verified (AT&T / Verizon / T-Mobile)',
       'Static USA Residential ISP IP Created (Comcast / Spectrum)',
       'Configured Recovery Email Included with Full Access',
@@ -138,15 +153,15 @@ export const detailedServicesData: DetailedServiceInfo[] = [
   {
     id: 'pva-gmail-accounts',
     name: 'PVA Gmail Accounts',
-    shortDesc: 'Phone-Verified Accounts with active SMS validation. Zero VoIP flags and resilient login security for multi-platform usage.',
-    heroTagline: '100% Real SIM SMS Verified Gmail Accounts for Bulletproof Security',
-    longDescription: 'PVA (Phone Verified Account) Gmails are the golden standard for marketers, developers, and businesses requiring hardened accounts that pass Google automated verification challenges. Every PVA account is verified with a real physical SIM card, preventing sudden verification lockouts. Designed for bulk integration, automated software, and social marketing.',
+    shortDesc: 'Phone-Verified Accounts with active SMS validation. Available across all years 2008 to 2025 with resilient login security.',
+    heroTagline: '100% Real SIM SMS Verified Gmail Accounts for Bulletproof Security (2008 - 2025)',
+    longDescription: 'PVA (Phone Verified Account) Gmails are the golden standard for marketers, developers, and businesses requiring hardened accounts that pass Google automated verification challenges. Every PVA account is verified with a real physical SIM card, preventing sudden verification lockouts. Available in all creation years from 2008 vintage up to 2025 fresh batches.',
     basePrice: 6,
     baseQuantity: 2,
     unitPrice: 3.0,
     popular: false,
     bestValue: true,
-    age: '2021 - 2024 Aged',
+    age: '2008 - 2025 Aged PVA',
     category: 'pva',
     country: 'USA / UK / CA',
     countryCode: 'GLOBAL',
@@ -154,6 +169,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.92,
     reviewsCount: 980,
     features: [
+      'All creation years available: 2008 through 2025',
       '100% SMS Phone Verified with Real Physical SIMs (Zero VoIP)',
       'Clean IP registration with zero blacklisted telemetry',
       'Configured with Secondary Recovery Email & Security Answers',
@@ -192,7 +208,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 3.00,
         discountPercent: 0,
         badge: 'Starter',
-        features: ['2 PVA SIM Verified Accounts', 'Recovery Email Included', 'Password Changeable', 'Instant Delivery']
+        features: ['2 PVA SIM Verified Accounts (2008-2025)', 'Recovery Email Included', 'Password Changeable', 'Instant Delivery']
       },
       {
         id: 'pva-bundle',
@@ -250,14 +266,14 @@ export const detailedServicesData: DetailedServiceInfo[] = [
   {
     id: 'aged-mix-country-gmail',
     name: 'Aged Mix Country Gmail Accounts',
-    shortDesc: 'High-authority vintage accounts from 2016 to 2022 from UK, Canada, Australia & Europe with mature browsing history.',
-    heroTagline: 'High-Trust Vintage Gmails Aged 3 to 8+ Years with Organic Activity Footprint',
-    longDescription: 'Age is the #1 metric Google algorithms utilize to calculate trust score. Our Aged Mix Country Gmail accounts were created between 2016 and 2022 across Tier-1 regions (United Kingdom, Canada, Australia, Germany, France). Having seasoned cookies, historical telemetry, and zero suspension flags, these accounts easily bypass captcha barriers and strict anti-bot systems.',
+    shortDesc: 'High-authority vintage accounts spanning 2008 to 2025 from UK, Canada, Australia & Europe with mature browsing history.',
+    heroTagline: 'High-Trust Vintage Gmails Aged 1 to 18 Years (2008–2025) with Organic Activity Footprint',
+    longDescription: 'Age is the #1 metric Google algorithms utilize to calculate trust score. Our Aged Mix Country Gmail accounts were created between 2008 and 2025 across Tier-1 regions (United Kingdom, Canada, Australia, Germany, France). Having seasoned cookies, historical telemetry, and zero suspension flags, these accounts easily bypass captcha barriers and strict anti-bot systems.',
     basePrice: 5,
     baseQuantity: 2,
     unitPrice: 2.5,
     popular: false,
-    age: '2016 - 2022 (Aged 3 to 8 Years)',
+    age: '2008 - 2025 (Vintage 1 to 18 Years)',
     category: 'aged',
     country: 'Mixed Tier-1 (UK, CA, AU, EU)',
     countryCode: 'MIX',
@@ -265,7 +281,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.88,
     reviewsCount: 860,
     features: [
-      'Aged 3 to 8+ Years Old with organic registration telemetry',
+      'Aged from 2008 to 2025 (1 to 18+ Years Old) with organic telemetry',
       'Established trust history with natural Google profile data',
       'Superior resistance to sudden phone verification lockouts',
       'Includes complete recovery credentials & cookies',
@@ -303,7 +319,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 2.50,
         discountPercent: 0,
         badge: 'Starter',
-        features: ['2 Aged Accounts (2016-2022)', 'Organic History', 'Recovery Mail Included', 'Instant Delivery']
+        features: ['2 Aged Accounts (2008-2025 Vintage)', 'Organic History', 'Recovery Mail Included', 'Instant Delivery']
       },
       {
         id: 'aged-explorer',
@@ -313,7 +329,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 2.38,
         discountPercent: 5,
         badge: 'Save 5%',
-        features: ['10 Aged Accounts', 'Mixed Tier-1 Geolocation', 'High Trust Score', '7-Day Warranty']
+        features: ['10 Aged Accounts (2008-2025)', 'Mixed Tier-1 Geolocation', 'High Trust Score', '7-Day Warranty']
       },
       {
         id: 'aged-authority',
@@ -324,7 +340,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         discountPercent: 10,
         badge: '🌍 Best Value',
         isPopular: true,
-        features: ['25 Aged Accounts', '3-8 Years Organic Age', 'Cookie Sessions Included', 'Priority Support']
+        features: ['25 Aged Accounts', '2008-2025 Organic Age', 'Cookie Sessions Included', 'Priority Support']
       },
       {
         id: 'aged-scraper',
@@ -334,7 +350,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 2.12,
         discountPercent: 15,
         badge: 'Save 15%',
-        features: ['50 Aged Accounts', 'Anti-Detect Optimized', 'Immune to Captcha Loops', '7-Day Replacement']
+        features: ['50 Aged Accounts (2008-2025)', 'Anti-Detect Optimized', 'Immune to Captcha Loops', '7-Day Replacement']
       },
       {
         id: 'aged-century',
@@ -344,7 +360,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 2.00,
         discountPercent: 20,
         badge: 'Save 20%',
-        features: ['100 Aged Accounts', 'Deep Historical Cookies', 'CSV / JSON Export', 'VIP Telegram Support']
+        features: ['100 Aged Accounts (2008-2025)', 'Deep Historical Cookies', 'CSV / JSON Export', 'VIP Telegram Support']
       },
       {
         id: 'aged-vault',
@@ -354,21 +370,21 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.75,
         discountPercent: 30,
         badge: 'Save 30% Wholesale',
-        features: ['500 Aged Accounts', 'Lowest Vintage Rate ($1.75/ea)', 'Bulk API Webhook Access', 'Dedicated Account Manager']
+        features: ['500 Aged Accounts (2008-2025)', 'Lowest Vintage Rate ($1.75/ea)', 'Bulk API Webhook Access', 'Dedicated Account Manager']
       }
     ]
   },
   {
     id: 'aged-gmail-for-reviews',
     name: 'Aged Gmail Accounts For Reviews',
-    shortDesc: 'Specially aged accounts with Google Maps & Local Guides history. Reviews stick permanently with 95%+ live rate.',
-    heroTagline: 'High Local Guide Trust Score Accounts Formulated for Google Maps & Reviews',
-    longDescription: 'Google utilizes advanced AI algorithms to filter out fake or suspicious business reviews. Our Aged Review Gmail Accounts are seasoned with real location check-ins, Google Maps navigation history, and Local Guides trust badges. When you post reviews using these accounts, they stick permanently and build organic reputation for your clients.',
+    shortDesc: 'Specially aged accounts from 2008 to 2025 with Google Maps & Local Guides history. Reviews stick permanently with 95%+ live rate.',
+    heroTagline: 'High Local Guide Trust Score Accounts Formulated for Google Maps & Reviews (2008 - 2025)',
+    longDescription: 'Google utilizes advanced AI algorithms to filter out fake or suspicious business reviews. Our Aged Review Gmail Accounts span vintage years from 2008 through 2025, seasoned with real location check-ins, Google Maps navigation history, and Local Guides trust badges. When you post reviews using these accounts, they stick permanently and build organic reputation for your clients.',
     basePrice: 6,
     baseQuantity: 2,
     unitPrice: 3.0,
     popular: true,
-    age: '2017 - 2023 Aged',
+    age: '2008 - 2025 Aged (High Stick Rate)',
     category: 'reviews',
     country: 'USA / UK / CA / AU',
     countryCode: 'US',
@@ -376,6 +392,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.98,
     reviewsCount: 1430,
     features: [
+      'Spanning creation years from 2008 to 2025',
       'High Local Guide & Google Maps Trust Score',
       '96%+ Google Maps Review Stick Rate (Zero Shadow-Bans)',
       'Aged Google Profile with organic photo & location history',
@@ -415,7 +432,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 3.00,
         discountPercent: 0,
         badge: 'Trial',
-        features: ['2 Review Ready Accounts', 'Local Guide Trust History', 'Posting SOP Guide Included', 'Instant Delivery']
+        features: ['2 Review Ready Accounts (2008-2025)', 'Local Guide Trust History', 'Posting SOP Guide Included', 'Instant Delivery']
       },
       {
         id: 'reviews-boost',
@@ -425,7 +442,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 2.85,
         discountPercent: 5,
         badge: 'Save 5%',
-        features: ['10 Review Ready Accounts', 'High Stick Rate Formula', 'Recovery Mail Configured', '3-Day Retention Warranty']
+        features: ['10 Review Ready Accounts (2008-2025)', 'High Stick Rate Formula', 'Recovery Mail Configured', '3-Day Retention Warranty']
       },
       {
         id: 'reviews-pro',
@@ -473,15 +490,15 @@ export const detailedServicesData: DetailedServiceInfo[] = [
   {
     id: 'aged-gmail-for-google-ads',
     name: 'Aged Gmail Accounts For Google Ads',
-    shortDesc: 'Prime aged accounts conditioned for Google Ads thresholds, billing setup & zero suspicious payment suspension.',
-    heroTagline: 'Heavy-Aged Accounts Pre-Warmed for Google Ads Campaigns & Billing Thresholds',
-    longDescription: 'Launching Google Ads on fresh accounts frequently triggers immediate "Suspicious Payment Activity" or "Circumventing Systems" account suspensions. Our Aged Google Ads Gmails have years of natural payment telemetry, YouTube viewing history, and Google Play activity. They warmup smoothly and support high initial billing thresholds.',
+    shortDesc: 'Prime vintage accounts from 2008 to 2025 conditioned for Google Ads thresholds, billing setup & zero suspicious payment suspension.',
+    heroTagline: 'Heavy-Aged Accounts Pre-Warmed for Google Ads Campaigns & Billing Thresholds (2008 - 2025)',
+    longDescription: 'Launching Google Ads on fresh accounts frequently triggers immediate "Suspicious Payment Activity" or "Circumventing Systems" account suspensions. Our Aged Google Ads Gmails span creation years from 2008 to 2025, offering years of natural payment telemetry, YouTube viewing history, and Google Play activity. They warmup smoothly and support high initial billing thresholds.',
     basePrice: 5,
     baseQuantity: 1,
     unitPrice: 5.0,
     popular: true,
     bestValue: true,
-    age: '2015 - 2021 (Heavy Aged)',
+    age: '2008 - 2025 (Heavy Aged)',
     category: 'google-ads',
     country: 'USA / UK / Global',
     countryCode: 'US',
@@ -489,6 +506,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.92,
     reviewsCount: 790,
     features: [
+      'Available in vintage years from 2008 to 2025',
       'Seasoned Google Pay & Ads payment telemetry',
       'Bypasses "Suspicious Payment Activity" early fraud filters',
       'Clean historical search, YouTube & Google Maps cookies',
@@ -528,7 +546,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 5.00,
         discountPercent: 0,
         badge: 'Trial',
-        features: ['1 Heavy-Aged Account (2015-2021)', 'Google Pay Telemetry', 'Cookie Profile Included', 'Instant Delivery']
+        features: ['1 Heavy-Aged Account (2008-2025 Vintage)', 'Google Pay Telemetry', 'Cookie Profile Included', 'Instant Delivery']
       },
       {
         id: 'ads-trio',
@@ -538,7 +556,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 4.75,
         discountPercent: 5,
         badge: 'Save 5%',
-        features: ['3 Heavy-Aged Accounts', 'Suspicious Payment Shield', 'Google Ads Warmup SOP', '7-Day Warranty']
+        features: ['3 Heavy-Aged Accounts (2008-2025)', 'Suspicious Payment Shield', 'Google Ads Warmup SOP', '7-Day Warranty']
       },
       {
         id: 'ads-pro',
@@ -586,14 +604,14 @@ export const detailedServicesData: DetailedServiceInfo[] = [
   {
     id: 'new-gmail-accounts',
     name: 'New Gmail Accounts',
-    shortDesc: 'Freshly generated clean PVA Gmails registered within the last 30-90 days. Budget-friendly for high-volume tasks.',
-    heroTagline: 'Fresh 100% Phone Verified PVA Accounts at the Lowest Wholesale Pricing',
-    longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers within the last 30-90 days, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
+    shortDesc: 'Freshly generated clean PVA Gmails registered within 2025. Budget-friendly for high-volume tasks & automation.',
+    heroTagline: 'Fresh 2025 100% Phone Verified PVA Accounts at Wholesale Pricing',
+    longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
     basePrice: 3,
     baseQuantity: 2,
     unitPrice: 1.5,
     popular: false,
-    age: 'Fresh (1-3 Months Old)',
+    age: '2025 Fresh (1-3 Months Old)',
     category: 'new',
     country: 'Worldwide / Mixed',
     countryCode: 'GLOBAL',
@@ -601,10 +619,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     rating: 4.82,
     reviewsCount: 620,
     features: [
+      'Fresh 2025 PVA creation with zero spam history',
       'Low cost bulk solution ($1.50 per account)',
       '100% Phone Verified with unique SIM numbers',
       'Complete email : password : recovery credentials format',
-      'Fresh registration with zero historical spam strikes',
       'Great for account creation, social signups & testers',
       '48-Hour Instant Replacement Guarantee'
     ],
@@ -639,7 +657,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.50,
         discountPercent: 0,
         badge: 'Trial',
-        features: ['2 Fresh PVA Accounts', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
+        features: ['2 Fresh 2025 PVA Accounts', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
       },
       {
         id: 'new-starter',
@@ -649,7 +667,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.42,
         discountPercent: 5,
         badge: 'Save 5%',
-        features: ['10 Fresh PVA Accounts', 'Clean IP Registration', 'Full Credentials', '48-Hour Warranty']
+        features: ['10 Fresh 2025 PVA Accounts', 'Clean IP Registration', 'Full Credentials', '48-Hour Warranty']
       },
       {
         id: 'new-signup',
@@ -660,7 +678,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         discountPercent: 10,
         badge: '⚡ Popular',
         isPopular: true,
-        features: ['25 Fresh PVA Accounts', 'Zero Prior Usage', 'TXT/CSV Export', 'Priority Support']
+        features: ['25 Fresh 2025 PVA Accounts', 'Zero Prior Usage', 'TXT/CSV Export', 'Priority Support']
       },
       {
         id: 'new-bulk',
@@ -670,7 +688,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.27,
         discountPercent: 15,
         badge: 'Save 15%',
-        features: ['50 Fresh PVA Accounts', 'Ideal for App Testing', 'Fast Import Format', '48-Hour Replacement']
+        features: ['50 Fresh 2025 PVA Accounts', 'Ideal for App Testing', 'Fast Import Format', '48-Hour Replacement']
       },
       {
         id: 'new-century',
@@ -680,7 +698,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.20,
         discountPercent: 20,
         badge: '⚡ Lowest Unit Price',
-        features: ['100 Fresh PVA Accounts', 'Just $1.20 per Account', 'Batch File Download', 'Priority Support']
+        features: ['100 Fresh 2025 PVA Accounts', 'Just $1.20 per Account', 'Batch File Download', 'Priority Support']
       },
       {
         id: 'new-mass',
@@ -690,7 +708,7 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         unitPrice: 1.05,
         discountPercent: 30,
         badge: 'Save 30% Wholesale',
-        features: ['500 Fresh PVA Accounts', 'Bottom Dollar Wholesale ($1.05/ea)', 'Automated API Webhook', 'Dedicated Support Manager']
+        features: ['500 Fresh 2025 PVA Accounts', 'Bottom Dollar Wholesale ($1.05/ea)', 'Automated API Webhook', 'Dedicated Support Manager']
       }
     ]
   }

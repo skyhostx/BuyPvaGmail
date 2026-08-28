@@ -318,6 +318,18 @@ export const Footer: React.FC<FooterProps> = ({
                   7-Day Replacement Policy
                 </a>
               </li>
+              <li>
+                <a 
+                  href="/sitemap"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('sitemap');
+                  }} 
+                  className="hover:text-blue-400 text-slate-300 font-bold transition-colors cursor-pointer text-left block"
+                >
+                  HTML Sitemap &amp; Index
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -387,6 +399,26 @@ export const Footer: React.FC<FooterProps> = ({
               className="hover:text-white transition-colors cursor-pointer font-medium"
             >
               Warranty Guidelines
+            </a>
+            <span className="text-slate-700">•</span>
+            <a 
+              href="/sitemap"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateToPage) onNavigateToPage('sitemap');
+              }} 
+              className="hover:text-blue-400 transition-colors cursor-pointer font-medium text-slate-300"
+            >
+              HTML Sitemap
+            </a>
+            <span className="text-slate-700">•</span>
+            <a 
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-emerald-400 transition-colors cursor-pointer font-medium text-slate-300"
+            >
+              XML Sitemap
             </a>
             <button
               onClick={scrollToTop}

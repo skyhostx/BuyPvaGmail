@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
-import { detailedServicesData } from '../data/servicesData';
+import { detailedServicesData, VINTAGE_YEARS, VINTAGE_YEAR_TIERS } from '../data/servicesData';
 import { GmailLogo } from './GmailLogo';
 
 interface OrderModalProps {
@@ -249,6 +249,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [telegramUsername, setTelegramUsername] = useState('');
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [country, setCountry] = useState('United States');
+  const [selectedVintage, setSelectedVintage] = useState('Any Vintage (2008 - 2025)');
   const [orderNotes, setOrderNotes] = useState('');
   const [contactError, setContactError] = useState('');
 
@@ -848,14 +849,40 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   </select>
                 </div>
 
-                {/* Order Notes */}
+                {/* Preferred Account Vintage Year */}
                 <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    ACCOUNT VINTAGE (2008 - 2025)
+                  </label>
+                  <select
+                    value={selectedVintage}
+                    onChange={(e) => setSelectedVintage(e.target.value)}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium cursor-pointer"
+                  >
+                    <option value="Any Vintage (2008 - 2025)">Any Vintage (2008 - 2025 Mixed)</option>
+                    {VINTAGE_YEAR_TIERS.map((tier) => (
+                      <option key={tier.era} value={tier.era}>
+                        {tier.era} — {tier.badge} (Trust: {tier.trustScore})
+                      </option>
+                    ))}
+                    <optgroup label="Specific Creation Year">
+                      {VINTAGE_YEARS.map((yr) => (
+                        <option key={yr} value={`Specific Year: ${yr}`}>
+                          {yr} Creation Year ({2026 - yr} Years Aged)
+                        </option>
+                      ))}
+                    </optgroup>
+                  </select>
+                </div>
+
+                {/* Order Notes */}
+                <div className="sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     ORDER NOTES / CUSTOM REQUESTS (OPTIONAL)
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Need NY or TX state IP profiles only"
+                    placeholder="e.g. Specific state IP, niche warmup preference, or tool compatibility"
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium"

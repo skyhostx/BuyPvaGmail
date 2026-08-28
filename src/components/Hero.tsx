@@ -25,11 +25,11 @@ export const Hero: React.FC<HeroProps> = ({ onOrderClick, onExplorePricing, onOp
   const [tickerIndex, setTickerIndex] = useState(0);
 
   const liveOrders = [
-    { location: 'Austin, Texas', quantity: '50x USA Aged 2021 Gmails', time: '2 mins ago', use: 'Cold Outreach' },
-    { location: 'London, UK', quantity: '25x Aged Review Accounts', time: '4 mins ago', use: 'Google Maps SEO' },
-    { location: 'Toronto, Canada', quantity: '100x PVA USA Gmails', time: '7 mins ago', use: 'Instantly.ai Batch' },
-    { location: 'Sydney, Australia', quantity: '10x Aged Google Ads Accounts', time: '11 mins ago', use: 'PPC Media Buying' },
-    { location: 'Miami, Florida', quantity: '250x Mix Country Aged', time: '14 mins ago', use: 'Marketing Agency' }
+    { location: 'Austin, Texas', quantity: '50x USA Vintage 2012 Gmails', time: '2 mins ago', use: 'Cold Outreach' },
+    { location: 'London, UK', quantity: '25x Aged 2008-2015 Review Accounts', time: '4 mins ago', use: 'Google Maps SEO' },
+    { location: 'Toronto, Canada', quantity: '100x PVA USA 2018 Gmails', time: '7 mins ago', use: 'Instantly.ai Batch' },
+    { location: 'Sydney, Australia', quantity: '10x Heavy-Aged 2010 Google Ads Accounts', time: '11 mins ago', use: 'PPC Media Buying' },
+    { location: 'Miami, Florida', quantity: '250x Mix Country 2008–2025 Vintage', time: '14 mins ago', use: 'Marketing Agency' }
   ];
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({ onOrderClick, onExplorePricing, onOp
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
-            Buy 100% Phone-Verified (PVA), Aged from 2014–2024, created on clean USA Residential IPs. 
+            Buy 100% Phone-Verified (PVA), Aged from <strong>2008–2025 Vintage</strong>, created on clean USA Residential IPs. 
             Delivered instantly with recovery email, 2FA secret key, and a <strong>7-Day Free Replacement Guarantee</strong>. 
             Trusted by 6,940+ cold outreach agencies, SEO professionals, and Google Ads buyers.
           </p>

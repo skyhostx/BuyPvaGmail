@@ -251,14 +251,14 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
       'pva gmail accounts for sale',
       'buy usa gmail accounts',
       'Buy Usa gmail',
-      'aged gmail accounts 2014 2023',
-      'vintage google accounts',
+      'aged gmail accounts 2008 2025',
+      'vintage google accounts 2008 2025',
       'high trust aged email',
       'aged email accounts for cold outreach'
     ],
-    categoryTags: ['2014-2023 Vintage', 'Mature History', 'High Trust Score', 'Maximum Inbox Rate'],
+    categoryTags: ['2008-2025 Vintage', 'Mature History', 'High Trust Score', 'Maximum Inbox Rate'],
     quickStats: [
-      { label: 'Account Vintage', value: '2014 - 2023', desc: '1 to 10+ years of continuous age' },
+      { label: 'Account Vintage', value: '2008 - 2025', desc: '1 to 18+ years of continuous age' },
       { label: 'Trust Multiplier', value: '10x Higher', desc: 'Immune to new-account rate limiting' },
       { label: 'Spam Filter Resistance', value: 'Superior', desc: 'Bypasses standard heuristic blocks' },
       { label: 'Global Coverage', value: 'Mix Country', desc: 'USA, UK, CA, EU & International' }
@@ -266,16 +266,16 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
     sections: [
       {
         heading: 'Why Account Age is the Ultimate Authority Metric in Google Ecosystem',
-        subheading: 'The Power of Historical Trust and Account Longevity',
+        subheading: 'The Power of Historical Trust and Account Longevity (2008 to 2025)',
         paragraphs: [
           'In Google algorithmic security infrastructure, "Account Age" (vintage) is the single most heavily weighted variable when assessing trust, spam risk, and sender credibility. When digital marketers choose to buy old Gmail accounts, they bypass the restrictive "sandbox" period that Google automatically imposes on freshly created email addresses.',
-          'A brand-new email account created today starts with zero historical telemetry. If a new account suddenly attempts to send 30 cold emails or register multiple business portals, Google automated security flags trigger immediate rate-limits, CAPTCHA hurdles, or temporary suspensions. In stark contrast, an aged Gmail account registered in 2016, 2018, or 2020 possesses years of established server tenure.',
+          'A brand-new email account created today starts with zero historical telemetry. If a new account suddenly attempts to send 30 cold emails or register multiple business portals, Google automated security flags trigger immediate rate-limits, CAPTCHA hurdles, or temporary suspensions. In stark contrast, an aged Gmail account registered between 2008 and 2025 possesses years of established server tenure.',
           'Google machine-learning models recognize aged accounts as trusted digital citizens. This established history allows marketers to scale cold outreach campaigns, manage critical Google Ads accounts, and post long-lasting Google Business reviews with unprecedented stability.'
         ],
         calloutBox: {
           type: 'highlight',
           title: 'The Sandboxing Phenomenon Explained',
-          text: 'Google security algorithms subject newly created accounts to an unannounced 30-to-90 day monitoring sandbox. Buying vintage aged accounts allows you to completely bypass this sandboxing period from day one.'
+          text: 'Google security algorithms subject newly created accounts to an unannounced 30-to-90 day monitoring sandbox. Buying vintage aged accounts from 2008-2025 allows you to completely bypass this sandboxing period from day one.'
         }
       },
       {
@@ -289,7 +289,7 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
           '4. Higher Approval Rates for Advertising & Affiliate Networks: Platforms like Google Ads, Facebook Business Manager, and affiliate networks approve accounts with aged email credentials far more readily.'
         ],
         bulletPoints: [
-          'Full vintage spectrum available: Accounts created between 2014 and 2023.',
+          'Full vintage spectrum available: Accounts created between 2008 and 2025.',
           'Complete access credentials: Username, password, recovery email, and 2FA keys included.',
           'Clean account history: Zero prior spam violations or blacklisted activity.',
           'Instant crypto settlement: Delivered immediately with full warranty protection.'
@@ -318,7 +318,7 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
     faqItems: [
       {
         question: 'How old are these aged Gmail accounts?',
-        answer: 'Our aged inventory includes accounts registered between 2014 and 2023 (1 to 10+ years of age). You can select your preferred vintage range at checkout.'
+        answer: 'Our aged inventory includes accounts registered between 2008 and 2025 (1 to 18+ years of age). You can select your preferred vintage year range (2008-2012 ultra-vintage, 2013-2017 golden age, 2018-2022 prime, or 2023-2025 modern) at checkout.'
       },
       {
         question: 'Are these accounts safe from recovery by third parties?',
@@ -356,11 +356,11 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
       'sticky google maps reviews',
       'local guide gmail accounts'
     ],
-    categoryTags: ['GMB Review Ready', 'Local Guide History', 'Sticky Non-Drop', 'Clean Geolocation'],
+    categoryTags: ['GMB Review Ready', 'Local Guide History', 'Sticky Non-Drop', '2008-2025 Vintage'],
     quickStats: [
       { label: 'Review Retention', value: '98.6%', desc: 'Non-drop sticky review algorithm score' },
       { label: 'Activity Profile', value: 'Pre-Warmed', desc: 'Simulated Maps browsing & activity' },
-      { label: 'Account Age', value: '2016 - 2023', desc: 'Established vintage trust' },
+      { label: 'Account Age', value: '2008 - 2025', desc: 'Established vintage trust' },
       { label: 'Warranty Policy', value: '7 Days', desc: '1-to-1 free replacement guarantee' }
     ],
     sections: [
@@ -370,7 +370,7 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
         paragraphs: [
           'Google My Business (Google Maps) employs one of the most sophisticated anti-fraud algorithms in the tech industry. In 2026, Google analyzes over 40 distinct data points before publishing a business review, including account age, historical location telemetry, device fingerprint, browsing history, and review velocity.',
           'When marketers attempt to post reviews using fresh or un-warmed email accounts, Google automated filters classify the review as "suspicious" and silently shadow-ban it. The reviewer sees the review in their own profile, but it remains completely invisible to the public and does not affect the business star rating.',
-          'To overcome this hurdle, agencies and reputation managers must buy old Gmail accounts specifically prepared for Google Maps reviews. Our accounts come with established browsing histories, realistic user personas, and mature account ages (2016-2023), ensuring that posted reviews stick permanently.'
+          'To overcome this hurdle, agencies and reputation managers must buy old Gmail accounts specifically prepared for Google Maps reviews. Our accounts come with established browsing histories, realistic user personas, and mature account ages spanning 2008 through 2025, ensuring that posted reviews stick permanently.'
         ],
         calloutBox: {
           type: 'warning',
@@ -383,7 +383,7 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
         subheading: 'Engineered for Maximum Review Stickiness and Authority',
         paragraphs: [
           'Every review account in our catalog is engineered to satisfy Google Maps heuristic requirements:',
-          '1. Mature Account Vintage: Registered between 2016 and 2023, providing years of algorithmic trust.',
+          '1. Mature Account Vintage: Registered between 2008 and 2025, providing years of algorithmic trust.',
           '2. Pre-Existing User Footprint: Accounts possess natural Google search history, YouTube watch activity, and Google Maps browsing sessions.',
           '3. Clean Residential Geolocation: Registered over genuine residential ISP nodes to ensure clean IP ancestry.',
           '4. Full Security Matrix: Delivered with complete recovery email access and 2FA backup keys for seamless login.'
@@ -449,10 +449,10 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
       'google ads threshold accounts',
       'agency google ads email'
     ],
-    categoryTags: ['Google Ads Ready', 'High Spending Threshold', 'Suspension Resistant', '2015-2022 Vintage'],
+    categoryTags: ['Google Ads Ready', 'High Spending Threshold', 'Suspension Resistant', '2008-2025 Vintage'],
     quickStats: [
       { label: 'Ads Compatibility', value: '100%', desc: 'Ready for Google Ads Manager & MCC' },
-      { label: 'Account Age', value: '2015 - 2022', desc: 'Mature trust score for billing setup' },
+      { label: 'Account Age', value: '2008 - 2025', desc: 'Mature trust score for billing setup' },
       { label: 'Suspension Risk', value: 'Minimal', desc: 'Bypasses suspicious payment flags' },
       { label: 'Support Desk', value: '24/7 Live', desc: 'Telegram & WhatsApp priority assistance' }
     ],
@@ -463,7 +463,7 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
         paragraphs: [
           'Media buyers, affiliate marketers, and PPC agencies frequently face one of the biggest bottlenecks in digital advertising: immediate account suspension upon creating a new Google Ads campaign. Google automated risk engine frequently flags brand-new accounts with "Suspicious Payment Activity" or "Circumventing Systems Policy" violations before a single ad impression is served.',
           'This automated friction occurs because Google assigns high financial risk to newly created email accounts attempting to bind credit cards or run aggressive search and display campaigns. To run scalable ad campaigns without disruptive suspensions, media buyers choose to buy old Gmail accounts with mature tenure and high baseline trust.',
-          'An aged Gmail account (2015-2022 vintage) provides the historical credibility necessary to link payment profiles, establish Google Ads Manager (MCC) accounts, and launch PPC campaigns smoothly.'
+          'An aged Gmail account (2008-2025 vintage) provides the historical credibility necessary to link payment profiles, establish Google Ads Manager (MCC) accounts, and launch PPC campaigns smoothly.'
         ],
         calloutBox: {
           type: 'highlight',

@@ -29,6 +29,7 @@ import { ContactPage } from './components/pages/ContactPage';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPage';
+import { SitemapPage } from './components/pages/SitemapPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData } from './data/servicesData';
@@ -45,7 +46,8 @@ export type AppView =
   | 'contact'
   | 'privacy'
   | 'terms'
-  | 'warranty';
+  | 'warranty'
+  | 'sitemap';
 
 function getInitialRoute(): { view: AppView; serviceId: string } {
   try {
@@ -64,7 +66,8 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
       rawHash.startsWith('contact') ||
       rawHash.startsWith('privacy') ||
       rawHash.startsWith('terms') ||
-      rawHash.startsWith('warranty')
+      rawHash.startsWith('warranty') ||
+      rawHash.startsWith('sitemap')
     )
       ? '/' + rawHash
       : rawPath;
@@ -118,6 +121,15 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
       rawHash === 'replacement-policy'
     ) {
       return { view: 'warranty', serviceId: 'usa-gmail-accounts' };
+    }
+    if (
+      effectivePath === '/sitemap' || 
+      effectivePath === '/html-sitemap' || 
+      viewParam === 'sitemap' || 
+      rawHash === 'sitemap' || 
+      rawHash === 'html-sitemap'
+    ) {
+      return { view: 'sitemap', serviceId: 'usa-gmail-accounts' };
     }
   } catch {
     // fallback
@@ -302,6 +314,20 @@ export default function App() {
           return;
         }
 
+        // Sitemap
+        if (
+          effectivePath === '/sitemap' || 
+          effectivePath === '/html-sitemap' || 
+          viewParam === 'sitemap' || 
+          rawHash === 'sitemap' || 
+          rawHash === 'html-sitemap'
+        ) {
+          setCurrentView('sitemap');
+          setActiveSection('sitemap');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         // Default or Home (/)
         setCurrentView('home');
         setActiveSection('home');
@@ -382,6 +408,10 @@ export default function App() {
       setCurrentView('warranty');
       setActiveSection('warranty');
       targetUrl = '/warranty';
+    } else if (view === 'sitemap') {
+      setCurrentView('sitemap');
+      setActiveSection('sitemap');
+      targetUrl = '/sitemap';
     } else {
       setCurrentView('home');
       setActiveSection('home');
@@ -589,6 +619,14 @@ export default function App() {
             onNavigateHome={() => navigateToPage('home')}
             onNavigateToContact={() => navigateToPage('contact')}
             onNavigateToTerms={() => navigateToPage('terms')}
+          />
+        )}
+
+        {currentView === 'sitemap' && (
+          <SitemapPage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToPage={(page) => navigateToPage(page)}
+            onNavigateToServiceDetail={(serviceId) => navigateToPage('service-detail', serviceId)}
           />
         )}
 
