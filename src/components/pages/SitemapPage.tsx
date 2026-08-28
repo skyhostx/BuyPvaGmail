@@ -242,16 +242,29 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
               )}
             </div>
 
-            <a
-              href="/sitemap.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 whitespace-nowrap border border-slate-800"
-            >
-              <FileCode2 className="w-4 h-4 text-emerald-400" />
-              <span>View XML Sitemap</span>
-              <ExternalLink className="w-3 h-3 opacity-60" />
-            </a>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <a
+                href="/sitemap_index.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 whitespace-nowrap border border-blue-600"
+              >
+                <FileCode2 className="w-4 h-4 text-amber-300" />
+                <span>sitemap_index.xml</span>
+                <ExternalLink className="w-3 h-3 opacity-60" />
+              </a>
+
+              <a
+                href="/product-sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 whitespace-nowrap border border-slate-800"
+              >
+                <FileCode2 className="w-4 h-4 text-emerald-400" />
+                <span>Products XML</span>
+                <ExternalLink className="w-3 h-3 opacity-60" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -571,38 +584,54 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
 
         {/* SECTION 6: CRAWLER & SEARCH ENGINE METADATA SUMMARY */}
         <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 sm:p-8 shadow-md">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Search Engine Crawler Compliant</span>
+                <span>Rank Math SEO &amp; Google Search Console Compliant</span>
               </div>
               <h3 className="text-lg font-black text-white mb-1">
-                Looking for the machine-readable XML feed?
+                Machine-Readable Rank Math XML Sitemap Index
               </h3>
               <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
-                Our XML Sitemap complies with Sitemaps.org Protocol 0.9 standards, 
-                compatible with Google Search Console, Bing Webmaster Tools, and Yandex.
+                Structured with modular sub-sitemaps for Products, Vintage Tiers (2008–2025), Pages, and Knowledge Base Guides. 
+                Compliant with Sitemaps.org Protocol 0.9 for Google, Bing, and Yandex.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
               <a
                 href="/robots.txt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition-all"
+                className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition-all"
               >
                 robots.txt
               </a>
               <a
-                href="/sitemap.xml"
+                href="/product-sitemap.xml"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-xs"
+                className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition-all"
+              >
+                product-sitemap.xml
+              </a>
+              <a
+                href="/vintage-sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition-all"
+              >
+                vintage-sitemap.xml
+              </a>
+              <a
+                href="/sitemap_index.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-xs"
               >
                 <FileCode2 className="w-4 h-4" />
-                <span>sitemap.xml</span>
+                <span>sitemap_index.xml</span>
               </a>
             </div>
           </div>

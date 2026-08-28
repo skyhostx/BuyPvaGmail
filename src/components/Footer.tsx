@@ -413,12 +413,13 @@ export const Footer: React.FC<FooterProps> = ({
             </a>
             <span className="text-slate-700">•</span>
             <a 
-              href="/sitemap.xml"
+              href="/sitemap_index.xml"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-emerald-400 transition-colors cursor-pointer font-medium text-slate-300"
+              className="hover:text-emerald-400 transition-colors cursor-pointer font-medium text-slate-300 inline-flex items-center gap-1"
             >
-              XML Sitemap
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span>sitemap_index.xml</span>
             </a>
             <button
               onClick={scrollToTop}

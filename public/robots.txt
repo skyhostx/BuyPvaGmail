@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# XML Sitemap Index (Rank Math Compliant)
+Sitemap: https://buypvagmail.com/sitemap_index.xml
+Sitemap: https://buypvagmail.com/product-sitemap.xml
+Sitemap: https://buypvagmail.com/vintage-sitemap.xml
+Sitemap: https://buypvagmail.com/page-sitemap.xml
+Sitemap: https://buypvagmail.com/post-sitemap.xml
 Sitemap: https://buypvagmail.com/sitemap.xml

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Product & Account Catalog Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/product-sitemap.xml</loc>
+    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+  </sitemap>
+
+  <!-- 2008 to 2025 Vintage Creation Spectrum Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/vintage-sitemap.xml</loc>
+    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+  </sitemap>
+
+  <!-- Main Pages & Commercial Portals Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/page-sitemap.xml</loc>
+    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+  </sitemap>
+
+  <!-- Technical Warmup Guides & Agency SOPs Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/post-sitemap.xml</loc>
+    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+  </sitemap>
+</sitemapindex>
