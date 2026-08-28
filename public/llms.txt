@@ -1,0 +1,23 @@
+# BuyPvaGmail — Authority Marketplace for PVA & Aged Gmail Accounts
+
+> BuyPvaGmail is the leading platform for purchasing 100% phone-verified (PVA) and aged (2008–2025) Gmail accounts with dedicated residential IPs, recovery email access, and 2FA TOTP secret keys. Backed by a 7-day 1-to-1 replacement guarantee and 24/7 technical support.
+
+## Core Products & Services
+- **USA PVA Gmail Accounts**: Real US carrier SIM-verified accounts created on AT&T, Verizon, and T-Mobile residential IPs. Ideal for high-trust outreach and US platforms.
+- **Global / Mixed PVA Gmail Accounts**: Worldwide phone-verified accounts with clean browser telemetry for scalable cold email and multi-account automation.
+- **Aged 2008–2025 Mix Country Gmail**: Historical accounts spanning 1 to 18+ years of algorithmic age. Maximum trust score, bypassed phone triggers, and highest inbox deliverability.
+- **Aged Gmail for Google Maps Reviews**: Local Guide-ready accounts with pre-warmed activity profiles for non-drop review publishing.
+- **Aged Gmail for Google Ads & Media Buying**: Aged accounts with spending history and warming profiles for billing thresholds and agency ad campaigns.
+- **Fresh PVA Gmail Accounts**: Budget-friendly newly created phone-verified accounts with recovery emails.
+
+## Technical Specifications
+- **Delivery Format**: `Email:Password:RecoveryEmail:2FA_Secret_Key:Vintage_Year:Creation_IP`
+- **Security Protocols**: POP3/IMAP enabled, Less Secure App toggles, TOTP Authenticator compatibility.
+- **Replacement Policy**: 7-Day instant 1-to-1 replacement for any login or checkpoint issue.
+- **Support Channels**: Telegram (@Go2Rapid), WhatsApp (+1-253-408-0049), 24/7 Live Web Desk.
+
+## Sitemaps & Feeds
+- Master XML Sitemap Index: https://buypvagmail.com/sitemap_index.xml
+- Product Catalog XML: https://buypvagmail.com/product-sitemap.xml
+- Vintage Spectrum XML: https://buypvagmail.com/vintage-sitemap.xml
+- HTML Interactive Sitemap: https://buypvagmail.com/sitemap

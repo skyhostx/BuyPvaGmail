@@ -30,6 +30,7 @@ import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPage';
 import { SitemapPage } from './components/pages/SitemapPage';
+import { NotFoundPage } from './components/pages/NotFoundPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData } from './data/servicesData';
@@ -47,9 +48,10 @@ export type AppView =
   | 'privacy'
   | 'terms'
   | 'warranty'
-  | 'sitemap';
+  | 'sitemap'
+  | 'not-found';
 
-function getInitialRoute(): { view: AppView; serviceId: string } {
+function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: string } {
   try {
     const rawPath = typeof window !== 'undefined' ? (window.location.pathname.replace(/\/+$/, '') || '/') : '/';
     const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
@@ -67,26 +69,45 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
       rawHash.startsWith('privacy') ||
       rawHash.startsWith('terms') ||
       rawHash.startsWith('warranty') ||
-      rawHash.startsWith('sitemap')
+      rawHash.startsWith('sitemap') ||
+      rawHash === '404' ||
+      rawHash === 'not-found'
     )
       ? '/' + rawHash
       : rawPath;
+
+    if (effectivePath === '/404' || viewParam === '404' || viewParam === 'not-found') {
+      return { view: 'not-found', serviceId: 'usa-gmail-accounts', invalidPath: effectivePath };
+    }
 
     let targetServiceId: string | null = null;
     if (effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
       const parts = effectivePath.split('/');
       if (parts[2]) {
         targetServiceId = decodeURIComponent(parts[2]);
+        const matched = detailedServicesData.find((s) => s.id === targetServiceId);
+        if (matched) {
+          return { view: 'service-detail', serviceId: matched.id };
+        } else {
+          return { view: 'not-found', serviceId: 'usa-gmail-accounts', invalidPath: effectivePath };
+        }
       }
     } else if (serviceParam) {
       targetServiceId = serviceParam;
+      const matched = detailedServicesData.find((s) => s.id === targetServiceId);
+      if (matched) {
+        return { view: 'service-detail', serviceId: matched.id };
+      }
     }
 
-    if (targetServiceId || viewParam === 'service-detail') {
-      const matched = detailedServicesData.find((s) => s.id === targetServiceId) || detailedServicesData[0];
-      return { view: 'service-detail', serviceId: matched.id };
+    if (viewParam === 'service-detail') {
+      const matched = targetServiceId ? detailedServicesData.find((s) => s.id === targetServiceId) : detailedServicesData[0];
+      return { view: 'service-detail', serviceId: (matched || detailedServicesData[0]).id };
     }
 
+    if (effectivePath === '/' || effectivePath === '' || viewParam === 'home' || rawHash === 'home') {
+      return { view: 'home', serviceId: 'usa-gmail-accounts' };
+    }
     if (effectivePath === '/services' || effectivePath === '/services-catalog' || viewParam === 'services' || rawHash === 'services') {
       return { view: 'services-catalog', serviceId: 'usa-gmail-accounts' };
     }
@@ -131,6 +152,9 @@ function getInitialRoute(): { view: AppView; serviceId: string } {
     ) {
       return { view: 'sitemap', serviceId: 'usa-gmail-accounts' };
     }
+
+    // Any unrecognized path returns 404
+    return { view: 'not-found', serviceId: 'usa-gmail-accounts', invalidPath: effectivePath };
   } catch {
     // fallback
   }
@@ -151,6 +175,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState(initialRoute.view === 'home' ? 'home' : (initialRoute.view === 'service-detail' || initialRoute.view === 'services-catalog' ? 'services' : initialRoute.view));
   const [currentView, setCurrentView] = useState<AppView>(initialRoute.view);
   const [selectedServiceId, setSelectedServiceId] = useState<string>(initialRoute.serviceId);
+  const [invalidPath, setInvalidPath] = useState<string | undefined>(initialRoute.invalidPath);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderModalProduct, setOrderModalProduct] = useState<ServiceProduct>(servicesData[0]);
@@ -169,6 +194,103 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // SEO & Dynamic Metadata Engine (Title, Meta Description, Canonical, OG Tags & Robots)
+  useEffect(() => {
+    try {
+      let pageTitle = 'Buy PVA Gmail Accounts (2008–2025 Aged & USA Verified) | BuyPvaGmail';
+      let pageDesc = 'Buy 100% Phone Verified (PVA) USA Aged Gmail Accounts (2008–2025). Clean residential IPs, recovery email & 2FA secret key included. Instant auto-delivery & 7-day warranty.';
+      let pageUrl = 'https://buypvagmail.com/';
+      let isRobotsIndex = true;
+
+      if (currentView === 'service-detail') {
+        const product = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
+        pageTitle = `${product.name} — Buy Verified Accounts | BuyPvaGmail`;
+        pageDesc = `${product.shortDesc} Unit price from $${product.unitPrice.toFixed(2)}. 100% real SIM verified, 2FA secret key, recovery email & 7-day free replacement guarantee.`;
+        pageUrl = `https://buypvagmail.com/services/${product.id}`;
+      } else if (currentView === 'services-catalog') {
+        pageTitle = 'PVA & Aged Gmail Accounts Catalog (USA, Global, 2008–2025) | BuyPvaGmail';
+        pageDesc = 'Explore our verified inventory of USA PVA, 2008–2025 Aged Mix, Google Maps Review, and Google Ads media buying Gmail accounts with instant delivery.';
+        pageUrl = 'https://buypvagmail.com/services';
+      } else if (currentView === 'pricing') {
+        pageTitle = 'PVA Gmail Wholesale Pricing & Tiered Volume Discounts | BuyPvaGmail';
+        pageDesc = 'Wholesale pricing tiers for marketing agencies and lead generators. Up to 30% volume discount on bulk orders of verified USA & aged Gmail accounts.';
+        pageUrl = 'https://buypvagmail.com/pricing';
+      } else if (currentView === 'blog') {
+        pageTitle = 'Gmail Warmup Guides & Agency SOP Protocols | BuyPvaGmail';
+        pageDesc = 'Expert guides on anti-detect browser setup, residential proxy configuration, 2FA TOTP login, and warming protocols for maximum inbox delivery.';
+        pageUrl = 'https://buypvagmail.com/blog';
+      } else if (currentView === 'faq') {
+        pageTitle = 'Frequently Asked Questions (FAQ) — Buying PVA Accounts | BuyPvaGmail';
+        pageDesc = 'Clear answers on PVA verification methods, replacement guarantees, delivery formats, cryptocurrency checkout, and multi-login security.';
+        pageUrl = 'https://buypvagmail.com/faq';
+      } else if (currentView === 'about') {
+        pageTitle = 'About Us — Authoritative Supplier of Verified PVA Gmail | BuyPvaGmail';
+        pageDesc = 'Learn how BuyPvaGmail delivers carrier SIM-verified and aged Gmail accounts to over 6,940+ digital marketing agencies and media buyers worldwide.';
+        pageUrl = 'https://buypvagmail.com/about';
+      } else if (currentView === 'contact') {
+        pageTitle = 'Contact 24/7 Support Desk — Telegram, WhatsApp & Email | BuyPvaGmail';
+        pageDesc = 'Connect with our live technical support desk on Telegram (@Go2Rapid) and WhatsApp (+1-253-408-0049) for instant account support and bulk quotes.';
+        pageUrl = 'https://buypvagmail.com/contact';
+      } else if (currentView === 'privacy') {
+        pageTitle = 'Privacy Policy — Confidentiality & Order Data Protection | BuyPvaGmail';
+        pageDesc = 'Read our customer data protection protocols, zero-log policy, and encrypted checkout security standards.';
+        pageUrl = 'https://buypvagmail.com/privacy';
+      } else if (currentView === 'terms') {
+        pageTitle = 'Terms of Service — PVA Delivery & Usage Policy | BuyPvaGmail';
+        pageDesc = 'Official service agreement, delivery specifications, acceptable usage guidelines, and warranty terms.';
+        pageUrl = 'https://buypvagmail.com/terms';
+      } else if (currentView === 'warranty') {
+        pageTitle = '7-Day Free Replacement Guarantee & Warranty Policy | BuyPvaGmail';
+        pageDesc = 'Comprehensive 7-day 1-to-1 account replacement policy covering login checkpoints, password invalidations, and disabled states.';
+        pageUrl = 'https://buypvagmail.com/warranty';
+      } else if (currentView === 'sitemap') {
+        pageTitle = 'HTML Sitemap Index — All Pages, Services & Guides | BuyPvaGmail';
+        pageDesc = 'Complete directory of all BuyPvaGmail verified product tiers, 2008–2025 vintage accounts, technical guides, and legal resources.';
+        pageUrl = 'https://buypvagmail.com/sitemap';
+      } else if (currentView === 'not-found') {
+        pageTitle = '404 - Page Not Found | BuyPvaGmail';
+        pageDesc = 'The requested page could not be located. Search our inventory of verified USA PVA and 2008–2025 aged Gmail accounts.';
+        pageUrl = 'https://buypvagmail.com/404';
+        isRobotsIndex = false;
+      }
+
+      // Update Document Title
+      document.title = pageTitle;
+
+      // Update Meta Tags
+      const setMeta = (nameAttr: string, nameValue: string, contentValue: string) => {
+        let meta = document.querySelector(`meta[${nameAttr}="${nameValue}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute(nameAttr, nameValue);
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', contentValue);
+      };
+
+      setMeta('name', 'description', pageDesc);
+      setMeta('name', 'title', pageTitle);
+      setMeta('property', 'og:title', pageTitle);
+      setMeta('property', 'og:description', pageDesc);
+      setMeta('property', 'og:url', pageUrl);
+      setMeta('name', 'twitter:title', pageTitle);
+      setMeta('name', 'twitter:description', pageDesc);
+      setMeta('name', 'twitter:url', pageUrl);
+      setMeta('name', 'robots', isRobotsIndex ? 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' : 'noindex, follow');
+
+      // Update Canonical Link
+      let canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (!canonicalLink) {
+        canonicalLink = document.createElement('link');
+        canonicalLink.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.setAttribute('href', pageUrl);
+    } catch {
+      // ignore
+    }
+  }, [currentView, selectedServiceId]);
+
   // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, /services/:id, etc.)
   useEffect(() => {
     const handleUrlRouting = () => {
@@ -180,9 +302,30 @@ export default function App() {
         const rawHash = (window.location.hash || '').replace(/^#\/?/, '').trim();
 
         // Effective path can come from pathname or hash
-        const effectivePath = rawHash && (rawHash.startsWith('service') || rawHash.startsWith('pricing') || rawHash.startsWith('about') || rawHash.startsWith('blog') || rawHash.startsWith('faq') || rawHash.startsWith('contact'))
+        const effectivePath = rawHash && (
+          rawHash.startsWith('service') || 
+          rawHash.startsWith('pricing') || 
+          rawHash.startsWith('about') || 
+          rawHash.startsWith('blog') || 
+          rawHash.startsWith('faq') || 
+          rawHash.startsWith('contact') ||
+          rawHash.startsWith('privacy') ||
+          rawHash.startsWith('terms') ||
+          rawHash.startsWith('warranty') ||
+          rawHash.startsWith('sitemap') ||
+          rawHash === '404' ||
+          rawHash === 'not-found'
+        )
           ? '/' + rawHash
           : rawPath;
+
+        if (effectivePath === '/404' || viewParam === '404' || viewParam === 'not-found') {
+          setCurrentView('not-found');
+          setActiveSection('not-found');
+          setInvalidPath(effectivePath);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
         // Match service detail: /services/:id or /service/:id or ?service=:id or ?view=service-detail&service=:id
         let targetServiceId: string | null = null;
@@ -190,14 +333,36 @@ export default function App() {
           const parts = effectivePath.split('/');
           if (parts[2]) {
             targetServiceId = decodeURIComponent(parts[2]);
+            const matchedService = detailedServicesData.find((s) => s.id === targetServiceId);
+            if (matchedService) {
+              setSelectedServiceId(matchedService.id);
+              setCurrentView('service-detail');
+              setActiveSection('services');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            } else {
+              setCurrentView('not-found');
+              setActiveSection('not-found');
+              setInvalidPath(effectivePath);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            }
           }
         } else if (serviceParam) {
           targetServiceId = serviceParam;
+          const matchedService = detailedServicesData.find((s) => s.id === targetServiceId);
+          if (matchedService) {
+            setSelectedServiceId(matchedService.id);
+            setCurrentView('service-detail');
+            setActiveSection('services');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
         }
 
-        if (targetServiceId || viewParam === 'service-detail') {
-          const matchedService = detailedServicesData.find((s) => s.id === targetServiceId) || detailedServicesData[0];
-          setSelectedServiceId(matchedService.id);
+        if (viewParam === 'service-detail') {
+          const matchedService = targetServiceId ? detailedServicesData.find((s) => s.id === targetServiceId) : detailedServicesData[0];
+          setSelectedServiceId((matchedService || detailedServicesData[0]).id);
           setCurrentView('service-detail');
           setActiveSection('services');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -328,9 +493,17 @@ export default function App() {
           return;
         }
 
-        // Default or Home (/)
-        setCurrentView('home');
-        setActiveSection('home');
+        // Home (/)
+        if (effectivePath === '/' || effectivePath === '' || viewParam === 'home' || rawHash === 'home') {
+          setCurrentView('home');
+          setActiveSection('home');
+          return;
+        }
+
+        // Any other unrecognized route -> 404
+        setCurrentView('not-found');
+        setActiveSection('not-found');
+        setInvalidPath(effectivePath);
       } catch (err) {
         console.error('URL Routing error:', err);
         setCurrentView('home');
@@ -412,6 +585,10 @@ export default function App() {
       setCurrentView('sitemap');
       setActiveSection('sitemap');
       targetUrl = '/sitemap';
+    } else if (view === 'not-found') {
+      setCurrentView('not-found');
+      setActiveSection('not-found');
+      targetUrl = '/404';
     } else {
       setCurrentView('home');
       setActiveSection('home');
@@ -627,6 +804,15 @@ export default function App() {
             onNavigateHome={() => navigateToPage('home')}
             onNavigateToPage={(page) => navigateToPage(page)}
             onNavigateToServiceDetail={(serviceId) => navigateToPage('service-detail', serviceId)}
+          />
+        )}
+
+        {currentView === 'not-found' && (
+          <NotFoundPage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToPage={(page) => navigateToPage(page)}
+            onNavigateToServiceDetail={(serviceId) => navigateToPage('service-detail', serviceId)}
+            invalidPath={invalidPath}
           />
         )}
 
