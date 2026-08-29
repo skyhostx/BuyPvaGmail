@@ -308,6 +308,18 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
+                  href="/instant-indexing"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('instant-indexing');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
+                  Instant Indexing Protocol
+                </a>
+              </li>
+              <li>
+                <a 
                   href="/warranty"
                   onClick={(e) => {
                     e.preventDefault();
