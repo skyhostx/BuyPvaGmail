@@ -1,6 +1,17 @@
 User-agent: *
 Allow: /
 
+# Fast Indexing & Crawl Directives
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Yandex
+Allow: /
+
+# IndexNow Key Verification File
+# https://buypvagmail.com/c4b8e21a97df43fba8e1467026723709.txt
+
 # XML Sitemap Index (Rank Math Compliant)
 Sitemap: https://buypvagmail.com/sitemap_index.xml
 Sitemap: https://buypvagmail.com/product-sitemap.xml
@@ -8,3 +19,4 @@ Sitemap: https://buypvagmail.com/vintage-sitemap.xml
 Sitemap: https://buypvagmail.com/page-sitemap.xml
 Sitemap: https://buypvagmail.com/post-sitemap.xml
 Sitemap: https://buypvagmail.com/sitemap.xml
+

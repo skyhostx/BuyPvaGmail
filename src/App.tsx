@@ -31,6 +31,7 @@ import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
 import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPage';
 import { SitemapPage } from './components/pages/SitemapPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
+import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData } from './data/servicesData';
@@ -49,6 +50,7 @@ export type AppView =
   | 'terms'
   | 'warranty'
   | 'sitemap'
+  | 'instant-indexing'
   | 'not-found';
 
 function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: string } {
@@ -152,6 +154,17 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
     ) {
       return { view: 'sitemap', serviceId: 'usa-gmail-accounts' };
     }
+    if (
+      effectivePath === '/instant-indexing' || 
+      effectivePath === '/instant-index' || 
+      effectivePath === '/rank-math' || 
+      effectivePath === '/rankmath' || 
+      viewParam === 'instant-indexing' || 
+      rawHash === 'instant-indexing' || 
+      rawHash === 'instant-index'
+    ) {
+      return { view: 'instant-indexing', serviceId: 'usa-gmail-accounts' };
+    }
 
     // Any unrecognized path returns 404
     return { view: 'not-found', serviceId: 'usa-gmail-accounts', invalidPath: effectivePath };
@@ -247,6 +260,10 @@ export default function App() {
         pageTitle = 'HTML Sitemap Index — All Pages, Services & Guides | BuyPvaGmail';
         pageDesc = 'Complete directory of all BuyPvaGmail verified product tiers, 2008–2025 vintage accounts, technical guides, and legal resources.';
         pageUrl = 'https://buypvagmail.com/sitemap';
+      } else if (currentView === 'instant-indexing') {
+        pageTitle = 'Rank Math SEO Instant Indexing Console & API Fast Dispatcher | BuyPvaGmail';
+        pageDesc = 'Directly dispatch fast indexing notifications to Google Indexing API v3, Microsoft Bing, and Yandex via IndexNow Protocol with verified cryptographic keys.';
+        pageUrl = 'https://buypvagmail.com/instant-indexing';
       } else if (currentView === 'not-found') {
         pageTitle = '404 - Page Not Found | BuyPvaGmail';
         pageDesc = 'The requested page could not be located. Search our inventory of verified USA PVA and 2008–2025 aged Gmail accounts.';
@@ -493,6 +510,22 @@ export default function App() {
           return;
         }
 
+        // Instant Indexing (Rank Math & IndexNow)
+        if (
+          effectivePath === '/instant-indexing' || 
+          effectivePath === '/instant-index' || 
+          effectivePath === '/rank-math' || 
+          effectivePath === '/rankmath' || 
+          viewParam === 'instant-indexing' || 
+          rawHash === 'instant-indexing' || 
+          rawHash === 'instant-index'
+        ) {
+          setCurrentView('instant-indexing');
+          setActiveSection('sitemap');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         // Home (/)
         if (effectivePath === '/' || effectivePath === '' || viewParam === 'home' || rawHash === 'home') {
           setCurrentView('home');
@@ -585,6 +618,10 @@ export default function App() {
       setCurrentView('sitemap');
       setActiveSection('sitemap');
       targetUrl = '/sitemap';
+    } else if (view === 'instant-indexing') {
+      setCurrentView('instant-indexing');
+      setActiveSection('sitemap');
+      targetUrl = '/instant-indexing';
     } else if (view === 'not-found') {
       setCurrentView('not-found');
       setActiveSection('not-found');
@@ -801,6 +838,14 @@ export default function App() {
 
         {currentView === 'sitemap' && (
           <SitemapPage 
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToPage={(page) => navigateToPage(page)}
+            onNavigateToServiceDetail={(serviceId) => navigateToPage('service-detail', serviceId)}
+          />
+        )}
+
+        {currentView === 'instant-indexing' && (
+          <InstantIndexingPage 
             onNavigateHome={() => navigateToPage('home')}
             onNavigateToPage={(page) => navigateToPage(page)}
             onNavigateToServiceDetail={(serviceId) => navigateToPage('service-detail', serviceId)}

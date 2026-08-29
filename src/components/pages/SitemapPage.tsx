@@ -600,6 +600,13 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+              <button
+                onClick={() => onNavigateToPage?.('instant-indexing')}
+                className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+              >
+                <Zap className="w-4 h-4 text-slate-950" />
+                <span>Instant Indexing Console</span>
+              </button>
               <a
                 href="/robots.txt"
                 target="_blank"

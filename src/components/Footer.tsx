@@ -330,6 +330,19 @@ export const Footer: React.FC<FooterProps> = ({
                   HTML Sitemap &amp; Index
                 </a>
               </li>
+              <li>
+                <a 
+                  href="/instant-indexing"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('instant-indexing');
+                  }} 
+                  className="hover:text-amber-400 text-amber-300 font-bold transition-colors cursor-pointer text-left flex items-center gap-1.5"
+                >
+                  <Zap className="w-3 h-3 text-amber-400" />
+                  <span>Rank Math Instant Index</span>
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -410,6 +423,18 @@ export const Footer: React.FC<FooterProps> = ({
               className="hover:text-blue-400 transition-colors cursor-pointer font-medium text-slate-300"
             >
               HTML Sitemap
+            </a>
+            <span className="text-slate-700">•</span>
+            <a 
+              href="/instant-indexing"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateToPage) onNavigateToPage('instant-indexing');
+              }} 
+              className="hover:text-amber-400 transition-colors cursor-pointer font-medium text-amber-300 inline-flex items-center gap-1"
+            >
+              <Zap className="w-3 h-3 text-amber-400" />
+              <span>Instant Indexing</span>
             </a>
             <span className="text-slate-700">•</span>
             <a 
