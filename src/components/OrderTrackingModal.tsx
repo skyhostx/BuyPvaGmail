@@ -97,6 +97,10 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
       const warrantyDate = new Date();
       warrantyDate.setDate(deliveryDate.getDate() + 7);
 
+      const paymentChannel = foundLocalOrder 
+        ? (foundLocalOrder.paymentMethod === 'skrill' ? `Skrill (${foundLocalOrder.skrillEmail || 'onlinespay247@gmail.com'})` : foundLocalOrder.cryptoCurrency || 'USDT (TRC20)')
+        : 'USDT (TRC20)';
+
       setSearchedOrder({
         orderId: cleanOrderId,
         packageTitle: foundLocalOrder ? foundLocalOrder.items[0]?.product.name : 'USA Aged (2021) PVA Gmail Accounts',
@@ -105,7 +109,7 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
         date: deliveryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         status: 'delivered',
         progressStep: 4,
-        cryptoNetwork: foundLocalOrder?.cryptoCurrency || 'USDT (TRC20)',
+        cryptoNetwork: paymentChannel,
         txHash: foundLocalOrder?.txHash || '0x4f8a9b2c7e1d5a8f9c0e3b6a2d7f8c1e4a7b9c0e3d2f1a6b8c9d0e1f2a3b4c5d',
         totalUSD: foundLocalOrder ? foundLocalOrder.totalAmount : 75.00,
         accounts: sampleList,

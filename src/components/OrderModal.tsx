@@ -19,7 +19,12 @@ import {
   TrendingUp,
   Zap,
   Lock,
-  Trash2
+  Trash2,
+  Wallet,
+  CreditCard,
+  Mail,
+  Coins,
+  Send
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
@@ -111,6 +116,16 @@ const DEFAULT_QUANTITY_TIERS: QuantityTier[] = [
   { count: 50, label: '', saveText: 'Save $20' },
   { count: 100, label: 'Best Agency Rate', saveText: '' }
 ];
+
+// Skrill Payment Configuration
+const SKRILL_CONFIG = {
+  id: 'SKRILL',
+  name: 'Skrill',
+  email: 'onlinespay247@gmail.com',
+  badge: 'Instant E-Wallet / Card',
+  badgeColor: 'bg-rose-900 text-white font-bold',
+  description: 'Skrill-to-Skrill transfer or credit/debit card payment to onlinespay247@gmail.com'
+};
 
 // 7 Crypto Payment Options with Verified Wallets
 type CryptoId = 
@@ -254,8 +269,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [contactError, setContactError] = useState('');
 
   // Step 3 State: Payment
+  const [paymentMode, setPaymentMode] = useState<'skrill' | 'crypto'>('skrill');
   const [selectedCryptoId, setSelectedCryptoId] = useState<CryptoId>('BSC');
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const [copiedSkrillEmail, setCopiedSkrillEmail] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
 
   // Step 4 State: Verification & Upload
@@ -373,6 +390,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     setTimeout(() => setCopiedAddress(false), 2000);
   };
 
+  // Copy Skrill email handler
+  const handleCopySkrillEmail = () => {
+    navigator.clipboard?.writeText(SKRILL_CONFIG.email);
+    setCopiedSkrillEmail(true);
+    setTimeout(() => setCopiedSkrillEmail(false), 2000);
+  };
+
   // Step 2 Validation & Continue
   const handleContinueToPayment = () => {
     if (!fullName.trim()) {
@@ -416,7 +440,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   // Submit Order
   const handleSubmitOrder = () => {
     if (!txHash.trim()) {
-      setVerifyError('Please enter your crypto transaction hash or TxID.');
+      setVerifyError(
+        paymentMode === 'skrill'
+          ? 'Please enter your Skrill Transaction ID / Reference Number.'
+          : 'Please enter your crypto transaction hash or TxID.'
+      );
       return;
     }
     setVerifyError('');
@@ -436,8 +464,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         ],
         email: deliveryEmail,
         telegramOrSkype: telegramUsername || whatsappNumber || fullName,
-        paymentMethod: 'crypto',
-        cryptoCurrency: activeCrypto.symbol,
+        paymentMethod: paymentMode === 'skrill' ? 'skrill' : 'crypto',
+        skrillEmail: paymentMode === 'skrill' ? SKRILL_CONFIG.email : undefined,
+        cryptoCurrency: paymentMode === 'skrill' ? 'Skrill (USD)' : activeCrypto.symbol,
         txHash: txHash,
         totalAmount: currentPricing.totalPrice,
         date: new Date().toLocaleDateString(),
@@ -470,8 +499,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       `Order Reference ID : ${completedOrder?.orderId}`,
       `Service Package    : ${selectedQuantity}x ${activeProduct.name}`,
       `Delivery Email     : ${completedOrder?.email}`,
-      `Payment Network    : ${completedOrder?.cryptoCurrency}`,
-      `Transaction Hash   : ${completedOrder?.txHash}`,
+      `Payment Method     : ${completedOrder?.paymentMethod === 'skrill' ? `Skrill (Sent to ${SKRILL_CONFIG.email})` : completedOrder?.cryptoCurrency}`,
+      `Transaction Ref/ID : ${completedOrder?.txHash}`,
       `Total Paid         : $${completedOrder?.totalAmount} USD`,
       `Timestamp          : ${new Date().toISOString()}`,
       `Warranty Period    : 7 Days (100% Free Instant Replacement)`,
@@ -923,169 +952,366 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           )}
 
           {/* ========================================================================= */}
-          {/* STEP 3: PAYMENT METHOD & DEPOSIT ADDRESS */}
+          {/* STEP 3: PAYMENT METHOD & DEPOSIT ADDRESS / SKRILL */}
           {/* ========================================================================= */}
           {!completedOrder && currentStep === 3 && (
             <div className="space-y-5">
               
-              {/* 7 Verified Crypto Options Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-                {(Object.keys(CRYPTO_METHODS) as CryptoId[]).map((cKey) => {
-                  const method = CRYPTO_METHODS[cKey];
-                  const isSelected = selectedCryptoId === cKey;
+              {/* Payment Channel Selector Tabs (Skrill vs Crypto) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Skrill Tab */}
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('skrill')}
+                  className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
+                    paymentMode === 'skrill'
+                      ? 'bg-rose-50/80 border-rose-600 shadow-md ring-2 ring-rose-500/20'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#811241] text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+                      S
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-black text-slate-900">Skrill E-Wallet</span>
+                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">
+                          Instant USD
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-slate-500 font-medium block truncate">
+                        Send to onlinespay247@gmail.com
+                      </span>
+                    </div>
+                  </div>
+                  {paymentMode === 'skrill' && (
+                    <div className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                    </div>
+                  )}
+                </button>
 
-                  return (
-                    <button
-                      key={cKey}
-                      type="button"
-                      onClick={() => setSelectedCryptoId(cKey)}
-                      className={`p-2.5 sm:p-3 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center border ${
-                        isSelected
-                          ? 'bg-red-50/60 border-red-500 shadow-md ring-2 ring-red-500/20'
-                          : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                      }`}
-                    >
-                      <span className={`text-sm font-black ${isSelected ? 'text-red-700' : 'text-slate-900'}`}>
-                        {method.label}
+                {/* Crypto Tab */}
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('crypto')}
+                  className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
+                    paymentMode === 'crypto'
+                      ? 'bg-red-50/80 border-red-500 shadow-md ring-2 ring-red-500/20'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+                      <Coins className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-black text-slate-900">Crypto Gateways</span>
+                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
+                          7 Networks
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-slate-500 font-medium block truncate">
+                        USDT (TRC20/BEP20), BTC, SOL, ETH, LTC
                       </span>
-                      <span className="text-[10px] text-slate-500 font-medium mt-0.5 truncate max-w-full">
-                        {method.sublabel}
-                      </span>
-                    </button>
-                  );
-                })}
+                    </div>
+                  </div>
+                  {paymentMode === 'crypto' && (
+                    <div className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                    </div>
+                  )}
+                </button>
               </div>
 
-              {/* Payment Details Container */}
-              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
-                
-                {/* Header row with Network and Amount */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-base font-black text-slate-900">
-                      {activeCrypto.networkTitle}
-                    </span>
-                    <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${activeCrypto.networkBadgeColor}`}>
-                      {activeCrypto.networkBadge}
-                    </span>
-                  </div>
-
-                  <div className="text-left sm:text-right">
-                    <span className="text-xs text-slate-500 font-bold block">Amount to Send:</span>
-                    <span className="text-xl sm:text-2xl font-black text-red-600">
-                      ${currentPricing.totalPrice} USD equivalent
-                    </span>
-                  </div>
-                </div>
-
-                {/* Deposit Address Box with 1-Click Copy */}
-                <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">
-                    OFFICIAL BUYPVAGMAIL.COM {activeCrypto.label} DEPOSIT ADDRESS:
-                  </label>
-                  <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
-                    <input
-                      type="text"
-                      readOnly
-                      value={activeCrypto.address}
-                      className="flex-1 bg-transparent px-3 py-1 font-mono text-xs sm:text-sm text-slate-900 font-bold focus:outline-hidden select-all"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleCopyAddress}
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-                    >
-                      {copiedAddress ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 stroke-[3]" />
-                          <span>Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Original QR Code and Live Scanner Info Box */}
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center pt-2">
-                  
-                  {/* Left Original QR Code Container */}
-                  <div className="sm:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                    <div className="w-40 h-40 bg-white rounded-2xl p-2.5 flex items-center justify-center border border-slate-200 shadow-sm relative group">
-                      {qrCodeDataUrl ? (
-                        <img 
-                          src={qrCodeDataUrl} 
-                          alt={`${activeCrypto.label} Original QR Code`}
-                          className="w-36 h-36 object-contain rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-36 h-36 flex items-center justify-center text-slate-400">
-                          <RefreshCw className="w-6 h-6 animate-spin" />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex items-center justify-between w-full px-2 mt-2.5">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-700">
-                        ORIGINAL QR CODE
+              {/* SKRILL PAYMENT VIEW */}
+              {paymentMode === 'skrill' && (
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
+                  {/* Header row with Network and Amount */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-base font-black text-slate-900">
+                        Skrill Direct E-Wallet Transfer
                       </span>
-                      {qrCodeDataUrl && (
-                        <a
-                          href={qrCodeDataUrl}
-                          download={`buypvagmail-${activeCrypto.id}-qr.png`}
-                          className="text-[10px] text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1 hover:underline"
-                        >
-                          <Download className="w-3 h-3" />
-                          <span>Save QR</span>
-                        </a>
-                      )}
+                      <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-[#811241] text-white">
+                        Official Skrill Verified
+                      </span>
+                    </div>
+
+                    <div className="text-left sm:text-right">
+                      <span className="text-xs text-slate-500 font-bold block">Amount to Send:</span>
+                      <span className="text-xl sm:text-2xl font-black text-[#811241]">
+                        ${currentPricing.totalPrice} USD
+                      </span>
                     </div>
                   </div>
 
-                  {/* Right Scanner Instructions */}
-                  <div className="sm:col-span-7 space-y-3">
+                  {/* Skrill Recipient Email Box with 1-Click Copy */}
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">
+                      OFFICIAL BUYPVAGMAIL.COM SKRILL RECIPIENT EMAIL:
+                    </label>
+                    <div className="flex items-center gap-2 bg-rose-50/50 p-2 rounded-2xl border border-rose-200">
+                      <input
+                        type="text"
+                        readOnly
+                        value={SKRILL_CONFIG.email}
+                        className="flex-1 bg-transparent px-3 py-1 font-mono text-sm sm:text-base text-slate-900 font-black focus:outline-hidden select-all"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleCopySkrillEmail}
+                        className="bg-[#811241] hover:bg-[#680e34] text-white px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-xs"
+                      >
+                        {copiedSkrillEmail ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 stroke-[3]" />
+                            <span>Copied Email!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy Skrill Email</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Step-by-Step Instructions */}
+                  <div className="space-y-3 pt-1">
+                    <h5 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <Send className="w-3.5 h-3.5 text-[#811241]" />
+                      How to Complete Your Skrill Payment (Step-by-Step):
+                    </h5>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-[#811241] text-white text-[11px] font-bold flex items-center justify-center shrink-0">1</span>
+                          <span className="text-xs font-black text-slate-900">Open Skrill</span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 leading-relaxed">
+                          Log into your Skrill App or visit <a href="https://www.skrill.com" target="_blank" rel="noreferrer" className="text-blue-600 font-bold hover:underline">Skrill.com</a>.
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-[#811241] text-white text-[11px] font-bold flex items-center justify-center shrink-0">2</span>
+                          <span className="text-xs font-black text-slate-900">Send Money</span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 leading-relaxed">
+                          Choose <strong>Transfer → Skrill to Skrill</strong> and send <strong className="text-slate-900">${currentPricing.totalPrice} USD</strong> to <strong className="font-mono text-slate-900">onlinespay247@gmail.com</strong>.
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-[#811241] text-white text-[11px] font-bold flex items-center justify-center shrink-0">3</span>
+                          <span className="text-xs font-black text-slate-900">Copy Ref ID</span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 leading-relaxed">
+                          Copy your <strong>Skrill Transaction ID / Reference Number</strong> from the confirmation screen.
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-emerald-50/80 border border-emerald-200/80 p-3 rounded-2xl">
                       <span className="text-emerald-600 font-bold shrink-0 text-sm">✓</span>
                       <p className="leading-relaxed">
-                        <strong className="text-slate-900 font-black">ORIGINAL WALLET QR READY:</strong> Point your crypto wallet camera (Binance, Trust Wallet, MetaMask, Phantom, Exodus, OKX, Coinbase) at this QR code to automatically scan and deposit {activeCrypto.label}.
-                      </p>
-                    </div>
-
-                    <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 border border-amber-200/80 p-3 rounded-2xl">
-                      <span className="text-amber-600 font-bold shrink-0 text-sm">⚠️</span>
-                      <p className="leading-relaxed">
-                        Verify address: <strong className="font-mono text-slate-900">{activeCrypto.address.slice(0, 6)}...{activeCrypto.address.slice(-6)}</strong> on <strong className="text-slate-900 font-bold">{activeCrypto.networkBadge}</strong>.
+                        <strong className="text-slate-900 font-black">FAST SKRILL DISPATCH:</strong> We automatically check incoming transfers to <strong>onlinespay247@gmail.com</strong>. Your delivery email <span className="font-mono font-bold text-slate-900">{deliveryEmail || 'provided in step 2'}</span> will receive your complete account credentials immediately upon submission.
                       </p>
                     </div>
                   </div>
 
+                  {/* Navigation Action Buttons */}
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(2)}
+                      className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-sm font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      <span>Back</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(4)}
+                      className="bg-[#811241] hover:bg-[#680e34] text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-rose-900/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                    >
+                      <span>I Have Sent Skrill Payment → Enter Ref ID</span>
+                    </button>
+                  </div>
                 </div>
+              )}
 
-              </div>
+              {/* CRYPTO PAYMENT VIEW */}
+              {paymentMode === 'crypto' && (
+                <div className="space-y-5">
+                  {/* 7 Verified Crypto Options Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                    {(Object.keys(CRYPTO_METHODS) as CryptoId[]).map((cKey) => {
+                      const method = CRYPTO_METHODS[cKey];
+                      const isSelected = selectedCryptoId === cKey;
 
-              {/* Navigation Action Buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep(2)}
-                  className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-sm font-bold flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back</span>
-                </button>
+                      return (
+                        <button
+                          key={cKey}
+                          type="button"
+                          onClick={() => setSelectedCryptoId(cKey)}
+                          className={`p-2.5 sm:p-3 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center border ${
+                            isSelected
+                              ? 'bg-red-50/60 border-red-500 shadow-md ring-2 ring-red-500/20'
+                              : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className={`text-sm font-black ${isSelected ? 'text-red-700' : 'text-slate-900'}`}>
+                            {method.label}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium mt-0.5 truncate max-w-full">
+                            {method.sublabel}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep(4)}
-                  className="bg-red-600 hover:bg-red-700 text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-red-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                >
-                  <span>I Have Sent Payment → Upload Hash</span>
-                </button>
-              </div>
+                  {/* Payment Details Container */}
+                  <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
+                    
+                    {/* Header row with Network and Amount */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-base font-black text-slate-900">
+                          {activeCrypto.networkTitle}
+                        </span>
+                        <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${activeCrypto.networkBadgeColor}`}>
+                          {activeCrypto.networkBadge}
+                        </span>
+                      </div>
+
+                      <div className="text-left sm:text-right">
+                        <span className="text-xs text-slate-500 font-bold block">Amount to Send:</span>
+                        <span className="text-xl sm:text-2xl font-black text-red-600">
+                          ${currentPricing.totalPrice} USD equivalent
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Deposit Address Box with 1-Click Copy */}
+                    <div>
+                      <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">
+                        OFFICIAL BUYPVAGMAIL.COM {activeCrypto.label} DEPOSIT ADDRESS:
+                      </label>
+                      <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
+                        <input
+                          type="text"
+                          readOnly
+                          value={activeCrypto.address}
+                          className="flex-1 bg-transparent px-3 py-1 font-mono text-xs sm:text-sm text-slate-900 font-bold focus:outline-hidden select-all"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleCopyAddress}
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                        >
+                          {copiedAddress ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Original QR Code and Live Scanner Info Box */}
+                    <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center pt-2">
+                      
+                      {/* Left Original QR Code Container */}
+                      <div className="sm:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div className="w-40 h-40 bg-white rounded-2xl p-2.5 flex items-center justify-center border border-slate-200 shadow-sm relative group">
+                          {qrCodeDataUrl ? (
+                            <img 
+                              src={qrCodeDataUrl} 
+                              alt={`${activeCrypto.label} Original QR Code`}
+                              className="w-36 h-36 object-contain rounded-lg"
+                            />
+                          ) : (
+                            <div className="w-36 h-36 flex items-center justify-center text-slate-400">
+                              <RefreshCw className="w-6 h-6 animate-spin" />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between w-full px-2 mt-2.5">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-700">
+                            ORIGINAL QR CODE
+                          </span>
+                          {qrCodeDataUrl && (
+                            <a
+                              href={qrCodeDataUrl}
+                              download={`buypvagmail-${activeCrypto.id}-qr.png`}
+                              className="text-[10px] text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1 hover:underline"
+                            >
+                              <Download className="w-3 h-3" />
+                              <span>Save QR</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right Scanner Instructions */}
+                      <div className="sm:col-span-7 space-y-3">
+                        <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-emerald-50/80 border border-emerald-200/80 p-3 rounded-2xl">
+                          <span className="text-emerald-600 font-bold shrink-0 text-sm">✓</span>
+                          <p className="leading-relaxed">
+                            <strong className="text-slate-900 font-black">ORIGINAL WALLET QR READY:</strong> Point your crypto wallet camera (Binance, Trust Wallet, MetaMask, Phantom, Exodus, OKX, Coinbase) at this QR code to automatically scan and deposit {activeCrypto.label}.
+                          </p>
+                        </div>
+
+                        <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 border border-amber-200/80 p-3 rounded-2xl">
+                          <span className="text-amber-600 font-bold shrink-0 text-sm">⚠️</span>
+                          <p className="leading-relaxed">
+                            Verify address: <strong className="font-mono text-slate-900">{activeCrypto.address.slice(0, 6)}...{activeCrypto.address.slice(-6)}</strong> on <strong className="text-slate-900 font-bold">{activeCrypto.networkBadge}</strong>.
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Navigation Action Buttons */}
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(2)}
+                        className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-sm font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                        <span>Back</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(4)}
+                        className="bg-red-600 hover:bg-red-700 text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-red-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                      >
+                        <span>I Have Sent Payment → Upload Hash</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              )}
 
             </div>
           )}
@@ -1103,23 +1329,33 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
                 <div className="space-y-1">
                   <p className="font-black text-amber-950">
-                    Almost done! Submit your Transaction ID / Hash for automated verification.
+                    {paymentMode === 'skrill'
+                      ? 'Almost done! Submit your Skrill Transaction ID / Reference Number for automated verification.'
+                      : 'Almost done! Submit your Transaction ID / Hash for automated verification.'}
                   </p>
                   <p className="text-amber-800">
-                    Our blockchain gateway checks incoming hashes every 60 seconds. Once confirmed, your spreadsheet will be emailed automatically.
+                    {paymentMode === 'skrill'
+                      ? 'Our payment gateway verifies incoming Skrill transfers to onlinespay247@gmail.com instantly. Once confirmed, your spreadsheet will be emailed automatically.'
+                      : 'Our blockchain gateway checks incoming hashes every 60 seconds. Once confirmed, your spreadsheet will be emailed automatically.'}
                   </p>
                 </div>
               </div>
 
-              {/* Transaction Hash Input */}
+              {/* Transaction Hash / Skrill ID Input */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  CRYPTO TRANSACTION HASH / TXID * (REQUIRED)
+                  {paymentMode === 'skrill'
+                    ? 'SKRILL TRANSACTION ID / REFERENCE NUMBER * (REQUIRED)'
+                    : 'CRYPTO TRANSACTION HASH / TXID * (REQUIRED)'}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. 0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6 or TSezBSdMrdARFQQebAYiwzkPku1qHijQEh..."
+                  placeholder={
+                    paymentMode === 'skrill'
+                      ? 'e.g. 3928192847 or Skrill Reference Number...'
+                      : 'e.g. 0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6 or TSezBSdMrdARFQQebAYiwzkPku1qHijQEh...'
+                  }
                   value={txHash}
                   onChange={(e) => setTxHash(e.target.value)}
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden"
@@ -1129,7 +1365,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               {/* Upload Payment Screenshot Area */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  UPLOAD PAYMENT SCREENSHOT (OPTIONAL FOR FASTER VERIFICATION)
+                  {paymentMode === 'skrill'
+                    ? 'UPLOAD SKRILL PAYMENT SCREENSHOT / RECEIPT (OPTIONAL FOR FASTER VERIFICATION)'
+                    : 'UPLOAD PAYMENT SCREENSHOT (OPTIONAL FOR FASTER VERIFICATION)'}
                 </label>
                 
                 <input
@@ -1152,7 +1390,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     </div>
                     <div>
                       <span className="text-sm font-black text-red-600 block">
-                        Click to upload image
+                        Click to upload receipt image
                       </span>
                       <span className="text-xs text-slate-500 font-medium">
                         PNG, JPG, or GIF up to 5MB
@@ -1199,8 +1437,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   <span className="font-bold text-slate-900">{selectedQuantity}x {activeProduct.name}</span>
                 </div>
                 <div className="flex justify-between text-slate-600">
-                  <span className="font-medium">Payment Protocol:</span>
-                  <span className="font-bold text-slate-900">{activeCrypto.networkTitle}</span>
+                  <span className="font-medium">Payment Channel:</span>
+                  <span className="font-bold text-slate-900">
+                    {paymentMode === 'skrill' ? 'Skrill E-Wallet (onlinespay247@gmail.com)' : activeCrypto.networkTitle}
+                  </span>
                 </div>
                 <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-200 items-baseline">
                   <span className="font-extrabold text-sm text-slate-900 uppercase">Total Paid:</span>
@@ -1231,17 +1471,25 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   type="button"
                   onClick={handleSubmitOrder}
                   disabled={isSubmitting}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+                  className={`${
+                    paymentMode === 'skrill'
+                      ? 'bg-[#811241] hover:bg-[#680e34] shadow-rose-900/25'
+                      : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/25'
+                  } text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75`}
                 >
                   {isSubmitting ? (
                     <>
                       <RefreshCw className="w-5 h-5 animate-spin" />
-                      <span>Verifying Blockchain Hash...</span>
+                      <span>Verifying Payment Reference...</span>
                     </>
                   ) : (
                     <>
                       <Check className="w-5 h-5 stroke-[3]" />
-                      <span>Submit Order &amp; Get Accounts</span>
+                      <span>
+                        {paymentMode === 'skrill'
+                          ? 'Submit Skrill Payment & Get Accounts'
+                          : 'Submit Order & Get Accounts'}
+                      </span>
                     </>
                   )}
                 </button>
@@ -1263,7 +1511,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   Order Successfully Submitted &amp; Verified!
                 </h4>
                 <p className="text-xs sm:text-sm text-emerald-800 mt-1.5 max-w-md mx-auto">
-                  Your payment on <strong>{completedOrder.cryptoCurrency}</strong> has been logged. We have generated your account bundle and dispatched the recovery details to <strong>{completedOrder.email}</strong>.
+                  Your payment via <strong>{completedOrder.paymentMethod === 'skrill' ? `Skrill (${SKRILL_CONFIG.email})` : completedOrder.cryptoCurrency}</strong> has been logged. We have generated your account bundle and dispatched the recovery details to <strong>{completedOrder.email}</strong>.
                 </p>
               </div>
 
@@ -1282,11 +1530,15 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   <span className="font-bold text-slate-900">${completedOrder.totalAmount} USD</span>
                 </div>
                 <div className="flex justify-between text-slate-600">
-                  <span>Payment Network:</span>
-                  <span className="font-bold text-blue-600">{completedOrder.cryptoCurrency}</span>
+                  <span>Payment Method:</span>
+                  <span className="font-bold text-rose-700">
+                    {completedOrder.paymentMethod === 'skrill'
+                      ? `Skrill E-Wallet (${SKRILL_CONFIG.email})`
+                      : completedOrder.cryptoCurrency}
+                  </span>
                 </div>
                 <div className="flex justify-between text-slate-600 truncate">
-                  <span>TxHash:</span>
+                  <span>{completedOrder.paymentMethod === 'skrill' ? 'Skrill Ref ID:' : 'TxHash:'}</span>
                   <span className="font-mono text-slate-700 truncate max-w-[240px]">{completedOrder.txHash}</span>
                 </div>
                 <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-200">

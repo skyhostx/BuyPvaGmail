@@ -78,8 +78,9 @@ export interface OrderDetails {
   items: CartItem[];
   email: string;
   telegramOrSkype?: string;
-  paymentMethod: 'crypto';
-  cryptoCurrency: string;
+  paymentMethod: 'crypto' | 'skrill';
+  cryptoCurrency?: string;
+  skrillEmail?: string;
   txHash?: string;
   totalAmount: number;
   date: string;
