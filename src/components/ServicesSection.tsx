@@ -197,8 +197,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                     )}
                   </h3>
                   <p className="text-xs text-slate-500 mt-1 line-clamp-2">
-                    {product.shortDesc}
+                    {product.shortDescription || product.shortDesc}
                   </p>
+
+                  {/* Product Tags mini-chips */}
+                  {product.tags && product.tags.length > 0 && (
+                    <div className="mt-2.5 flex flex-wrap gap-1">
+                      {product.tags.slice(0, 3).map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          className="inline-block bg-slate-100 text-slate-600 text-[10px] font-medium px-2 py-0.5 rounded-md border border-slate-200/60"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                      {product.tags.length > 3 && (
+                        <span className="inline-block text-slate-400 text-[10px] font-medium px-1 py-0.5">
+                          +{product.tags.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  )}
 
                   {/* Standard Base Price Tag */}
                   <div className="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">

@@ -1,22 +1,47 @@
 User-agent: *
 Allow: /
 
-# Fast Indexing & Crawl Directives
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
 User-agent: Bingbot
 Allow: /
-User-agent: Yandex
+
+User-agent: YandexBot
 Allow: /
 
-# IndexNow Key Verification File
-# https://buypvagmail.com/c4b8e21a97df43fba8e1467026723709.txt
+User-agent: Applebot
+Allow: /
 
-# XML Sitemap Index (Rank Math Compliant)
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# AI Search & Discovery Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# XML Sitemaps
 Sitemap: https://buypvagmail.com/sitemap_index.xml
-Sitemap: https://buypvagmail.com/product-sitemap.xml
-Sitemap: https://buypvagmail.com/vintage-sitemap.xml
-Sitemap: https://buypvagmail.com/page-sitemap.xml
-Sitemap: https://buypvagmail.com/post-sitemap.xml
 Sitemap: https://buypvagmail.com/sitemap.xml
+Sitemap: https://buypvagmail.com/product-sitemap.xml
+Sitemap: https://buypvagmail.com/page-sitemap.xml
+Sitemap: https://buypvagmail.com/vintage-sitemap.xml
+Sitemap: https://buypvagmail.com/post-sitemap.xml
+
 

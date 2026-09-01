@@ -78,9 +78,9 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
     { url: 'https://buypvagmail.com/services/usa-gmail-accounts', category: 'products', name: 'USA Gmail Accounts (Real Carrier SIM)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/services/pva-gmail-accounts', category: 'products', name: 'PVA Gmail Accounts (100% Phone Verified)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/services/aged-mix-country-gmail', category: 'products', name: 'Aged Mix Country Gmail Accounts', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/fresh-gmail-accounts', category: 'products', name: 'Fresh Gmail Accounts (Created < 48H)', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/google-maps-review-gmail', category: 'products', name: 'Google Maps Review Gmail Accounts', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/google-ads-threshold-gmail', category: 'products', name: 'Google Ads Media Buying Gmail', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/services/aged-gmail-for-reviews', category: 'products', name: 'Aged Gmail for Google Maps Reviews', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/services/aged-gmail-for-google-ads', category: 'products', name: 'Aged Gmail for Google Ads & Media Buying', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/services/new-gmail-accounts', category: 'products', name: 'Fresh PVA Gmail Accounts (Created 2025)', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
 
     // 18 Vintage Years (2008–2025)
     ...VINTAGE_YEARS.map((yr) => ({

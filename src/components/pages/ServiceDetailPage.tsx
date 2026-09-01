@@ -24,7 +24,7 @@ import {
   Terminal,
   ExternalLink
 } from 'lucide-react';
-import { detailedServicesData, DetailedServiceInfo, ServicePackage } from '../../data/servicesData';
+import { detailedServicesData, DetailedServiceInfo, ServicePackage, getServiceById } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
 import { ServiceSeoSection } from '../ServiceSeoSection';
 
@@ -45,8 +45,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   onAddToCart,
   onNavigateHome
 }) => {
-  const service = detailedServicesData.find((s) => s.id === serviceId) || detailedServicesData[0];
+  const service = getServiceById(serviceId) || detailedServicesData[0];
   const [customQty, setCustomQty] = useState<number>(service.baseQuantity);
+
   const [copiedFormat, setCopiedFormat] = useState(false);
   const [copiedPageLink, setCopiedPageLink] = useState(false);
 
@@ -176,6 +177,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
                   <span>7-Day Replacement Warranty</span>
                 </span>
+                {service.focusKeyword && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-200">
+                    <span>Keyword: {service.focusKeyword}</span>
+                  </span>
+                )}
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
@@ -186,9 +192,33 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 {service.heroTagline}
               </p>
 
+              {/* Product Short Description */}
+              {service.shortDescription && (
+                <div className="mt-3 p-3.5 rounded-xl bg-blue-50/70 border border-blue-100 text-sm font-medium text-slate-700 leading-relaxed">
+                  <span className="font-bold text-blue-900 block text-xs uppercase tracking-wider mb-1">Product Summary:</span>
+                  {service.shortDescription}
+                </div>
+              )}
+
+              {/* Product Full Description */}
               <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-3xl">
-                {service.longDescription}
+                {service.description || service.longDescription}
               </p>
+
+              {/* Product Tags */}
+              {service.tags && service.tags.length > 0 && (
+                <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                  <span className="text-xs font-bold text-slate-500 mr-1">Product Tags:</span>
+                  {service.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-block bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium px-2.5 py-0.5 rounded-md transition-colors border border-slate-200/60"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
 
               {/* Star Rating Bar */}
               <div className="flex items-center gap-3 mt-4 pt-3 border-t border-slate-100">

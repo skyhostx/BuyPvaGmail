@@ -368,7 +368,7 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="px-2.5 py-1.5 rounded-lg border bg-blue-500/15 text-blue-300 border-blue-500/30 text-[10px] font-bold flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-                  Bank Wire / ACH / SWIFT / SEPA
+                  Bank Transfer
                 </span>
                 <span className="text-[9px] text-blue-200 font-mono">USD/EUR/GBP</span>
               </div>

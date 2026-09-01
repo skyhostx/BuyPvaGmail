@@ -15,6 +15,10 @@ export interface ServicePackage {
 export interface DetailedServiceInfo extends ServiceProduct {
   heroTagline: string;
   longDescription: string;
+  description: string;
+  shortDescription: string;
+  focusKeyword: string;
+  tags: string[];
   useCases: string[];
   loginInstructions: string[];
   bestTools: string[];
@@ -41,6 +45,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'usa-gmail-accounts',
     name: 'USA Gmail Accounts',
     shortDesc: 'Created on genuine USA residential IPs with real US mobile numbers. Available across all vintage years from 2008 to 2025.',
+    shortDescription: 'Created on genuine USA residential IPs with real US mobile numbers. Available across all vintage years from 2008 to 2025 with 2FA secret keys, recovery email & maximum inbox deliverability.',
+    description: 'Our USA Gmail accounts represent the pinnacle of email marketing reliability, spanning all creation years from 2008 to 2025. Each account is registered exclusively using clean, dedicated USA residential ISP connections (Comcast, AT&T, Spectrum) and verified with non-VoIP physical SIM cards from major US carriers. They come pre-configured with recovery emails, 2FA backup codes, and full security protocols, ensuring maximum inbox deliverability for cold email campaigns, Smartlead/Instantly warming pools, and US-targeted business operations.',
+    focusKeyword: 'Buy USA Gmail Accounts',
+    tags: ['Buy USA Gmail Accounts', 'USA PVA Gmail', 'Physical US SIM Verified', 'US Residential ISP', 'Cold Email Outreach', 'Smartlead Ready', 'Instantly.ai Deliverability', '2FA Backup Codes', 'Aged 2008-2025', '7-Day Replacement Warranty'],
     heroTagline: '100% Genuine USA Residential IP Created with Physical US Carrier SIMs (2008 - 2025 Vintage)',
     longDescription: 'Our USA Gmail accounts represent the pinnacle of email marketing reliability, spanning all creation years from 2008 to 2025. Each account is registered exclusively using clean, dedicated USA residential ISP connections (Comcast, AT&T, Spectrum) and verified with non-VoIP physical SIM cards from major US carriers. They come pre-configured with recovery emails, 2FA backup codes, and full security protocols, ensuring maximum inbox deliverability for cold email campaigns and US-targeted business operations.',
     basePrice: 6,
@@ -154,6 +162,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'pva-gmail-accounts',
     name: 'PVA Gmail Accounts',
     shortDesc: 'Phone-Verified Accounts with active SMS validation. Available across all years 2008 to 2025 with resilient login security.',
+    shortDescription: '100% Phone-Verified (PVA) Gmail accounts with active physical SIM validation across all years 2008–2025. Bypass CAPTCHA loops with pre-configured recovery email & 2FA keys.',
+    description: 'PVA (Phone Verified Account) Gmails are the golden standard for marketers, developers, and businesses requiring hardened accounts that pass Google automated verification challenges. Every PVA account is verified with a real physical SIM card, preventing sudden verification lockouts. Available in all creation years from 2008 vintage up to 2025 fresh batches with full recovery credentials and 7-day warranty.',
+    focusKeyword: 'Buy PVA Gmail Accounts',
+    tags: ['Buy PVA Gmail Accounts', 'Phone Verified Gmail', 'Real Carrier SIM', 'Non-VoIP Verification', 'Bypass Phone Checkpoints', 'SMTP/IMAP Access', 'Multi-Account Automation', '2FA TOTP Keys', 'Bulk PVA Accounts', '7-Day Warranty'],
     heroTagline: '100% Real SIM SMS Verified Gmail Accounts for Bulletproof Security (2008 - 2025)',
     longDescription: 'PVA (Phone Verified Account) Gmails are the golden standard for marketers, developers, and businesses requiring hardened accounts that pass Google automated verification challenges. Every PVA account is verified with a real physical SIM card, preventing sudden verification lockouts. Available in all creation years from 2008 vintage up to 2025 fresh batches.',
     basePrice: 6,
@@ -267,6 +279,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'aged-mix-country-gmail',
     name: 'Aged Mix Country Gmail Accounts',
     shortDesc: 'High-authority vintage accounts spanning 2008 to 2025 from UK, Canada, Australia & Europe with mature browsing history.',
+    shortDescription: 'Seasoned vintage Gmail accounts aged 1 to 18 years (2008–2025) from UK, Canada, Australia & Europe. High algorithmic domain authority and mature cookie footprint.',
+    description: 'Age is the #1 metric Google algorithms utilize to calculate trust score. Our Aged Mix Country Gmail accounts were created between 2008 and 2025 across Tier-1 regions (United Kingdom, Canada, Australia, Germany, France). Having seasoned cookies, historical telemetry, and zero suspension flags, these accounts easily bypass captcha barriers and strict anti-bot systems.',
+    focusKeyword: 'Buy Aged Gmail Accounts',
+    tags: ['Buy Aged Gmail Accounts', 'Vintage Gmail 2008-2025', 'Old Gmail Accounts', 'Tier-1 Country Gmail', 'Mature Cookie Footprint', 'Web Scraping Accounts', 'Reddit & Forum Accounts', 'Anti-Detect Browser Ready', 'High Authority Gmail', '7-Day Warranty'],
     heroTagline: 'High-Trust Vintage Gmails Aged 1 to 18 Years (2008–2025) with Organic Activity Footprint',
     longDescription: 'Age is the #1 metric Google algorithms utilize to calculate trust score. Our Aged Mix Country Gmail accounts were created between 2008 and 2025 across Tier-1 regions (United Kingdom, Canada, Australia, Germany, France). Having seasoned cookies, historical telemetry, and zero suspension flags, these accounts easily bypass captcha barriers and strict anti-bot systems.',
     basePrice: 5,
@@ -378,6 +394,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'aged-gmail-for-reviews',
     name: 'Aged Gmail Accounts For Reviews',
     shortDesc: 'Specially aged accounts from 2008 to 2025 with Google Maps & Local Guides history. Reviews stick permanently with 95%+ live rate.',
+    shortDescription: 'Specially aged accounts from 2008–2025 with active Google Maps & Local Guide trust history. 95%+ permanent review stick rate for Google Business Profile rankings.',
+    description: 'Google utilizes advanced AI algorithms to filter out fake or suspicious business reviews. Our Aged Review Gmail Accounts span vintage years from 2008 through 2025, seasoned with real location check-ins, Google Maps navigation history, and Local Guides trust badges. When you post reviews using these accounts, they stick permanently without dropping or shadow-banning, building organic 5-star reputation.',
+    focusKeyword: 'Aged Gmail for Google Maps Reviews',
+    tags: ['Aged Gmail for Google Maps Reviews', 'Local Guide Gmail Accounts', 'Sticky 5-Star Reviews', 'Google Business Profile GBP', 'Non-Drop Review Accounts', 'Geo-Targeted Residential', 'Local SEO Reputation', 'Review Posting SOP', 'Trustpilot & Sitejabber Ready', '3-Day Retention Guarantee'],
     heroTagline: 'High Local Guide Trust Score Accounts Formulated for Google Maps & Reviews (2008 - 2025)',
     longDescription: 'Google utilizes advanced AI algorithms to filter out fake or suspicious business reviews. Our Aged Review Gmail Accounts span vintage years from 2008 through 2025, seasoned with real location check-ins, Google Maps navigation history, and Local Guides trust badges. When you post reviews using these accounts, they stick permanently and build organic reputation for your clients.',
     basePrice: 6,
@@ -491,6 +511,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'aged-gmail-for-google-ads',
     name: 'Aged Gmail Accounts For Google Ads',
     shortDesc: 'Prime vintage accounts from 2008 to 2025 conditioned for Google Ads thresholds, billing setup & zero suspicious payment suspension.',
+    shortDescription: 'Heavy-aged vintage accounts (2008–2025) pre-conditioned for Google Ads thresholds, billing setup, and YouTube ad campaigns with zero suspicious payment flags.',
+    description: 'Launching Google Ads on fresh accounts frequently triggers immediate "Suspicious Payment Activity" or "Circumventing Systems" account suspensions. Our Aged Google Ads Gmails span creation years from 2008 to 2025, offering years of natural payment telemetry, YouTube viewing history, and Google Play activity. They warmup smoothly and support high initial billing thresholds for media buyers and PPC agencies.',
+    focusKeyword: 'Aged Gmail for Google Ads',
+    tags: ['Aged Gmail for Google Ads', 'Google Ads Threshold Accounts', 'Media Buying Gmail', 'Google Pay Telemetry', 'Anti-Suspension Shield', 'Performance Max Ready', 'PPC Campaign Accounts', 'YouTube Ads Ready', 'High Budget Accounts', '7-Day Warranty'],
     heroTagline: 'Heavy-Aged Accounts Pre-Warmed for Google Ads Campaigns & Billing Thresholds (2008 - 2025)',
     longDescription: 'Launching Google Ads on fresh accounts frequently triggers immediate "Suspicious Payment Activity" or "Circumventing Systems" account suspensions. Our Aged Google Ads Gmails span creation years from 2008 to 2025, offering years of natural payment telemetry, YouTube viewing history, and Google Play activity. They warmup smoothly and support high initial billing thresholds.',
     basePrice: 5,
@@ -605,6 +629,10 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     id: 'new-gmail-accounts',
     name: 'New Gmail Accounts',
     shortDesc: 'Freshly generated clean PVA Gmails registered within 2025. Budget-friendly for high-volume tasks & automation.',
+    shortDescription: 'Freshly generated 2025 PVA phone-verified Gmail accounts on clean residential IP subnets. Low-cost wholesale solution for mass social signups and automated testing.',
+    description: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments, software QA testing, and promotional signups.',
+    focusKeyword: 'Buy Fresh PVA Gmail Accounts',
+    tags: ['Buy Fresh PVA Gmail Accounts', 'New Gmail Accounts 2025', 'Budget PVA Accounts', 'Mass Account Creation', 'Software QA Testing', 'Social Media Signups', 'Clean Residential IPs', 'Wholesale Gmail Bulk', 'Automated Script Ready', '48-Hour Replacement'],
     heroTagline: 'Fresh 2025 100% Phone Verified PVA Accounts at Wholesale Pricing',
     longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
     basePrice: 3,
@@ -716,7 +744,122 @@ export const detailedServicesData: DetailedServiceInfo[] = [
 
 export const servicesData: ServiceProduct[] = detailedServicesData;
 
+export const getServiceById = (id: string): DetailedServiceInfo | undefined => {
+  const directMatch = detailedServicesData.find((s) => s.id === id);
+  if (directMatch) return directMatch;
+
+  // Handle vintage year URLs (e.g., aged-2015-gmail-accounts)
+  const vintageMatch = id.match(/^aged-(\d{4})-gmail-accounts$/);
+  if (vintageMatch) {
+    const year = parseInt(vintageMatch[1], 10);
+    if (VINTAGE_YEARS.includes(year as VintageYear)) {
+      const ageYears = 2025 - year + 1;
+      const basePrice = year <= 2012 ? 8.0 : year <= 2017 ? 6.0 : year <= 2022 ? 4.5 : 3.0;
+      const unitPrice = basePrice;
+      return {
+        id: `aged-${year}-gmail-accounts`,
+        name: `${year} Aged Vintage Gmail Accounts`,
+        shortDesc: `Seasoned ${year} vintage Gmail accounts with ${ageYears}+ years of organic algorithmic history and superior spam-filter bypass.`,
+        shortDescription: `Seasoned ${year} vintage Gmail accounts with ${ageYears}+ years of organic algorithmic history, clean residential ISP origins, and superior spam-filter bypass.`,
+        description: `Our ${year} Aged Vintage Gmail accounts were created in ${year} and maintained with natural activity patterns across residential IP ranges. Spanning ${ageYears}+ years of historical telemetry, these accounts possess exceptional domain authority and algorithmic trust, making them ideal for high-stakes cold outreach, ad account management, and bypassing aggressive verification challenges.`,
+        focusKeyword: `Buy ${year} Aged Gmail Accounts`,
+        tags: [`Buy ${year} Aged Gmail Accounts`, `${year} Vintage Gmail`, `${ageYears}+ Years Aged`, 'Organic History', 'Clean Residential ISP', '2FA Secret Keys', 'Cold Email Outreach', 'High Deliverability', '7-Day Warranty'],
+        heroTagline: `Genuine ${year} Vintage Accounts (${ageYears}+ Years Aged) with Established Google Trust History`,
+        longDescription: `Our ${year} Aged Vintage Gmail accounts were created in ${year} and maintained with natural activity patterns across residential IP ranges. Spanning ${ageYears}+ years of historical telemetry, these accounts possess exceptional domain authority and algorithmic trust, making them ideal for high-stakes cold outreach, ad account management, and bypassing aggressive verification challenges.`,
+        basePrice: basePrice * 2,
+        baseQuantity: 2,
+        unitPrice: unitPrice,
+        popular: year <= 2015,
+        age: `${year} Vintage (${ageYears} Years Aged)`,
+        category: 'aged',
+        country: 'USA / UK / Mixed Tier-1',
+        countryCode: 'US',
+        inStock: Math.floor(800 + (year - 2008) * 120),
+        rating: 4.96,
+        reviewsCount: Math.floor(450 + (2025 - year) * 35),
+        features: [
+          `Original creation year: ${year} (${ageYears}+ years seasoned history)`,
+          'Clean residential IP registration with zero spam footprint',
+          'Configured recovery email & 2FA TOTP secret key included',
+          'Immune to sudden CAPTCHA loops & phone verification flags',
+          'Instant credentials delivery (Email:Password:Recovery:2FA)',
+          '7-Day 100% Instant 1-to-1 Replacement Guarantee'
+        ],
+        specs: {
+          phoneType: 'Carrier Verified at Registration',
+          recoveryMail: true,
+          twoFA: true,
+          ipOrigin: 'Clean Residential ISP (USA / UK / CA)',
+          deliveryTime: 'Instant (Under 60 seconds)',
+          warranty: '7-Day Replacement Policy'
+        },
+        useCases: [
+          'High-Deliverability Cold Email via Instantly, Smartlead & Lemlist',
+          'Google Ads & Threshold Account Warmup',
+          'Google Maps Local Guide Reviews with Permanent Stick Rate',
+          'High-Security Developer Registrations (OpenAI, GitHub, AWS)',
+          'Multi-Account Browser Profiles (AdsPower, Dolphin{anty})'
+        ],
+        loginInstructions: [
+          'Log in with clean residential or mobile proxies matching the account region.',
+          'Import session cookies (JSON) or authenticate via an antidetect browser.',
+          'Use the provided recovery email if Google prompts for security validation.',
+          'Allow 24-48 hours gentle rest before launching high-volume sending.'
+        ],
+        bestTools: ['AdsPower', 'Dolphin{anty}', 'Smartlead.ai', 'Instantly.ai', 'Multilogin'],
+        sampleFormat: `user${year}@gmail.com : Password123 : recovery@mail.com : 2FA_SECRET : ${year}`,
+        packages: [
+          {
+            id: `aged-${year}-starter`,
+            name: `${year} Duo Starter`,
+            quantity: 2,
+            price: basePrice * 2,
+            unitPrice: basePrice,
+            discountPercent: 0,
+            badge: 'Trial Pack',
+            features: [`2 Accounts from ${year}`, `${ageYears}+ Yrs Aged`, 'Recovery Mail Included', 'Instant Delivery']
+          },
+          {
+            id: `aged-${year}-growth`,
+            name: `${year} Growth Pack`,
+            quantity: 10,
+            price: basePrice * 10 * 0.95,
+            unitPrice: basePrice * 0.95,
+            discountPercent: 5,
+            badge: 'Save 5%',
+            features: [`10 Accounts from ${year}`, 'Clean ISP Origins', 'SMTP/IMAP Ready', '7-Day Warranty']
+          },
+          {
+            id: `aged-${year}-agency`,
+            name: `${year} Agency Batch`,
+            quantity: 25,
+            price: basePrice * 25 * 0.90,
+            unitPrice: basePrice * 0.90,
+            discountPercent: 10,
+            badge: '🔥 Best Value',
+            isPopular: true,
+            features: [`25 Accounts from ${year}`, '2FA Secret Keys Included', 'Batch CSV Export', 'Priority Support']
+          },
+          {
+            id: `aged-${year}-scale`,
+            name: `${year} Scale Century`,
+            quantity: 100,
+            price: basePrice * 100 * 0.80,
+            unitPrice: basePrice * 0.80,
+            discountPercent: 20,
+            badge: 'Save 20%',
+            features: [`100 Accounts from ${year}`, 'Maximum Trust Rating', 'VIP Telegram Support', '7-Day Replacement']
+          }
+        ]
+      };
+    }
+  }
+
+  return undefined;
+};
+
 export const quantityTiers = [
+
   { label: 'Starter Pack', count: 2, discount: 0, badge: 'Standard' },
   { label: 'Growth Pack', count: 10, discount: 0.05, badge: '5% OFF' },
   { label: 'Agency Batch', count: 25, discount: 0.10, badge: '10% OFF' },

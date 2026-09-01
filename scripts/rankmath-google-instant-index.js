@@ -39,9 +39,9 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/services/usa-gmail-accounts',
   'https://buypvagmail.com/services/pva-gmail-accounts',
   'https://buypvagmail.com/services/aged-mix-country-gmail',
-  'https://buypvagmail.com/services/fresh-gmail-accounts',
-  'https://buypvagmail.com/services/google-maps-review-gmail',
-  'https://buypvagmail.com/services/google-ads-threshold-gmail',
+  'https://buypvagmail.com/services/aged-gmail-for-reviews',
+  'https://buypvagmail.com/services/aged-gmail-for-google-ads',
+  'https://buypvagmail.com/services/new-gmail-accounts',
 
   // Vintage 2008-2025 Aged Gmail Pages
   'https://buypvagmail.com/services/aged-2008-gmail-accounts',

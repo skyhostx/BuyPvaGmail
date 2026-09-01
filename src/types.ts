@@ -2,6 +2,10 @@ export interface ServiceProduct {
   id: string;
   name: string;
   shortDesc: string;
+  shortDescription?: string;
+  description?: string;
+  focusKeyword?: string;
+  tags?: string[];
   basePrice: number; // price for base quantity
   baseQuantity: number; // e.g. 2 pcs or 1 pcs
   unitPrice: number;

@@ -34,7 +34,7 @@ import { NotFoundPage } from './components/pages/NotFoundPage';
 import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
-import { servicesData, detailedServicesData } from './data/servicesData';
+import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -216,7 +216,7 @@ export default function App() {
       let isRobotsIndex = true;
 
       if (currentView === 'service-detail') {
-        const product = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
+        const product = getServiceById(selectedServiceId) || detailedServicesData[0];
         pageTitle = `${product.name} — Buy Verified Accounts | BuyPvaGmail`;
         pageDesc = `${product.shortDesc} Unit price from $${product.unitPrice.toFixed(2)}. 100% real SIM verified, 2FA secret key, recovery email & 7-day free replacement guarantee.`;
         pageUrl = `https://buypvagmail.com/services/${product.id}`;
@@ -350,7 +350,7 @@ export default function App() {
           const parts = effectivePath.split('/');
           if (parts[2]) {
             targetServiceId = decodeURIComponent(parts[2]);
-            const matchedService = detailedServicesData.find((s) => s.id === targetServiceId);
+            const matchedService = getServiceById(targetServiceId);
             if (matchedService) {
               setSelectedServiceId(matchedService.id);
               setCurrentView('service-detail');
@@ -367,7 +367,7 @@ export default function App() {
           }
         } else if (serviceParam) {
           targetServiceId = serviceParam;
-          const matchedService = detailedServicesData.find((s) => s.id === targetServiceId);
+          const matchedService = getServiceById(targetServiceId);
           if (matchedService) {
             setSelectedServiceId(matchedService.id);
             setCurrentView('service-detail');
@@ -378,13 +378,14 @@ export default function App() {
         }
 
         if (viewParam === 'service-detail') {
-          const matchedService = targetServiceId ? detailedServicesData.find((s) => s.id === targetServiceId) : detailedServicesData[0];
+          const matchedService = targetServiceId ? getServiceById(targetServiceId) : detailedServicesData[0];
           setSelectedServiceId((matchedService || detailedServicesData[0]).id);
           setCurrentView('service-detail');
           setActiveSection('services');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
+
 
         // Services Catalog
         if (
