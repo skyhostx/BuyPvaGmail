@@ -24,7 +24,10 @@ import {
   CreditCard,
   Mail,
   Coins,
-  Send
+  Send,
+  Landmark,
+  Building2,
+  FileText
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
@@ -116,6 +119,113 @@ const DEFAULT_QUANTITY_TIERS: QuantityTier[] = [
   { count: 50, label: '', saveText: 'Save $20' },
   { count: 100, label: 'Best Agency Rate', saveText: '' }
 ];
+
+// Bank Transfer Payment Configurations (USD ACH, USD SWIFT, EUR SEPA, GBP UK)
+export type BankCurrencyId = 'USD_ACH' | 'USD_SWIFT' | 'EUR_SEPA' | 'GBP_UK';
+
+export interface BankAccountDetails {
+  id: BankCurrencyId;
+  name: string;
+  currency: string;
+  currencySymbol: string;
+  tabLabel: string;
+  badge: string;
+  badgeColor: string;
+  accountTitle: string;
+  accountType: string;
+  accountNumber?: string;
+  routingACH?: string;
+  routingWire?: string;
+  iban?: string;
+  swiftBic?: string;
+  sortCode?: string;
+  bankName: string;
+  bankAddress: string;
+  partnerBank?: {
+    name: string;
+    address: string;
+    swiftBic: string;
+  };
+  notes?: string;
+}
+
+export const BANK_TRANSFER_ACCOUNTS: Record<BankCurrencyId, BankAccountDetails> = {
+  USD_ACH: {
+    id: 'USD_ACH',
+    name: 'ACH & Wire Transfer (USA Domestic)',
+    currency: 'USD',
+    currencySymbol: '$',
+    tabLabel: 'USA ACH / Wire (USD)',
+    badge: 'U.S. Domestic Bank Transfer',
+    badgeColor: 'bg-blue-600 text-white',
+    accountTitle: 'Md Sayrul Islam',
+    accountType: 'Checking',
+    accountNumber: '30000002977421',
+    routingACH: '028000024',
+    routingWire: '021000021',
+    bankName: 'JP Morgan Chase NA',
+    bankAddress: '270 Park Avenue, New York, NY 10017, US',
+    notes: 'Partner bank: JP Morgan Chase NA. Use ACH Routing (028000024) for direct ACH or Wire Routing (021000021) for federal wire.'
+  },
+  USD_SWIFT: {
+    id: 'USD_SWIFT',
+    name: 'SWIFT International Transfer (USD)',
+    currency: 'USD',
+    currencySymbol: '$',
+    tabLabel: 'USD SWIFT (Global)',
+    badge: 'International SWIFT Transfer',
+    badgeColor: 'bg-indigo-700 text-white',
+    accountTitle: 'Md Sayrul Islam',
+    accountType: 'Checking (Current)',
+    iban: 'GB77 CLRB 0428 1200 0776 25',
+    swiftBic: 'CLRBGB22XXX',
+    sortCode: '042812',
+    bankName: 'Clear Bank',
+    bankAddress: 'Borough Yards, 13 Dirty Lane, London, SE1 9PA, UK',
+    partnerBank: {
+      name: 'JPMorgan Chase Bank, N.A.',
+      address: 'New York, USA',
+      swiftBic: 'CHASUS33'
+    },
+    notes: 'Only used for international SWIFT transfers. Partner Bank: JPMorgan Chase Bank, N.A. (CHASUS33, New York, USA).'
+  },
+  EUR_SEPA: {
+    id: 'EUR_SEPA',
+    name: 'SEPA & Euro Wire (EUR)',
+    currency: 'EUR',
+    currencySymbol: '€',
+    tabLabel: 'EUR (SEPA / Europe)',
+    badge: 'SEPA Euro Transfer',
+    badgeColor: 'bg-emerald-700 text-white',
+    accountTitle: 'Md Sayrul Islam',
+    accountType: 'Checking (Current)',
+    iban: 'GB36CLRB04281271577257',
+    swiftBic: 'CLRBGB22XXX',
+    accountNumber: '71577257',
+    sortCode: '042812',
+    bankName: 'Clear Bank',
+    bankAddress: '133 Houndsditch, LONDON, EC3A 7BX',
+    notes: 'Direct SEPA payment across Europe with zero intermediary fee.'
+  },
+  GBP_UK: {
+    id: 'GBP_UK',
+    name: 'UK Faster Payments / BACS (GBP)',
+    currency: 'GBP',
+    currencySymbol: '£',
+    tabLabel: 'GBP (UK Bank / FPS)',
+    badge: 'UK Faster Payments & BACS',
+    badgeColor: 'bg-purple-700 text-white',
+    accountTitle: 'Md Sayrul Islam',
+    accountType: 'Checking (Current)',
+    iban: 'GB73CLRB04097200937068',
+    swiftBic: 'CLRBGB22XXX',
+    accountNumber: '00937068',
+    sortCode: '040972',
+    bankName: 'Clear Bank',
+    bankAddress: '133 Houndsditch, LONDON, EC3A 7BX',
+    notes: 'Instant UK Faster Payments (FPS) or BACS transfer.'
+  }
+};
 
 // Skrill Payment Configuration
 const SKRILL_CONFIG = {
@@ -269,10 +379,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [contactError, setContactError] = useState('');
 
   // Step 3 State: Payment
-  const [paymentMode, setPaymentMode] = useState<'skrill' | 'crypto'>('skrill');
+  const [paymentMode, setPaymentMode] = useState<'crypto' | 'skrill' | 'bank'>('crypto');
+  const [selectedBankId, setSelectedBankId] = useState<BankCurrencyId>('USD_ACH');
   const [selectedCryptoId, setSelectedCryptoId] = useState<CryptoId>('BSC');
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [copiedSkrillEmail, setCopiedSkrillEmail] = useState(false);
+  const [copiedBankKey, setCopiedBankKey] = useState<string | null>(null);
+  const [copiedAllBank, setCopiedAllBank] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
 
   // Step 4 State: Verification & Upload
@@ -286,6 +399,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [completedOrder, setCompletedOrder] = useState<OrderDetails | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Active Bank and Crypto definitions
+  const activeBank = BANK_TRANSFER_ACCOUNTS[selectedBankId] || BANK_TRANSFER_ACCOUNTS.USD_ACH;
+  const activeCrypto = CRYPTO_METHODS[selectedCryptoId] || CRYPTO_METHODS.BSC;
 
   // Sync initial product if changed
   useEffect(() => {
@@ -323,7 +440,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   // Active product details
   const activeProduct = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
-  const activeCrypto = CRYPTO_METHODS[selectedCryptoId] || CRYPTO_METHODS.BSC;
 
   // Calculate pricing based on selected service and quantity tier
   const calculatePrice = (serviceId: string, count: number) => {
@@ -397,6 +513,49 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     setTimeout(() => setCopiedSkrillEmail(false), 2000);
   };
 
+  // Copy individual Bank field handler
+  const handleCopyBankField = (key: string, value: string) => {
+    navigator.clipboard?.writeText(value);
+    setCopiedBankKey(key);
+    setTimeout(() => setCopiedBankKey(null), 2000);
+  };
+
+  // Copy all Bank details for active bank
+  const handleCopyAllBankDetails = () => {
+    const lines: string[] = [
+      `=== BUYPVAGMAIL.COM BANK TRANSFER DETAILS (${activeBank.name}) ===`,
+      `Account Title / Beneficiary: ${activeBank.accountTitle}`,
+      `Account Type: ${activeBank.accountType}`,
+      `Currency: ${activeBank.currency}`,
+      `Amount to Pay: $${currentPricing.totalPrice} USD`
+    ];
+
+    if (activeBank.accountNumber) lines.push(`Account Number: ${activeBank.accountNumber}`);
+    if (activeBank.routingACH) lines.push(`Routing Number (ACH): ${activeBank.routingACH}`);
+    if (activeBank.routingWire) lines.push(`Routing Number (Wire): ${activeBank.routingWire}`);
+    if (activeBank.iban) lines.push(`IBAN: ${activeBank.iban}`);
+    if (activeBank.swiftBic) lines.push(`SWIFT / BIC: ${activeBank.swiftBic}`);
+    if (activeBank.sortCode) lines.push(`Sort Code: ${activeBank.sortCode}`);
+    lines.push(`Bank Name: ${activeBank.bankName}`);
+    lines.push(`Bank Address: ${activeBank.bankAddress}`);
+
+    if (activeBank.partnerBank) {
+      lines.push(`Partner Bank: ${activeBank.partnerBank.name}`);
+      lines.push(`Partner Bank Address: ${activeBank.partnerBank.address}`);
+      lines.push(`Partner Bank SWIFT/BIC: ${activeBank.partnerBank.swiftBic}`);
+    }
+
+    if (activeBank.notes) {
+      lines.push(`Notes: ${activeBank.notes}`);
+    }
+
+    lines.push(`Payment Reference / Memo: Use your Order Reference or Email (${deliveryEmail || 'your email'})`);
+
+    navigator.clipboard?.writeText(lines.join('\n'));
+    setCopiedAllBank(true);
+    setTimeout(() => setCopiedAllBank(false), 2500);
+  };
+
   // Step 2 Validation & Continue
   const handleContinueToPayment = () => {
     if (!fullName.trim()) {
@@ -441,7 +600,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const handleSubmitOrder = () => {
     if (!txHash.trim()) {
       setVerifyError(
-        paymentMode === 'skrill'
+        paymentMode === 'bank'
+          ? 'Please enter your Bank Wire / ACH / SWIFT transaction reference number or UTR ID.'
+          : paymentMode === 'skrill'
           ? 'Please enter your Skrill Transaction ID / Reference Number.'
           : 'Please enter your crypto transaction hash or TxID.'
       );
@@ -453,6 +614,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     setTimeout(() => {
       setIsSubmitting(false);
       const orderId = 'BPG-' + Math.floor(100000 + Math.random() * 900000);
+      
+      let paymentLabel = activeCrypto.symbol;
+      if (paymentMode === 'bank') {
+        paymentLabel = `${activeBank.tabLabel} Bank Wire`;
+      } else if (paymentMode === 'skrill') {
+        paymentLabel = 'Skrill E-Wallet (USD)';
+      }
+
       const order: OrderDetails = {
         orderId,
         items: [
@@ -464,9 +633,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         ],
         email: deliveryEmail,
         telegramOrSkype: telegramUsername || whatsappNumber || fullName,
-        paymentMethod: paymentMode === 'skrill' ? 'skrill' : 'crypto',
+        paymentMethod: paymentMode,
+        bankAccountTitle: paymentMode === 'bank' ? activeBank.accountTitle : undefined,
+        bankTransferType: paymentMode === 'bank' ? `${activeBank.name} (${activeBank.currency})` : undefined,
         skrillEmail: paymentMode === 'skrill' ? SKRILL_CONFIG.email : undefined,
-        cryptoCurrency: paymentMode === 'skrill' ? 'Skrill (USD)' : activeCrypto.symbol,
+        cryptoCurrency: paymentLabel,
         txHash: txHash,
         totalAmount: currentPricing.totalPrice,
         date: new Date().toLocaleDateString(),
@@ -492,6 +663,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   // Download Credentials
   const handleDownloadCredentials = () => {
+    let paymentDesc = completedOrder?.cryptoCurrency;
+    if (completedOrder?.paymentMethod === 'bank') {
+      paymentDesc = `Bank Transfer - ${completedOrder.bankTransferType || 'Direct Wire'} (Ref: ${completedOrder.txHash})`;
+    } else if (completedOrder?.paymentMethod === 'skrill') {
+      paymentDesc = `Skrill E-Wallet (Sent to ${SKRILL_CONFIG.email})`;
+    }
+
     const lines = [
       '=================================================================================',
       ' BUYPVAGMAIL.COM - OFFICIAL CREDENTIALS DISPATCH MANIFEST',
@@ -499,7 +677,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       `Order Reference ID : ${completedOrder?.orderId}`,
       `Service Package    : ${selectedQuantity}x ${activeProduct.name}`,
       `Delivery Email     : ${completedOrder?.email}`,
-      `Payment Method     : ${completedOrder?.paymentMethod === 'skrill' ? `Skrill (Sent to ${SKRILL_CONFIG.email})` : completedOrder?.cryptoCurrency}`,
+      `Payment Method     : ${paymentDesc}`,
       `Transaction Ref/ID : ${completedOrder?.txHash}`,
       `Total Paid         : $${completedOrder?.totalAmount} USD`,
       `Timestamp          : ${new Date().toISOString()}`,
@@ -957,42 +1135,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           {!completedOrder && currentStep === 3 && (
             <div className="space-y-5">
               
-              {/* Payment Channel Selector Tabs (Skrill vs Crypto) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Skrill Tab */}
-                <button
-                  type="button"
-                  onClick={() => setPaymentMode('skrill')}
-                  className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
-                    paymentMode === 'skrill'
-                      ? 'bg-rose-50/80 border-rose-600 shadow-md ring-2 ring-rose-500/20'
-                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#811241] text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
-                      S
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-black text-slate-900">Skrill E-Wallet</span>
-                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">
-                          Instant USD
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-slate-500 font-medium block truncate">
-                        Send to onlinespay247@gmail.com
-                      </span>
-                    </div>
-                  </div>
-                  {paymentMode === 'skrill' && (
-                    <div className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 stroke-[3]" />
-                    </div>
-                  )}
-                </button>
-
-                {/* Crypto Tab */}
+              {/* Payment Channel Selector Tabs (Crypto vs Skrill vs Bank) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {/* 1st: Crypto Tab */}
                 <button
                   type="button"
                   onClick={() => setPaymentMode('crypto')}
@@ -1009,12 +1154,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="text-sm font-black text-slate-900">Crypto Gateways</span>
-                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
-                          7 Networks
-                        </span>
                       </div>
                       <span className="text-[11px] text-slate-500 font-medium block truncate">
-                        USDT (TRC20/BEP20), BTC, SOL, ETH, LTC
+                        USDT, BTC, SOL, ETH
                       </span>
                     </div>
                   </div>
@@ -1024,9 +1166,627 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     </div>
                   )}
                 </button>
+
+                {/* 2nd: Skrill Tab */}
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('skrill')}
+                  className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
+                    paymentMode === 'skrill'
+                      ? 'bg-rose-50/80 border-rose-600 shadow-md ring-2 ring-rose-500/20'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#811241] text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+                      S
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-black text-slate-900">Skrill E-Wallet</span>
+                      </div>
+                      <span className="text-[11px] text-slate-500 font-medium block truncate">
+                        onlinespay247@gmail.com
+                      </span>
+                    </div>
+                  </div>
+                  {paymentMode === 'skrill' && (
+                    <div className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                    </div>
+                  )}
+                </button>
+
+                {/* 3rd: Bank Transfer Tab */}
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('bank')}
+                  className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
+                    paymentMode === 'bank'
+                      ? 'bg-blue-50/80 border-blue-600 shadow-md ring-2 ring-blue-500/20'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+                      <Landmark className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-sm font-black text-slate-900">Bank Transfer</span>
+                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                          USD / EUR / GBP
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {paymentMode === 'bank' && (
+                    <div className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                    </div>
+                  )}
+                </button>
               </div>
 
+              {/* ===================================================================== */}
+              {/* BANK TRANSFER PAYMENT VIEW (4 ACCOUNTS: ACH, SWIFT, SEPA, UK FPS) */}
+              {/* ===================================================================== */}
+              {paymentMode === 'bank' && (
+                <div className="space-y-4">
+                  {/* 4 Currency / Transfer Route Sub-Tabs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {(Object.keys(BANK_TRANSFER_ACCOUNTS) as BankCurrencyId[]).map((bKey) => {
+                      const acc = BANK_TRANSFER_ACCOUNTS[bKey];
+                      const isSelected = selectedBankId === bKey;
+
+                      return (
+                        <button
+                          key={bKey}
+                          type="button"
+                          onClick={() => setSelectedBankId(bKey)}
+                          className={`p-3 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center border ${
+                            isSelected
+                              ? 'bg-blue-50/90 border-blue-600 shadow-md ring-2 ring-blue-500/20'
+                              : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                          }`}
+                        >
+                          <span className={`text-xs font-black ${isSelected ? 'text-blue-900' : 'text-slate-900'}`}>
+                            {acc.tabLabel}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium mt-0.5 truncate max-w-full">
+                            {acc.currency} • {acc.accountType}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Bank Details Container */}
+                  <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
+                    
+                    {/* Header row with Title, Badge, and Total */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-slate-100 gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-base font-black text-slate-900 flex items-center gap-2">
+                          <Building2 className="w-5 h-5 text-blue-700" />
+                          {activeBank.name}
+                        </span>
+                        <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${activeBank.badgeColor}`}>
+                          {activeBank.badge}
+                        </span>
+                      </div>
+
+                      <div className="text-left sm:text-right">
+                        <span className="text-xs text-slate-500 font-bold block">Total to Transfer:</span>
+                        <span className="text-xl sm:text-2xl font-black text-blue-700">
+                          ${currentPricing.totalPrice} USD
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Bank Info Fields Grid with 1-Click Copy on each item */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      
+                      {/* Account Title (Beneficiary Name) */}
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                          ACCOUNT TITLE / BENEFICIARY:
+                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-mono font-black text-sm text-slate-900 select-all">
+                            {activeBank.accountTitle}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyBankField('accountTitle', activeBank.accountTitle)}
+                            className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                          >
+                            {copiedBankKey === 'accountTitle' ? (
+                              <>
+                                <Check className="w-3 h-3 stroke-[3]" />
+                                <span>Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Account Type & Currency */}
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                          ACCOUNT TYPE &amp; CURRENCY:
+                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-mono font-black text-sm text-slate-900">
+                            {activeBank.accountType} ({activeBank.currency})
+                          </span>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
+                            {activeBank.currency} Account
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* USD ACH Specific Fields */}
+                      {selectedBankId === 'USD_ACH' && (
+                        <>
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              ACCOUNT NUMBER:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.accountNumber}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('accountNumber', activeBank.accountNumber || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'accountNumber' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              ROUTING NUMBER (ACH - U.S. DOMESTIC):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.routingACH}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('routingACH', activeBank.routingACH || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'routingACH' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                            <span className="text-[10px] text-slate-500 font-medium block">
+                              Only used for U.S. domestic ACH transfers
+                            </span>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              ROUTING NUMBER (WIRE - U.S. DOMESTIC):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.routingWire}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('routingWire', activeBank.routingWire || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'routingWire' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                            <span className="text-[10px] text-slate-500 font-medium block">
+                              Only used for U.S. domestic wire transfers
+                            </span>
+                          </div>
+                        </>
+                      )}
+
+                      {/* USD SWIFT Specific Fields */}
+                      {selectedBankId === 'USD_SWIFT' && (
+                        <>
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              IBAN:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-xs sm:text-sm text-slate-900 select-all">
+                                {activeBank.iban}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('iban', activeBank.iban || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'iban' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              SWIFT / BIC:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.swiftBic}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('swiftBic', activeBank.swiftBic || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'swiftBic' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                            <span className="text-[10px] text-slate-500 font-medium block">
+                              Only used for international SWIFT transfers
+                            </span>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              SORT CODE:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.sortCode}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('sortCode', activeBank.sortCode || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'sortCode' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* EUR SEPA Specific Fields */}
+                      {selectedBankId === 'EUR_SEPA' && (
+                        <>
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1 sm:col-span-2">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              IBAN (EURO SEPA):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-xs sm:text-sm text-slate-900 select-all">
+                                {activeBank.iban}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('iban', activeBank.iban || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'iban' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              BIC / SWIFT CODE:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.swiftBic}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('swiftBic', activeBank.swiftBic || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'swiftBic' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              ACCOUNT NUMBER &amp; SORT CODE:
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900">
+                                Acc: {activeBank.accountNumber} | Sort: {activeBank.sortCode}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('accountNumber', activeBank.accountNumber || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'accountNumber' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* GBP UK Specific Fields */}
+                      {selectedBankId === 'GBP_UK' && (
+                        <>
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1 sm:col-span-2">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              IBAN (UK &amp; GLOBAL):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-xs sm:text-sm text-slate-900 select-all">
+                                {activeBank.iban}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('iban', activeBank.iban || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'iban' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              ACCOUNT NUMBER (UK):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.accountNumber}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('accountNumber', activeBank.accountNumber || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'accountNumber' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                              SORT CODE (UK):
+                            </span>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono font-black text-sm text-slate-900 select-all">
+                                {activeBank.sortCode}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyBankField('sortCode', activeBank.sortCode || '')}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shrink-0"
+                              >
+                                {copiedBankKey === 'sortCode' ? (
+                                  <>
+                                    <Check className="w-3 h-3 stroke-[3]" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* Bank Name & Address */}
+                      <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                          BANK NAME:
+                        </span>
+                        <span className="font-bold text-xs text-slate-900 block">
+                          {activeBank.bankName}
+                        </span>
+                        <span className="text-[11px] text-slate-600 block">
+                          {activeBank.bankAddress}
+                        </span>
+                      </div>
+
+                      {/* Partner Bank Details if applicable */}
+                      {activeBank.partnerBank ? (
+                        <div className="bg-blue-50/60 p-3.5 rounded-2xl border border-blue-200 space-y-1">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-800 block">
+                            PARTNER BANK (INTERMEDIARY / CORRESPONDENT):
+                          </span>
+                          <span className="font-black text-xs text-slate-900 block">
+                            {activeBank.partnerBank.name}
+                          </span>
+                          <span className="text-[11px] text-slate-600 block">
+                            {activeBank.partnerBank.address} • SWIFT: <strong className="font-mono font-bold text-slate-900">{activeBank.partnerBank.swiftBic}</strong>
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
+                            PAYMENT REFERENCE INSTRUCTION:
+                          </span>
+                          <span className="text-xs text-slate-700 block">
+                            Please use your name (<strong>{fullName || 'Your Name'}</strong>) or delivery email in the wire memo for instant reconciliation.
+                          </span>
+                        </div>
+                      )}
+
+                    </div>
+
+                    {/* Copy All Details Button & Advice Banner */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={handleCopyAllBankDetails}
+                        className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                      >
+                        {copiedAllBank ? (
+                          <>
+                            <Check className="w-4 h-4 stroke-[3] text-emerald-400" />
+                            <span>All Bank Details Copied to Clipboard!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4 text-blue-400" />
+                            <span>Copy All Bank Information (1-Click)</span>
+                          </>
+                        )}
+                      </button>
+
+                      <div className="text-[11px] text-slate-500 font-medium text-center sm:text-right">
+                        💡 Transfers processed with 100% security guarantee.
+                      </div>
+                    </div>
+
+                    {/* Navigation Action Buttons */}
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(2)}
+                        className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-sm font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                        <span>Back</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(4)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                      >
+                        <span>I Have Sent Bank Wire → Submit Reference</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              )}
+
+              {/* ===================================================================== */}
               {/* SKRILL PAYMENT VIEW */}
+              {/* ===================================================================== */}
               {paymentMode === 'skrill' && (
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
                   {/* Header row with Network and Amount */}
@@ -1149,7 +1909,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
               )}
 
+              {/* ===================================================================== */}
               {/* CRYPTO PAYMENT VIEW */}
+              {/* ===================================================================== */}
               {paymentMode === 'crypto' && (
                 <div className="space-y-5">
                   {/* 7 Verified Crypto Options Grid */}
@@ -1317,7 +2079,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           )}
 
           {/* ========================================================================= */}
-          {/* STEP 4: VERIFY TRANSACTION HASH & SCREENSHOT */}
+          {/* STEP 4: VERIFY TRANSACTION HASH / BANK REF / SKRILL & SCREENSHOT */}
           {/* ========================================================================= */}
           {!completedOrder && currentStep === 4 && (
             <div className="space-y-5">
@@ -1329,22 +2091,28 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
                 <div className="space-y-1">
                   <p className="font-black text-amber-950">
-                    {paymentMode === 'skrill'
+                    {paymentMode === 'bank'
+                      ? 'Almost done! Submit your Bank Wire / ACH / SWIFT Reference Number or UTR Code for automated verification.'
+                      : paymentMode === 'skrill'
                       ? 'Almost done! Submit your Skrill Transaction ID / Reference Number for automated verification.'
                       : 'Almost done! Submit your Transaction ID / Hash for automated verification.'}
                   </p>
                   <p className="text-amber-800">
-                    {paymentMode === 'skrill'
+                    {paymentMode === 'bank'
+                      ? 'Our finance system cross-references wire transfers to Md Sayrul Islam against incoming settlements. Once logged, your credentials manifest will be delivered to your email.'
+                      : paymentMode === 'skrill'
                       ? 'Our payment gateway verifies incoming Skrill transfers to onlinespay247@gmail.com instantly. Once confirmed, your spreadsheet will be emailed automatically.'
                       : 'Our blockchain gateway checks incoming hashes every 60 seconds. Once confirmed, your spreadsheet will be emailed automatically.'}
                   </p>
                 </div>
               </div>
 
-              {/* Transaction Hash / Skrill ID Input */}
+              {/* Transaction Hash / Bank Reference / Skrill ID Input */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  {paymentMode === 'skrill'
+                  {paymentMode === 'bank'
+                    ? 'BANK WIRE / ACH / SWIFT / SEPA REFERENCE NUMBER / UTR * (REQUIRED)'
+                    : paymentMode === 'skrill'
                     ? 'SKRILL TRANSACTION ID / REFERENCE NUMBER * (REQUIRED)'
                     : 'CRYPTO TRANSACTION HASH / TXID * (REQUIRED)'}
                 </label>
@@ -1352,20 +2120,24 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   type="text"
                   required
                   placeholder={
-                    paymentMode === 'skrill'
+                    paymentMode === 'bank'
+                      ? 'e.g. UTR-938210984, Fedwire / ACH Confirmation, or Bank Reference...'
+                      : paymentMode === 'skrill'
                       ? 'e.g. 3928192847 or Skrill Reference Number...'
                       : 'e.g. 0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6 or TSezBSdMrdARFQQebAYiwzkPku1qHijQEh...'
                   }
                   value={txHash}
                   onChange={(e) => setTxHash(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-hidden font-bold"
                 />
               </div>
 
               {/* Upload Payment Screenshot Area */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  {paymentMode === 'skrill'
+                  {paymentMode === 'bank'
+                    ? 'UPLOAD BANK PAYMENT RECEIPT / WIRE CONFIRMATION SLIP (OPTIONAL FOR FASTER DISPATCH)'
+                    : paymentMode === 'skrill'
                     ? 'UPLOAD SKRILL PAYMENT SCREENSHOT / RECEIPT (OPTIONAL FOR FASTER VERIFICATION)'
                     : 'UPLOAD PAYMENT SCREENSHOT (OPTIONAL FOR FASTER VERIFICATION)'}
                 </label>
@@ -1374,7 +2146,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   type="file"
                   ref={fileInputRef}
                   onChange={handleFileChange}
-                  accept="image/png, image/jpeg, image/gif, image/webp"
+                  accept="image/png, image/jpeg, image/gif, image/webp, application/pdf"
                   className="hidden"
                 />
 
@@ -1383,17 +2155,17 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     onClick={() => fileInputRef.current?.click()}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDropFile}
-                    className="border-2 border-dashed border-red-300 hover:border-red-500 bg-red-50/30 hover:bg-red-50/60 rounded-2xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center space-y-2"
+                    className="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50/60 rounded-2xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center space-y-2"
                   >
-                    <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center shadow-xs">
+                    <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shadow-xs">
                       <Upload className="w-5 h-5 stroke-[2.2]" />
                     </div>
                     <div>
-                      <span className="text-sm font-black text-red-600 block">
-                        Click to upload receipt image
+                      <span className="text-sm font-black text-blue-700 block">
+                        Click to upload bank transfer receipt image / slip
                       </span>
                       <span className="text-xs text-slate-500 font-medium">
-                        PNG, JPG, or GIF up to 5MB
+                        PNG, JPG, PDF up to 10MB
                       </span>
                     </div>
                   </div>
@@ -1410,7 +2182,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                           {screenshotFile?.name || 'Payment_Proof.png'}
                         </span>
                         <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
-                          <Check className="w-3 h-3" /> Image attached
+                          <Check className="w-3 h-3" /> Proof attached
                         </span>
                       </div>
                     </div>
@@ -1439,12 +2211,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 <div className="flex justify-between text-slate-600">
                   <span className="font-medium">Payment Channel:</span>
                   <span className="font-bold text-slate-900">
-                    {paymentMode === 'skrill' ? 'Skrill E-Wallet (onlinespay247@gmail.com)' : activeCrypto.networkTitle}
+                    {paymentMode === 'bank'
+                      ? `Bank Transfer: ${activeBank.name} (${activeBank.currency})`
+                      : paymentMode === 'skrill'
+                      ? 'Skrill E-Wallet (onlinespay247@gmail.com)'
+                      : activeCrypto.networkTitle}
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-200 items-baseline">
-                  <span className="font-extrabold text-sm text-slate-900 uppercase">Total Paid:</span>
-                  <span className="text-xl font-black text-red-600">${currentPricing.totalPrice} USD</span>
+                  <span className="font-extrabold text-sm text-slate-900 uppercase">Total Amount:</span>
+                  <span className="text-xl font-black text-blue-700">${currentPricing.totalPrice} USD</span>
                 </div>
               </div>
 
@@ -1472,7 +2248,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   onClick={handleSubmitOrder}
                   disabled={isSubmitting}
                   className={`${
-                    paymentMode === 'skrill'
+                    paymentMode === 'bank'
+                      ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/25'
+                      : paymentMode === 'skrill'
                       ? 'bg-[#811241] hover:bg-[#680e34] shadow-rose-900/25'
                       : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/25'
                   } text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75`}
@@ -1486,7 +2264,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     <>
                       <Check className="w-5 h-5 stroke-[3]" />
                       <span>
-                        {paymentMode === 'skrill'
+                        {paymentMode === 'bank'
+                          ? 'Submit Bank Transfer & Get Accounts'
+                          : paymentMode === 'skrill'
                           ? 'Submit Skrill Payment & Get Accounts'
                           : 'Submit Order & Get Accounts'}
                       </span>
@@ -1511,7 +2291,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   Order Successfully Submitted &amp; Verified!
                 </h4>
                 <p className="text-xs sm:text-sm text-emerald-800 mt-1.5 max-w-md mx-auto">
-                  Your payment via <strong>{completedOrder.paymentMethod === 'skrill' ? `Skrill (${SKRILL_CONFIG.email})` : completedOrder.cryptoCurrency}</strong> has been logged. We have generated your account bundle and dispatched the recovery details to <strong>{completedOrder.email}</strong>.
+                  Your payment via <strong>{completedOrder.paymentMethod === 'bank' ? `Bank Transfer (${completedOrder.bankTransferType || 'Md Sayrul Islam'})` : completedOrder.paymentMethod === 'skrill' ? `Skrill (${SKRILL_CONFIG.email})` : completedOrder.cryptoCurrency}</strong> has been logged. We have generated your account bundle and dispatched the recovery details to <strong>{completedOrder.email}</strong>.
                 </p>
               </div>
 
@@ -1531,14 +2311,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span>Payment Method:</span>
-                  <span className="font-bold text-rose-700">
-                    {completedOrder.paymentMethod === 'skrill'
+                  <span className="font-bold text-blue-700">
+                    {completedOrder.paymentMethod === 'bank'
+                      ? `Bank Transfer (${completedOrder.bankTransferType || 'Direct Wire'})`
+                      : completedOrder.paymentMethod === 'skrill'
                       ? `Skrill E-Wallet (${SKRILL_CONFIG.email})`
                       : completedOrder.cryptoCurrency}
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-600 truncate">
-                  <span>{completedOrder.paymentMethod === 'skrill' ? 'Skrill Ref ID:' : 'TxHash:'}</span>
+                  <span>{completedOrder.paymentMethod === 'bank' ? 'Bank Ref / UTR:' : completedOrder.paymentMethod === 'skrill' ? 'Skrill Ref ID:' : 'TxHash:'}</span>
                   <span className="font-mono text-slate-700 truncate max-w-[240px]">{completedOrder.txHash}</span>
                 </div>
                 <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-200">

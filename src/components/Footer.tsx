@@ -333,26 +333,47 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Column 3: Crypto Gateways & Trust */}
+          {/* Column 3: Payment Methods & Gateways */}
           <div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-3 bg-emerald-500 rounded-xs" />
-              Crypto Gateways
+              <span className="w-1.5 h-3 bg-amber-400 rounded-xs" />
+              Accepted Payment Gateways
             </h4>
             <p className="text-[11px] text-slate-400 mb-3">
-              Automated 24/7 instant delivery upon 1 blockchain confirmation:
+              Automated Crypto, Skrill E-Wallet &amp; Direct Bank Transfer:
             </p>
-            <div className="grid grid-cols-2 gap-1.5 mb-4">
+            
+            {/* 1st: Crypto Networks Grid */}
+            <div className="grid grid-cols-2 gap-1.5 mb-2.5">
               {cryptoNetworks.map((net) => (
                 <div 
                   key={net.tag} 
-                  className={`px-2 py-1.5 rounded-lg border text-[10px] font-bold flex items-center justify-between ${net.color}`}
+                  className={`px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center justify-between ${net.color}`}
                 >
                   <span>{net.tag}</span>
                   <span className="text-[9px] opacity-75 font-mono">0% Fee</span>
                 </div>
               ))}
             </div>
+
+            {/* 2nd & 3rd: Skrill & Bank Transfer Badges */}
+            <div className="space-y-1.5 mb-3">
+              <div className="px-2.5 py-1.5 rounded-lg border bg-[#811241]/30 text-rose-300 border-rose-500/30 text-[10px] font-bold flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-rose-400"></span>
+                  Skrill E-Wallet (USD)
+                </span>
+                <span className="text-[9px] text-rose-200 font-mono">Instant</span>
+              </div>
+              <div className="px-2.5 py-1.5 rounded-lg border bg-blue-500/15 text-blue-300 border-blue-500/30 text-[10px] font-bold flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                  Bank Wire / ACH / SWIFT / SEPA
+                </span>
+                <span className="text-[9px] text-blue-200 font-mono">USD/EUR/GBP</span>
+              </div>
+            </div>
+
             <div className="pt-2 border-t border-slate-850 flex items-center gap-2 text-[11px] text-slate-400">
               <Lock className="w-3.5 h-3.5 text-emerald-400" />
               <span>256-bit SSL Encrypted Dispatch</span>
