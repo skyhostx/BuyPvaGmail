@@ -404,15 +404,43 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const activeBank = BANK_TRANSFER_ACCOUNTS[selectedBankId] || BANK_TRANSFER_ACCOUNTS.USD_ACH;
   const activeCrypto = CRYPTO_METHODS[selectedCryptoId] || CRYPTO_METHODS.BSC;
 
-  // Sync initial product if changed
+  // Reset order session state whenever the modal is opened
+  const handleResetOrder = () => {
+    setCompletedOrder(null);
+    setCurrentStep(1);
+    setTxHash('');
+    setScreenshotFile(null);
+    setScreenshotPreview(null);
+    setContactError('');
+    setVerifyError('');
+    setIsSubmitting(false);
+  };
+
+  const handleCloseModal = () => {
+    handleResetOrder();
+    onClose();
+  };
+
+  // Sync initial product and reset session on open
   useEffect(() => {
-    if (initialProduct?.id) {
-      setSelectedServiceId(initialProduct.id);
+    if (isOpen) {
+      setCompletedOrder(null);
+      setCurrentStep(1);
+      setTxHash('');
+      setScreenshotFile(null);
+      setScreenshotPreview(null);
+      setContactError('');
+      setVerifyError('');
+      setIsSubmitting(false);
+
+      if (initialProduct?.id) {
+        setSelectedServiceId(initialProduct.id);
+      }
+      if (initialQuantity) {
+        setSelectedQuantity(initialQuantity);
+      }
     }
-    if (initialQuantity) {
-      setSelectedQuantity(initialQuantity);
-    }
-  }, [initialProduct, initialQuantity]);
+  }, [isOpen, initialProduct?.id, initialQuantity]);
 
   // Generate real original QR code for the active crypto deposit address
   useEffect(() => {
@@ -728,7 +756,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           </div>
 
           <button
-            onClick={onClose}
+            onClick={handleCloseModal}
             className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close Order Portal"
           >
@@ -2329,7 +2357,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
               </div>
 
-              {/* Download Buttons */}
+              {/* Download Buttons & Repeat Order Actions */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   onClick={handleDownloadCredentials}
@@ -2340,8 +2368,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </button>
 
                 <button
-                  onClick={onClose}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3.5 px-6 rounded-xl text-sm cursor-pointer transition-colors"
+                  onClick={handleResetOrder}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-6 rounded-xl text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4 stroke-[2.5]" />
+                  <span>Order More Accounts</span>
+                </button>
+
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3.5 px-5 rounded-xl text-sm cursor-pointer transition-colors"
                 >
                   Close &amp; Return
                 </button>
