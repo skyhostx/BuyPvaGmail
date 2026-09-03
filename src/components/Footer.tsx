@@ -22,6 +22,7 @@ interface FooterProps {
   onOpenOrderModal: (productId?: string) => void;
   onOpenCheckerModal: () => void;
   onOpenTrackingModal: () => void;
+  onOpenSeoAnalytics?: () => void;
   onNavigateToPage?: (page: string, serviceId?: string) => void;
 }
 
@@ -29,6 +30,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenOrderModal, 
   onOpenCheckerModal, 
   onOpenTrackingModal,
+  onOpenSeoAnalytics,
   onNavigateToPage 
 }) => {
   const scrollToTop = () => {
@@ -317,6 +319,18 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   Instant Indexing Protocol
                 </a>
+              </li>
+              <li>
+                <button 
+                  onClick={() => {
+                    if (onOpenSeoAnalytics) onOpenSeoAnalytics();
+                    else if (onNavigateToPage) onNavigateToPage('instant-indexing');
+                  }} 
+                  className="hover:text-amber-400 transition-colors cursor-pointer text-left flex items-center gap-1.5 text-slate-300 font-semibold"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>GA4 &amp; Rank Math Hub</span>
+                </button>
               </li>
               <li>
                 <a 

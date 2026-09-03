@@ -28,6 +28,7 @@ interface HeaderProps {
   onOpenOrderModal: (productId?: string) => void;
   onOpenCheckerModal: () => void;
   onOpenTrackingModal: () => void;
+  onOpenSeoAnalytics?: () => void;
   activeSection: string;
   setActiveSection: (section: string) => void;
   onNavigateToPage?: (page: string, serviceId?: string) => void;
@@ -39,6 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenOrderModal,
   onOpenCheckerModal,
   onOpenTrackingModal,
+  onOpenSeoAnalytics,
   activeSection,
   setActiveSection,
   onNavigateToPage
@@ -225,6 +227,19 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-4 text-slate-300">
+            {onOpenSeoAnalytics && (
+              <>
+                <button
+                  onClick={onOpenSeoAnalytics}
+                  className="hidden lg:flex items-center gap-1.5 text-amber-300 hover:text-amber-200 transition-colors text-xs font-semibold cursor-pointer px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30"
+                  title="Google Analytics 4 & Rank Math SEO Hub"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>GA4 &amp; Rank Math SEO</span>
+                </button>
+                <span className="hidden lg:inline text-slate-600">|</span>
+              </>
+            )}
             <button 
               onClick={onOpenTrackingModal}
               className="flex items-center gap-1 hover:text-amber-300 transition-colors text-xs font-medium cursor-pointer"

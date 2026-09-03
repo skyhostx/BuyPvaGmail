@@ -32,6 +32,8 @@ import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPag
 import { SitemapPage } from './components/pages/SitemapPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
+import { SeoAnalyticsModal } from './components/SeoAnalyticsModal';
+import { initGoogleAnalytics, trackPageView, trackAddToCart, trackPurchase } from './utils/analytics';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
@@ -196,6 +198,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckerModalOpen, setIsCheckerModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
+  const [isSeoAnalyticsOpen, setIsSeoAnalyticsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
 
@@ -303,10 +306,22 @@ export default function App() {
         document.head.appendChild(canonicalLink);
       }
       canonicalLink.setAttribute('href', pageUrl);
+
+      // Trigger Google Analytics 4 SPA page view telemetry
+      trackPageView(pageUrl.replace('https://buypvagmail.com', '') || '/', pageTitle);
     } catch {
       // ignore
     }
   }, [currentView, selectedServiceId]);
+
+  // Initialize GA on application mount
+  useEffect(() => {
+    try {
+      initGoogleAnalytics();
+    } catch {
+      // ignore
+    }
+  }, []);
 
   // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, /services/:id, etc.)
   useEffect(() => {
@@ -683,12 +698,30 @@ export default function App() {
     });
 
     showToast(`Added ${quantity}x ${product.name} to your cart!`);
+
+    // GA4 Enhanced E-commerce track add to cart
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.unitPrice,
+      quantity,
+      category: 'PVA Gmail Accounts'
+    });
   };
 
   const handleQuickBuy = (product: ServiceProduct, quantity: number) => {
     setOrderModalProduct(product);
     setOrderModalQuantity(quantity);
     setIsOrderModalOpen(true);
+
+    // GA4 Enhanced E-commerce track intent
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.unitPrice,
+      quantity,
+      category: 'PVA Gmail Accounts'
+    });
   };
 
   const handleUpdateCartQuantity = (productId: string, qty: number) => {
@@ -748,6 +781,7 @@ export default function App() {
         onOpenOrderModal={() => handleOpenOrderModal()}
         onOpenCheckerModal={() => setIsCheckerModalOpen(true)}
         onOpenTrackingModal={() => setIsTrackingModalOpen(true)}
+        onOpenSeoAnalytics={() => setIsSeoAnalyticsOpen(true)}
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         onNavigateToPage={(page, serviceId) => {
@@ -915,6 +949,7 @@ export default function App() {
         onOpenOrderModal={handleOpenOrderModal}
         onOpenCheckerModal={() => setIsCheckerModalOpen(true)}
         onOpenTrackingModal={() => setIsTrackingModalOpen(true)}
+        onOpenSeoAnalytics={() => setIsSeoAnalyticsOpen(true)}
         onNavigateToPage={(page, serviceId) => {
           navigateToPage(page as AppView, serviceId);
         }}
@@ -945,6 +980,13 @@ export default function App() {
           setCart([]);
           try {
             localStorage.setItem('buypvagmail_last_order', JSON.stringify(order));
+            // GA4 Enhanced E-commerce track conversion
+            trackPurchase(
+              order.orderId || 'ORD-NEW', 
+              order.items || [{ id: order.productId, name: order.productName, price: order.unitPrice, quantity: order.quantity }], 
+              order.totalAmount || 0, 
+              order.paymentMethod || 'Cryptocurrency'
+            );
           } catch (e) {
             // ignore
           }
@@ -965,6 +1007,13 @@ export default function App() {
       <AccountCheckerModal
         isOpen={isCheckerModalOpen}
         onClose={() => setIsCheckerModalOpen(false)}
+      />
+
+      {/* Google Analytics 4 & Rank Math SEO Telemetry Hub Modal */}
+      <SeoAnalyticsModal
+        isOpen={isSeoAnalyticsOpen}
+        onClose={() => setIsSeoAnalyticsOpen(false)}
+        onNavigateToPage={(page) => navigateToPage(page)}
       />
 
       {/* 24/7 Live Support Bubble (Left) */}
