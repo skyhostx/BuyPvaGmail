@@ -353,12 +353,12 @@ export const Footer: React.FC<FooterProps> = ({
               <span className="w-1.5 h-3 bg-amber-400 rounded-xs" />
               Accepted Payment Gateways
             </h4>
-            <p className="text-[11px] text-slate-400 mb-3">
-              Automated Crypto, Skrill E-Wallet &amp; Direct Bank Transfer:
+            <p className="text-[11px] text-slate-400 mb-2.5">
+              Crypto, Skrill &amp; Bank Transfer:
             </p>
             
             {/* 1st: Crypto Networks Grid */}
-            <div className="grid grid-cols-2 gap-1.5 mb-2.5">
+            <div className="grid grid-cols-2 gap-1.5 mb-1.5">
               {cryptoNetworks.map((net) => (
                 <div 
                   key={net.tag} 
@@ -370,21 +370,13 @@ export const Footer: React.FC<FooterProps> = ({
               ))}
             </div>
 
-            {/* 2nd & 3rd: Skrill & Bank Transfer Badges */}
-            <div className="space-y-1.5 mb-3">
-              <div className="px-2.5 py-1.5 rounded-lg border bg-[#811241]/30 text-rose-300 border-rose-500/30 text-[10px] font-bold flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-rose-400"></span>
-                  Skrill E-Wallet (USD)
-                </span>
-                <span className="text-[9px] text-rose-200 font-mono">Instant</span>
+            {/* Skrill & Bank Transfer in 2-Column Grid */}
+            <div className="grid grid-cols-2 gap-1.5 mb-2.5">
+              <div className="px-2 py-1 rounded-lg border bg-[#811241]/25 text-rose-300 border-rose-500/30 text-[10px] font-bold flex items-center justify-center text-center">
+                <span>Skrill (USD)</span>
               </div>
-              <div className="px-2.5 py-1.5 rounded-lg border bg-blue-500/15 text-blue-300 border-blue-500/30 text-[10px] font-bold flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-                  Bank Transfer
-                </span>
-                <span className="text-[9px] text-blue-200 font-mono">USD/EUR/GBP</span>
+              <div className="px-2 py-1 rounded-lg border bg-blue-500/15 text-blue-300 border-blue-500/30 text-[10px] font-bold flex items-center justify-center text-center">
+                <span>Bank Transfer</span>
               </div>
             </div>
 
