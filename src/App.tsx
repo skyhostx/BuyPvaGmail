@@ -271,7 +271,7 @@ export default function App() {
         pageTitle = '404 - Page Not Found | BuyPvaGmail';
         pageDesc = 'The requested page could not be located. Search our inventory of verified USA PVA and 2008–2025 aged Gmail accounts.';
         pageUrl = 'https://buypvagmail.com/404';
-        isRobotsIndex = false;
+        isRobotsIndex = true;
       }
 
       // Update Document Title
@@ -296,7 +296,9 @@ export default function App() {
       setMeta('name', 'twitter:title', pageTitle);
       setMeta('name', 'twitter:description', pageDesc);
       setMeta('name', 'twitter:url', pageUrl);
-      setMeta('name', 'robots', isRobotsIndex ? 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' : 'noindex, follow');
+      setMeta('name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+      setMeta('name', 'googlebot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+      setMeta('name', 'bingbot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
 
       // Update Canonical Link
       let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -306,6 +308,61 @@ export default function App() {
         document.head.appendChild(canonicalLink);
       }
       canonicalLink.setAttribute('href', pageUrl);
+
+      // Inject / Update Dynamic BreadcrumbList Structured Data (Schema.org)
+      let breadcrumbScript = document.getElementById('dynamic-breadcrumb-schema');
+      if (!breadcrumbScript) {
+        breadcrumbScript = document.createElement('script');
+        breadcrumbScript.id = 'dynamic-breadcrumb-schema';
+        breadcrumbScript.setAttribute('type', 'application/ld+json');
+        document.head.appendChild(breadcrumbScript);
+      }
+
+      const breadcrumbItems = [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://buypvagmail.com/"
+        }
+      ];
+
+      if (currentView === 'service-detail') {
+        const product = getServiceById(selectedServiceId) || detailedServicesData[0];
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://buypvagmail.com/services"
+        });
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 3,
+          "name": product.name,
+          "item": `https://buypvagmail.com/services/${product.id}`
+        });
+      } else if (currentView === 'services-catalog') {
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services Catalog",
+          "item": "https://buypvagmail.com/services"
+        });
+      } else if (currentView !== 'home') {
+        const cleanName = currentView.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": cleanName,
+          "item": pageUrl
+        });
+      }
+
+      breadcrumbScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbItems
+      });
 
       // Trigger Google Analytics 4 SPA page view telemetry
       trackPageView(pageUrl.replace('https://buypvagmail.com', '') || '/', pageTitle);

@@ -84,7 +84,10 @@ export const ReviewsSection: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <img
                     src={t.avatar}
-                    alt={t.name}
+                    alt={`Verified client review by ${t.name}, ${t.role} at ${t.company} — PVA Gmail accounts`}
+                    width={40}
+                    height={40}
+                    loading="lazy"
                     className="w-10 h-10 rounded-full object-cover border border-slate-600"
                     referrerPolicy="no-referrer"
                   />

@@ -2,21 +2,292 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>BuyPvaGmail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | BuyPvaGmail</title>
+    <meta name="title" content="404 - Page Not Found | BuyPvaGmail" />
+    <meta name="description" content="The page you requested could not be found on BuyPvaGmail. Explore our verified carrier SIM PVA and 2008–2025 aged Gmail inventory with instant auto-dispatch." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://buypvagmail.com/404" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 13.5V36c0 2.2 1.8 4 4 4h4V22L6 13.5z' fill='%234285F4'/%3E%3Cpath d='M42 13.5V36c0 2.2-1.8 4-4 4h-4V22L42 13.5z' fill='%2334A853'/%3E%3Cpath d='M14 22v18h20V22L24 29.5 14 22z' fill='%23EA4335' fill-opacity='.92'/%3E%3Cpath d='M6 13.5L14 22l10-7.5-6-5C16.2 8 14 8 12.2 9.5L6 13.5z' fill='%23FBBC05'/%3E%3Cpath d='M42 13.5L34 22l-10-7.5 6-5c1.8-1.5 4-1.5 5.8 0l6.2 4z' fill='%23EA4335'/%3E%3Cpath d='M18 9.5L24 14.5l6-5c-1.8-1.5-4.2-2-6-2s-4.2.5-6 2z' fill='%23C5221F'/%3E%3C/svg%3E" />
+    
     <script type="text/javascript">
-      // SPA redirect for GitHub Pages & Static Web Hosts
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // SPA redirect for GitHub Pages & Static Web Hosts on known internal paths
+      var validSpaPrefixes = [
+        'services',
+        'pricing',
+        'about',
+        'blog',
+        'faq',
+        'contact',
+        'privacy',
+        'terms',
+        'warranty',
+        'sitemap',
+        'instant-indexing'
+      ];
+      
+      var pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      var firstSegment = pathname.split('/')[0];
+      
+      // If it's a known SPA route, redirect smoothly to the SPA root router
+      if (validSpaPrefixes.indexOf(firstSegment) !== -1) {
+        var pathSegmentsToKeep = 0;
+        var l = window.location;
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      }
     </script>
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #0b0f19;
+        color: #f1f5f9;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        line-height: 1.6;
+      }
+      header {
+        border-bottom: 1px solid #1e293b;
+        background: #0f172a;
+        padding: 1rem 1.5rem;
+      }
+      .nav-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.2rem;
+      }
+      .brand-badge {
+        background: #ef4444;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 900;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        text-transform: uppercase;
+      }
+      .container {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+        text-align: center;
+      }
+      .badge-404 {
+        display: inline-block;
+        background: rgba(239, 68, 68, 0.12);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      h1 {
+        font-size: clamp(3rem, 10vw, 6rem);
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #f43f5e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: clamp(1.25rem, 4vw, 1.75rem);
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 0.75rem;
+      }
+      p.subtitle {
+        color: #94a3b8;
+        font-size: 1rem;
+        max-width: 580px;
+        margin: 0 auto 2rem auto;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-bottom: 2.5rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.75rem 1.4rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.15s ease;
+      }
+      .btn-primary {
+        background: #2563eb;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+      }
+      .btn-primary:hover { background: #1d4ed8; }
+      .btn-secondary {
+        background: #1e293b;
+        color: #cbd5e1;
+        border: 1px solid #334155;
+      }
+      .btn-secondary:hover { background: #334155; color: #fff; }
+      .services-card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid #1e293b;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        text-align: left;
+        margin-top: 2rem;
+      }
+      .services-card h3 {
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #94a3b8;
+        margin-bottom: 1rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.75rem;
+      }
+      .grid-item {
+        background: #0b0f19;
+        border: 1px solid #1e293b;
+        border-radius: 0.75rem;
+        padding: 0.85rem 1rem;
+        text-decoration: none;
+        color: #f1f5f9;
+        display: block;
+        transition: all 0.15s ease;
+      }
+      .grid-item:hover {
+        border-color: #3b82f6;
+        transform: translateY(-1px);
+      }
+      .grid-item strong {
+        display: block;
+        font-size: 0.85rem;
+        color: #fff;
+        margin-bottom: 0.2rem;
+      }
+      .grid-item span {
+        font-size: 0.75rem;
+        color: #64748b;
+      }
+      footer {
+        border-top: 1px solid #1e293b;
+        padding: 1.5rem;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #64748b;
+      }
+      footer a {
+        color: #94a3b8;
+        text-decoration: none;
+        margin: 0 0.5rem;
+      }
+      footer a:hover { color: #38bdf8; }
+    </style>
   </head>
   <body>
-    <p>Loading BuyPvaGmail...</p>
+    <header>
+      <div class="nav-container">
+        <a href="/" class="brand-link">
+          <span>BuyPvaGmail</span>
+          <span class="brand-badge">VERIFIED</span>
+        </a>
+        <a href="/services" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;">
+          View Catalog
+        </a>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="badge-404">HTTP Status: 404 Not Found</div>
+      <h1>404</h1>
+      <h2>The Requested Page Could Not Be Located</h2>
+      <p class="subtitle">
+        The URL you navigated to does not exist or may have been permanently moved. Use the quick links below to access our verified carrier SIM and 2008–2025 aged Gmail accounts inventory.
+      </p>
+
+      <div class="actions">
+        <a href="/" class="btn btn-primary">Return to Homepage</a>
+        <a href="/services" class="btn btn-secondary">Browse All Services</a>
+        <a href="/pricing" class="btn btn-secondary">Wholesale Pricing</a>
+        <a href="/faq" class="btn btn-secondary">Read FAQ</a>
+      </div>
+
+      <div class="services-card">
+        <h3>Direct Access to Verified Inventories</h3>
+        <div class="grid">
+          <a href="/services/usa-gmail-accounts" class="grid-item">
+            <strong>USA Gmail Accounts</strong>
+            <span>100% US Residential IPs • $6/2pcs</span>
+          </a>
+          <a href="/services/pva-gmail-accounts" class="grid-item">
+            <strong>PVA Phone Verified</strong>
+            <span>Real Physical SIM Verified • $6/2pcs</span>
+          </a>
+          <a href="/services/aged-mix-country-gmail" class="grid-item">
+            <strong>2008–2025 Vintage Aged</strong>
+            <span>Global Diversity • 3-17 Years Old</span>
+          </a>
+          <a href="/services/aged-gmail-for-reviews" class="grid-item">
+            <strong>Google Maps Review Accounts</strong>
+            <span>95%+ Stick Rate For Reviews • $6/2pcs</span>
+          </a>
+          <a href="/services/aged-gmail-for-google-ads" class="grid-item">
+            <strong>Google Ads Aged Accounts</strong>
+            <span>Suspension Resistant • Top Tier</span>
+          </a>
+          <a href="/services/new-gmail-accounts" class="grid-item">
+            <strong>Fresh Bulk PVA Accounts</strong>
+            <span>High Volume Outreach • $3/2pcs</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div>&copy; 2026 BuyPvaGmail.com. All rights reserved.</div>
+      <div style="margin-top: 0.5rem;">
+        <a href="/">Home</a> |
+        <a href="/services">Services</a> |
+        <a href="/pricing">Pricing</a> |
+        <a href="/blog">Blog</a> |
+        <a href="/faq">FAQ</a> |
+        <a href="/contact">Contact</a> |
+        <a href="/warranty">Warranty</a> |
+        <a href="/sitemap">HTML Sitemap</a> |
+        <a href="/sitemap.xml">XML Sitemap</a>
+      </div>
+    </footer>
   </body>
 </html>

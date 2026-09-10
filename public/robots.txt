@@ -1,18 +1,44 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /checkout
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /order/
+Disallow: /*?order=*
+Disallow: /*?payment=*
 
-# Search Engine Crawlers
+# Major Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /checkout
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /order/
 
 User-agent: Googlebot-Image
 Allow: /
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
+Disallow: /checkout
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /order/
 
 User-agent: YandexBot
 Allow: /
+Disallow: /api/
+Disallow: /checkout
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /order/
 
 User-agent: Applebot
 Allow: /
@@ -23,7 +49,7 @@ Allow: /
 User-agent: Baiduspider
 Allow: /
 
-# AI Search & Discovery Crawlers
+# AI Search & Retrieval Crawlers
 User-agent: GPTBot
 Allow: /
 
@@ -36,9 +62,9 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# XML Sitemaps
-Sitemap: https://buypvagmail.com/sitemap_index.xml
+# XML Sitemaps (Production Domain)
 Sitemap: https://buypvagmail.com/sitemap.xml
+Sitemap: https://buypvagmail.com/sitemap_index.xml
 Sitemap: https://buypvagmail.com/product-sitemap.xml
 Sitemap: https://buypvagmail.com/page-sitemap.xml
 Sitemap: https://buypvagmail.com/vintage-sitemap.xml

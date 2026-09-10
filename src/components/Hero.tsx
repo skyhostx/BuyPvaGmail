@@ -91,14 +91,18 @@ export const Hero: React.FC<HeroProps> = ({ onOrderClick, onExplorePricing, onOp
               <ArrowRight className="w-4 h-4 ml-0.5" />
             </button>
 
-            <button
+            <a
               id="hero-pricing-cta"
-              onClick={onExplorePricing}
+              href="/pricing"
+              onClick={(e) => {
+                e.preventDefault();
+                onExplorePricing();
+              }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base px-7 py-4 rounded-xl border border-slate-300 shadow-sm hover:border-slate-400 transition-all cursor-pointer"
             >
               <span>View Bulk Tier Rates</span>
               <ChevronRight className="w-4 h-4 text-slate-400" />
-            </button>
+            </a>
 
             <button
               id="hero-checker-cta"

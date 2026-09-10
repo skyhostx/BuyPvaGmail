@@ -101,37 +101,53 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
 
         {/* Quick Navigation Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-          <button
-            onClick={onNavigateHome}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigateHome();
+            }}
             className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-blue-900/20 flex items-center gap-2 cursor-pointer"
           >
             <Home className="w-4 h-4" />
             <span>Return to Homepage</span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => onNavigateToPage('services-catalog')}
+          <a
+            href="/services"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigateToPage('services-catalog');
+            }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
             <Layers className="w-4 h-4 text-blue-400" />
             <span>Browse All Services</span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => onNavigateToPage('pricing')}
+          <a
+            href="/pricing"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigateToPage('pricing');
+            }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
             <DollarSign className="w-4 h-4 text-emerald-400" />
             <span>Pricing &amp; Discounts</span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => onNavigateToPage('sitemap')}
+          <a
+            href="/sitemap"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigateToPage('sitemap');
+            }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
             <Compass className="w-4 h-4 text-purple-400" />
             <span>HTML Sitemap Index</span>
-          </button>
+          </a>
         </div>
 
         {/* Suggested Verified Products */}
@@ -143,20 +159,28 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
                 Popular Verified Gmail Inventories
               </h3>
             </div>
-            <button
-              onClick={() => onNavigateToPage('services-catalog')}
+            <a
+              href="/services"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateToPage('services-catalog');
+              }}
               className="text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer"
             >
               <span>View 6 Types</span>
               <ArrowRight className="w-3 h-3" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredServices.map((service) => (
-              <div
+              <a
                 key={service.id}
-                onClick={() => onNavigateToServiceDetail(service.id)}
+                href={`/services/${encodeURIComponent(service.id)}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigateToServiceDetail(service.id);
+                }}
                 className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-blue-500/50 hover:bg-slate-900/90 transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div>
@@ -179,7 +203,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
                   <span>7-Day Warranty</span>
                   <span className="text-blue-400 font-bold group-hover:translate-x-0.5 transition-transform">Explore &rarr;</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
