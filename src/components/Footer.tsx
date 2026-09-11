@@ -310,30 +310,6 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/instant-indexing"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('instant-indexing');
-                  }} 
-                  className="hover:text-white transition-colors cursor-pointer text-left block"
-                >
-                  Instant Indexing Protocol
-                </a>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    if (onOpenSeoAnalytics) onOpenSeoAnalytics();
-                    else if (onNavigateToPage) onNavigateToPage('instant-indexing');
-                  }} 
-                  className="hover:text-amber-400 transition-colors cursor-pointer text-left flex items-center gap-1.5 text-slate-300 font-semibold"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>GA4 &amp; Rank Math Hub</span>
-                </button>
-              </li>
-              <li>
-                <a 
                   href="/warranty"
                   onClick={(e) => {
                     e.preventDefault();
