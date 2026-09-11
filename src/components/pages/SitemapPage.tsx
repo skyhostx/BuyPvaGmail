@@ -26,6 +26,7 @@ import {
 import { detailedServicesData, VINTAGE_YEAR_TIERS } from '../../data/servicesData';
 import { blogGuides } from '../../data/blogData';
 import { AppView } from '../../App';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface SitemapPageProps {
   onNavigateToPage: (page: AppView) => void;
@@ -191,8 +192,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              onNavigateHome();
+              handleLinkClick(e, onNavigateHome);
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
@@ -283,13 +283,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                 Gmail Services &amp; Account Solutions
               </h2>
             </div>
-            <button
-              onClick={() => onNavigateToPage('services-catalog')}
+            <a
+              href="/services"
+              onClick={(e) => {
+                handleLinkClick(e, () => onNavigateToPage('services-catalog'));
+              }}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
             >
               <span>View Full Catalog</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -309,7 +312,15 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                   </div>
 
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-1.5">
-                    {service.name}
+                    <a
+                      href={`/services/${encodeURIComponent(service.id)}`}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
+                      }}
+                      className="hover:text-blue-600 transition-colors"
+                    >
+                      {service.name}
+                    </a>
                   </h3>
 
                   <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-4">
@@ -335,13 +346,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                       )}
                     </button>
 
-                    <button
-                      onClick={() => onNavigateToServiceDetail(service.id)}
-                      className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1"
+                    <a
+                      href={`/services/${encodeURIComponent(service.id)}`}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
+                      }}
+                      className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
                     >
                       <span>Explore</span>
                       <ChevronRight className="w-3 h-3" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -383,13 +397,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {tier.years.map((year) => (
-                    <button
+                    <a
                       key={year}
-                      onClick={() => onNavigateToServiceDetail('aged-mix-country-gmail')}
-                      className="px-2 py-0.5 bg-white border border-slate-200 rounded text-[11px] font-bold text-slate-700 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-colors"
+                      href="/services/aged-mix-country-gmail"
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onNavigateToServiceDetail('aged-mix-country-gmail'));
+                      }}
+                      className="px-2 py-0.5 bg-white border border-slate-200 rounded text-[11px] font-bold text-slate-700 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-colors inline-block text-center cursor-pointer"
                     >
                       {year}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -404,12 +421,15 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                 <p className="text-[11px] text-slate-400">All individual years from 2008 to 2025 can be selected directly in the checkout modal.</p>
               </div>
             </div>
-            <button
-              onClick={() => onNavigateToPage('pricing')}
-              className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-lg transition-all whitespace-nowrap shadow-xs"
+            <a
+              href="/pricing"
+              onClick={(e) => {
+                handleLinkClick(e, () => onNavigateToPage('pricing'));
+              }}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-lg transition-all whitespace-nowrap shadow-xs inline-block cursor-pointer"
             >
               Order by Vintage Year
-            </button>
+            </a>
           </div>
         </div>
 
@@ -439,12 +459,15 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => onNavigateToPage(page.view)}
+                        <a
+                          href={page.path}
+                          onClick={(e) => {
+                            handleLinkClick(e, () => onNavigateToPage(page.view));
+                          }}
                           className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-left"
                         >
                           {page.title}
-                        </button>
+                        </a>
                         <span className="text-[10px] font-mono font-bold bg-slate-200 text-slate-700 px-1.5 py-0.2 rounded">
                           P: {page.priority}
                         </span>
@@ -464,7 +487,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                     <button
                       onClick={() => copyToClipboard(page.url)}
                       title="Copy URL"
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"
                     >
                       {copiedUrl === page.url ? (
                         <Check className="w-3.5 h-3.5 text-emerald-600" />
@@ -472,13 +495,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                         <Copy className="w-3.5 h-3.5" />
                       )}
                     </button>
-                    <button
-                      onClick={() => onNavigateToPage(page.view)}
-                      className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+                    <a
+                      href={page.path}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onNavigateToPage(page.view));
+                      }}
+                      className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
                       title="Visit Page"
                     >
                       <ArrowRight className="w-4 h-4" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               );
@@ -498,21 +524,27 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                 Protocols, SOPs &amp; Technical Guides
               </h2>
             </div>
-            <button
-              onClick={() => onNavigateToPage('blog')}
+            <a
+              href="/blog"
+              onClick={(e) => {
+                handleLinkClick(e, () => onNavigateToPage('blog'));
+              }}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 hover:text-purple-700 transition-colors"
             >
               <span>View All Guides</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredGuides.map((guide, idx) => (
-              <div
+              <a
                 key={idx}
-                onClick={() => onNavigateToPage('blog')}
-                className="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-purple-300 transition-all cursor-pointer group flex flex-col justify-between"
+                href={`/blog/${guide.slug}`}
+                onClick={(e) => {
+                  handleLinkClick(e, () => onNavigateToPage('blog'));
+                }}
+                className="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-purple-300 transition-all cursor-pointer group flex flex-col justify-between block"
               >
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-2 py-0.5 rounded-md inline-block mb-2">
@@ -526,7 +558,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                   <span className="font-mono">/blog/{guide.slug}</span>
                   <span className="font-bold text-purple-600 group-hover:translate-x-0.5 transition-transform">Read &rarr;</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -557,7 +589,14 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                         <Icon className="w-4 h-4" />
                       </div>
                       <h3 className="text-sm font-bold text-slate-900 group-hover:text-rose-600 transition-colors">
-                        {legal.title}
+                        <a
+                          href={legal.path}
+                          onClick={(e) => {
+                            handleLinkClick(e, () => onNavigateToPage(legal.view));
+                          }}
+                        >
+                          {legal.title}
+                        </a>
                       </h3>
                     </div>
                     <p className="text-xs text-slate-600 leading-relaxed mb-4">
@@ -567,13 +606,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
 
                   <div className="pt-3 border-t border-slate-200/70 flex items-center justify-between">
                     <span className="text-[11px] font-mono text-slate-400">{legal.path}</span>
-                    <button
-                      onClick={() => onNavigateToPage(legal.view)}
-                      className="text-xs font-bold text-rose-600 hover:text-rose-700 transition-colors flex items-center gap-1"
+                    <a
+                      href={legal.path}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onNavigateToPage(legal.view));
+                      }}
+                      className="text-xs font-bold text-rose-600 hover:text-rose-700 transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <span>Read Policy</span>
                       <ChevronRight className="w-3 h-3" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               );
@@ -599,13 +641,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <button
-                onClick={() => onNavigateToPage?.('instant-indexing')}
+              <a
+                href="/instant-indexing"
+                onClick={(e) => {
+                  handleLinkClick(e, () => onNavigateToPage?.('instant-indexing'));
+                }}
                 className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-xs cursor-pointer"
               >
                 <Zap className="w-4 h-4 text-slate-950" />
                 <span>Instant Indexing Console</span>
-              </button>
+              </a>
               <a
                 href="/robots.txt"
                 target="_blank"

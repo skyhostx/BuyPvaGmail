@@ -16,6 +16,7 @@ import {
   Flame,
   Check
 } from 'lucide-react';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface WarrantyGuidelinesPageProps {
   onNavigateHome?: () => void;
@@ -37,9 +38,10 @@ export const WarrantyGuidelinesPage: React.FC<WarrantyGuidelinesPageProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateHome) onNavigateHome();
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateHome) onNavigateHome();
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-1"
             >

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { SiteIdentityLogo } from './GmailLogo';
 import { CartItem } from '../types';
+import { handleLinkClick } from '../utils/navigation';
 
 interface HeaderProps {
   cart: CartItem[];
@@ -278,8 +279,7 @@ export const Header: React.FC<HeaderProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('home');
+                handleLinkClick(e, () => handleNavClick('home'));
               }}
               className="flex items-center cursor-pointer group"
               title="BuyPvaGmail Home"
@@ -302,9 +302,10 @@ export const Header: React.FC<HeaderProps> = ({
                       <a
                         href="/services"
                         onClick={(e) => {
-                          e.preventDefault();
-                          handleNavClick('services');
-                          setServicesDropdownOpen(false);
+                          handleLinkClick(e, () => {
+                            handleNavClick('services');
+                            setServicesDropdownOpen(false);
+                          });
                         }}
                         className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-150 relative flex items-center gap-1.5 cursor-pointer select-none ${
                           servicesDropdownOpen || activeSection === 'services'
@@ -342,8 +343,7 @@ export const Header: React.FC<HeaderProps> = ({
                                   key={subItem.id}
                                   href={`/services/${encodeURIComponent(subItem.id)}`}
                                   onClick={(e) => {
-                                    e.preventDefault();
-                                    handleSubmenuServiceClick(subItem.id);
+                                    handleLinkClick(e, () => handleSubmenuServiceClick(subItem.id));
                                   }}
                                   className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 active:bg-slate-100 transition-all duration-150 cursor-pointer group"
                                 >
@@ -374,9 +374,10 @@ export const Header: React.FC<HeaderProps> = ({
                             <a
                               href="/services"
                               onClick={(e) => {
-                                e.preventDefault();
-                                setServicesDropdownOpen(false);
-                                handleNavClick('services');
+                                handleLinkClick(e, () => {
+                                  setServicesDropdownOpen(false);
+                                  handleNavClick('services');
+                                });
                               }}
                               className="w-full py-2.5 text-center text-xs font-bold text-red-600 hover:text-red-700 hover:bg-red-50/70 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
                             >
@@ -401,8 +402,7 @@ export const Header: React.FC<HeaderProps> = ({
                     key={item.id}
                     href={targetHref}
                     onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(item.id);
+                      handleLinkClick(e, () => handleNavClick(item.id));
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors relative flex items-center gap-1.5 cursor-pointer ${
                       activeSection === item.id 
@@ -496,8 +496,10 @@ export const Header: React.FC<HeaderProps> = ({
                                 key={`m-${subItem.id}`}
                                 href={`/services/${encodeURIComponent(subItem.id)}`}
                                 onClick={(e) => {
-                                  e.preventDefault();
-                                  handleSubmenuServiceClick(subItem.id);
+                                  handleLinkClick(e, () => {
+                                    handleSubmenuServiceClick(subItem.id);
+                                    setMobileMenuOpen(false);
+                                  });
                                 }}
                                 className="flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors cursor-pointer"
                               >
@@ -519,8 +521,10 @@ export const Header: React.FC<HeaderProps> = ({
                           <a
                             href="/services"
                             onClick={(e) => {
-                              e.preventDefault();
-                              handleNavClick('services');
+                              handleLinkClick(e, () => {
+                                handleNavClick('services');
+                                setMobileMenuOpen(false);
+                              });
                             }}
                             className="block w-full text-center py-2 text-xs font-bold text-red-600 hover:underline"
                           >
@@ -543,8 +547,10 @@ export const Header: React.FC<HeaderProps> = ({
                     key={item.id}
                     href={targetMobileHref}
                     onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(item.id);
+                      handleLinkClick(e, () => {
+                        handleNavClick(item.id);
+                        setMobileMenuOpen(false);
+                      });
                     }}
                     className={`w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
                       activeSection === item.id 

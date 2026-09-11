@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface ServicesCatalogPageProps {
   onSelectServicePage: (serviceId: string) => void;
@@ -88,9 +89,10 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              if (onNavigateHome) onNavigateHome();
-              else window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleLinkClick(e, () => {
+                if (onNavigateHome) onNavigateHome();
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
@@ -228,7 +230,15 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
                   {/* Title & Rating */}
                   <h3 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                    {service.name}
+                    <a
+                      href={`/services/${encodeURIComponent(service.id)}`}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onSelectServicePage(service.id));
+                      }}
+                      className="hover:text-blue-600 transition-colors"
+                    >
+                      {service.name}
+                    </a>
                   </h3>
 
                   <div className="flex items-center gap-2 mt-1.5 mb-3">
@@ -292,8 +302,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                     <a
                       href={`/services/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
-                        e.preventDefault();
-                        onSelectServicePage(service.id);
+                        handleLinkClick(e, () => onSelectServicePage(service.id));
                       }}
                       className="w-full py-2.5 px-3 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:shadow-blue-500/25"
                     >
@@ -367,8 +376,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                       <a
                         href={`/services/${encodeURIComponent(svc.id)}`}
                         onClick={(e) => {
-                          e.preventDefault();
-                          onSelectServicePage(svc.id);
+                          handleLinkClick(e, () => onSelectServicePage(svc.id));
                         }}
                         className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1 cursor-pointer"
                       >

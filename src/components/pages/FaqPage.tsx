@@ -13,6 +13,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { faqData } from '../../data/faqData';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface FaqPageProps {
   onNavigateToContact: () => void;
@@ -52,9 +53,10 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              if (onNavigateHome) onNavigateHome();
-              else window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleLinkClick(e, () => {
+                if (onNavigateHome) onNavigateHome();
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
@@ -193,8 +195,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
             <a
               href="/contact"
               onClick={(e) => {
-                e.preventDefault();
-                onNavigateToContact();
+                handleLinkClick(e, onNavigateToContact);
               }}
               className="w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center justify-center"
             >

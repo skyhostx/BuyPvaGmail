@@ -33,6 +33,7 @@ import {
 } from '../utils/analytics';
 import { detailedServicesData, VINTAGE_YEARS } from '../data/servicesData';
 import { AppView } from '../App';
+import { handleLinkClick } from '../utils/navigation';
 
 interface SeoAnalyticsModalProps {
   isOpen: boolean;
@@ -567,16 +568,19 @@ export const SeoAnalyticsModal: React.FC<SeoAnalyticsModalProps> = ({
                       </>
                     )}
                   </button>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      onNavigateToPage('instant-indexing');
+                  <a
+                    href="/instant-indexing"
+                    onClick={(e) => {
+                      handleLinkClick(e, () => {
+                        onClose();
+                        onNavigateToPage('instant-indexing');
+                      });
                     }}
-                    className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition-colors"
+                    className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition-colors cursor-pointer"
                   >
                     <span>Full Console</span>
                     <ExternalLink className="w-3.5 h-3.5" />
-                  </button>
+                  </a>
                 </div>
               </div>
 

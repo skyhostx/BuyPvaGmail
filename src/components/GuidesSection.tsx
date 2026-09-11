@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { blogGuides, allGuideTopics } from '../data/blogData';
 import { BlogGuide } from '../types';
+import { handleLinkClick } from '../utils/navigation';
 
 export const GuidesSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,10 +90,13 @@ export const GuidesSection: React.FC = () => {
         {/* Guides Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGuides.map((guide) => (
-            <article
+            <a
               key={guide.id}
-              onClick={() => setActiveArticle(guide)}
-              className="bg-slate-50/70 hover:bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-300 transition-all hover:shadow-md cursor-pointer flex flex-col justify-between group"
+              href={`/blog/${guide.slug}`}
+              onClick={(e) => {
+                handleLinkClick(e, () => setActiveArticle(guide));
+              }}
+              className="bg-slate-50/70 hover:bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-300 transition-all hover:shadow-md cursor-pointer flex flex-col justify-between group block text-left"
             >
               <div>
                 {/* Meta */}
@@ -128,7 +132,7 @@ export const GuidesSection: React.FC = () => {
                   Read Guide <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-            </article>
+            </a>
           ))}
         </div>
 

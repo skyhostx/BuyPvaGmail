@@ -14,6 +14,7 @@ import {
   Globe,
   AlertCircle
 } from 'lucide-react';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface ContactPageProps {
   onNavigateHome?: () => void;
@@ -50,9 +51,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              if (onNavigateHome) onNavigateHome();
-              else window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleLinkClick(e, () => {
+                if (onNavigateHome) onNavigateHome();
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >

@@ -14,6 +14,7 @@ import {
   MessageSquare,
   Sparkles
 } from 'lucide-react';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface PrivacyPolicyPageProps {
   onNavigateHome?: () => void;
@@ -33,9 +34,10 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateHome) onNavigateHome();
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateHome) onNavigateHome();
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-1"
             >

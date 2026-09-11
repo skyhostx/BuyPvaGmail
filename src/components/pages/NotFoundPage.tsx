@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { detailedServicesData } from '../../data/servicesData';
 import { AppView } from '../../App';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface NotFoundPageProps {
   onNavigateHome: () => void;
@@ -104,8 +105,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           <a
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              onNavigateHome();
+              handleLinkClick(e, onNavigateHome);
             }}
             className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-blue-900/20 flex items-center gap-2 cursor-pointer"
           >
@@ -116,8 +116,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           <a
             href="/services"
             onClick={(e) => {
-              e.preventDefault();
-              onNavigateToPage('services-catalog');
+              handleLinkClick(e, () => onNavigateToPage('services-catalog'));
             }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
@@ -128,8 +127,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           <a
             href="/pricing"
             onClick={(e) => {
-              e.preventDefault();
-              onNavigateToPage('pricing');
+              handleLinkClick(e, () => onNavigateToPage('pricing'));
             }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
@@ -140,8 +138,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           <a
             href="/sitemap"
             onClick={(e) => {
-              e.preventDefault();
-              onNavigateToPage('sitemap');
+              handleLinkClick(e, () => onNavigateToPage('sitemap'));
             }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
@@ -162,8 +159,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
             <a
               href="/services"
               onClick={(e) => {
-                e.preventDefault();
-                onNavigateToPage('services-catalog');
+                handleLinkClick(e, () => onNavigateToPage('services-catalog'));
               }}
               className="text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer"
             >
@@ -178,8 +174,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
                 key={service.id}
                 href={`/services/${encodeURIComponent(service.id)}`}
                 onClick={(e) => {
-                  e.preventDefault();
-                  onNavigateToServiceDetail(service.id);
+                  handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
                 }}
                 className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-blue-500/50 hover:bg-slate-900/90 transition-all cursor-pointer group flex flex-col justify-between"
               >

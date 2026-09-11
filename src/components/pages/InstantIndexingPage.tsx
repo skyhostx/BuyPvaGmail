@@ -29,6 +29,7 @@ import {
 import { detailedServicesData } from '../../data/servicesData';
 import { blogGuides } from '../../data/blogData';
 import { AppView } from '../../App';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface InstantIndexingPageProps {
   onNavigateToPage: (page: AppView) => void;
@@ -298,19 +299,21 @@ submitInstantIndexing();
       <div className="bg-slate-950 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center gap-2">
-            <button 
-              onClick={onNavigateHome}
+            <a 
+              href="/"
+              onClick={(e) => handleLinkClick(e, onNavigateHome)}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Home
-            </button>
+            </a>
             <span>/</span>
-            <button 
-              onClick={() => onNavigateToPage('sitemap')}
+            <a 
+              href="/sitemap"
+              onClick={(e) => handleLinkClick(e, () => onNavigateToPage('sitemap'))}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Sitemap
-            </button>
+            </a>
             <span>/</span>
             <span className="text-blue-400 font-bold">Rank Math Instant Indexing</span>
           </div>

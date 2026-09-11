@@ -27,6 +27,7 @@ import {
 import { detailedServicesData, DetailedServiceInfo, ServicePackage, getServiceById } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
 import { ServiceSeoSection } from '../ServiceSeoSection';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface ServiceDetailPageProps {
   serviceId: string;
@@ -102,9 +103,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateHome) onNavigateHome();
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateHome) onNavigateHome();
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
@@ -114,8 +116,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <a 
               href="/services"
               onClick={(e) => {
-                e.preventDefault();
-                onBackToCatalog();
+                handleLinkClick(e, onBackToCatalog);
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
@@ -147,8 +148,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <a
               href="/services"
               onClick={(e) => {
-                e.preventDefault();
-                onBackToCatalog();
+                handleLinkClick(e, onBackToCatalog);
               }}
               className="text-xs font-bold text-slate-600 hover:text-blue-600 inline-flex items-center gap-1.5 cursor-pointer px-2 py-1.5"
             >
@@ -586,8 +586,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             <a
               href="/services"
               onClick={(e) => {
-                e.preventDefault();
-                onBackToCatalog();
+                handleLinkClick(e, onBackToCatalog);
               }}
               className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
             >
@@ -604,8 +603,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   key={other.id}
                   href={`/services/${encodeURIComponent(other.id)}`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    onSelectOtherService(other.id);
+                    handleLinkClick(e, () => onSelectOtherService(other.id));
                   }}
                   className="bg-white p-4 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group block"
                 >

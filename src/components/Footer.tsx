@@ -17,13 +17,14 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { SiteIdentityLogo } from './GmailLogo';
+import { handleLinkClick } from '../utils/navigation';
 
 interface FooterProps {
   onOpenOrderModal: (productId?: string) => void;
   onOpenCheckerModal: () => void;
   onOpenTrackingModal: () => void;
   onOpenSeoAnalytics?: () => void;
-  onNavigateToPage?: (page: string, serviceId?: string) => void;
+  onNavigateToPage?: (page: string, serviceId?: string, skipHistoryPush?: boolean, articleSlug?: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ 
@@ -116,9 +117,10 @@ export const Footer: React.FC<FooterProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('home');
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('home');
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="inline-block"
             >
@@ -164,8 +166,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/usa-gmail-accounts"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('usa-gmail-accounts');
+                    handleLinkClick(e, () => handleServiceClick('usa-gmail-accounts'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -177,8 +178,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/pva-gmail-accounts"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('pva-gmail-accounts');
+                    handleLinkClick(e, () => handleServiceClick('pva-gmail-accounts'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -190,8 +190,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/aged-mix-country-gmail"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('aged-mix-country-gmail');
+                    handleLinkClick(e, () => handleServiceClick('aged-mix-country-gmail'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -203,8 +202,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/aged-gmail-for-reviews"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('aged-gmail-for-reviews');
+                    handleLinkClick(e, () => handleServiceClick('aged-gmail-for-reviews'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -216,8 +214,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/aged-gmail-for-google-ads"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('aged-gmail-for-google-ads');
+                    handleLinkClick(e, () => handleServiceClick('aged-gmail-for-google-ads'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -229,8 +226,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/services/new-gmail-accounts"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleServiceClick('new-gmail-accounts');
+                    handleLinkClick(e, () => handleServiceClick('new-gmail-accounts'));
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
                 >
@@ -252,8 +248,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/blog/warming-up-aged-gmail-accounts-cold-outreach"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('blog');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('blog', undefined, false, 'warming-up-aged-gmail-accounts-cold-outreach');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -264,8 +261,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/blog/safe-login-multiple-gmails-antidetect-browsers"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('blog');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('blog', undefined, false, 'safe-login-multiple-gmails-antidetect-browsers');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -276,8 +274,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/blog/google-ads-aged-account-warmup-guide"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('blog');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('blog', undefined, false, 'google-ads-aged-account-warmup-guide');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -288,8 +287,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/blog/google-maps-reviews-stick-strategy"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('blog');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('blog', undefined, false, 'google-maps-reviews-stick-strategy');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -300,8 +300,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/blog/gmail-credential-format-explained-2fa-recovery"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('blog');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('blog', undefined, false, 'gmail-credential-format-explained-2fa-recovery');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -312,8 +313,9 @@ export const Footer: React.FC<FooterProps> = ({
                 <a 
                   href="/warranty"
                   onClick={(e) => {
-                    e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('warranty');
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('warranty');
+                    });
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
@@ -374,8 +376,9 @@ export const Footer: React.FC<FooterProps> = ({
             <a 
               href="/privacy"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('privacy');
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('privacy');
+                });
               }} 
               className="hover:text-white transition-colors cursor-pointer font-medium"
             >
@@ -385,8 +388,9 @@ export const Footer: React.FC<FooterProps> = ({
             <a 
               href="/terms"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('terms');
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('terms');
+                });
               }} 
               className="hover:text-white transition-colors cursor-pointer font-medium"
             >
@@ -396,8 +400,9 @@ export const Footer: React.FC<FooterProps> = ({
             <a 
               href="/warranty"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('warranty');
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('warranty');
+                });
               }} 
               className="hover:text-white transition-colors cursor-pointer font-medium"
             >
@@ -407,8 +412,9 @@ export const Footer: React.FC<FooterProps> = ({
             <a 
               href="/sitemap"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateToPage) onNavigateToPage('sitemap');
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('sitemap');
+                });
               }} 
               className="hover:text-white transition-colors cursor-pointer font-medium"
             >

@@ -20,6 +20,7 @@ import {
   HeartHandshake,
   Send
 } from 'lucide-react';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface AboutUsPageProps {
   onNavigateToServices: () => void;
@@ -40,9 +41,10 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              if (onNavigateHome) onNavigateHome();
-              else window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleLinkClick(e, () => {
+                if (onNavigateHome) onNavigateHome();
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
@@ -211,8 +213,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
             <a
               href="/services"
               onClick={(e) => {
-                e.preventDefault();
-                onNavigateToServices();
+                handleLinkClick(e, onNavigateToServices);
               }}
               className="w-full sm:w-auto px-6 py-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-blue-500/25"
             >
@@ -223,8 +224,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
             <a
               href="/contact"
               onClick={(e) => {
-                e.preventDefault();
-                onNavigateToContact();
+                handleLinkClick(e, onNavigateToContact);
               }}
               className="w-full sm:w-auto px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >

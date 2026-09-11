@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { ServiceProduct } from '../types';
 import { servicesData, quantityTiers } from '../data/servicesData';
+import { handleLinkClick } from '../utils/navigation';
 
 interface ServicesSectionProps {
   onAddToCart: (product: ServiceProduct, quantity: number) => void;
@@ -185,8 +186,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                       <a
                         href={`/services/${encodeURIComponent(product.id)}`}
                         onClick={(e) => {
-                          e.preventDefault();
-                          onExploreServicePage(product.id);
+                          handleLinkClick(e, () => onExploreServicePage(product.id));
                         }}
                         className="hover:text-blue-600 transition-colors"
                       >
@@ -321,8 +321,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                     <a
                       href={`/services/${encodeURIComponent(product.id)}`}
                       onClick={(e) => {
-                        e.preventDefault();
-                        onExploreServicePage(product.id);
+                        handleLinkClick(e, () => onExploreServicePage(product.id));
                       }}
                       className="w-full text-center text-xs font-bold text-blue-600 hover:text-blue-800 hover:bg-blue-50 py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer mb-0.5"
                     >

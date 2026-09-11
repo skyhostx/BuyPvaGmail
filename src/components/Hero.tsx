@@ -14,6 +14,7 @@ import {
   Mail,
   ChevronRight
 } from 'lucide-react';
+import { handleLinkClick } from '../utils/navigation';
 
 interface HeroProps {
   onOrderClick: () => void;
@@ -95,8 +96,7 @@ export const Hero: React.FC<HeroProps> = ({ onOrderClick, onExplorePricing, onOp
               id="hero-pricing-cta"
               href="/pricing"
               onClick={(e) => {
-                e.preventDefault();
-                onExplorePricing();
+                handleLinkClick(e, onExplorePricing);
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base px-7 py-4 rounded-xl border border-slate-300 shadow-sm hover:border-slate-400 transition-all cursor-pointer"
             >

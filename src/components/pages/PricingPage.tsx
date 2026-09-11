@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo, quantityTiers } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface PricingPageProps {
   onQuickBuy: (product: ServiceProduct, quantity: number) => void;
@@ -61,9 +62,10 @@ export const PricingPage: React.FC<PricingPageProps> = ({
           <a 
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              if (onNavigateHome) onNavigateHome();
-              else window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleLinkClick(e, () => {
+                if (onNavigateHome) onNavigateHome();
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
@@ -267,7 +269,15 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                   </div>
 
                   <h3 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                    {service.name}
+                    <a
+                      href={`/services/${encodeURIComponent(service.id)}`}
+                      onClick={(e) => {
+                        handleLinkClick(e, () => onSelectServicePage(service.id));
+                      }}
+                      className="hover:text-blue-600 transition-colors"
+                    >
+                      {service.name}
+                    </a>
                   </h3>
 
                   <p className="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
@@ -302,8 +312,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                   <a
                     href={`/services/${encodeURIComponent(service.id)}`}
                     onClick={(e) => {
-                      e.preventDefault();
-                      onSelectServicePage(service.id);
+                      handleLinkClick(e, () => onSelectServicePage(service.id));
                     }}
                     className="w-full py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
                   >

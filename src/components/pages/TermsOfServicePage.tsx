@@ -14,6 +14,7 @@ import {
   Zap,
   Globe2
 } from 'lucide-react';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface TermsOfServicePageProps {
   onNavigateHome?: () => void;
@@ -35,9 +36,10 @@ export const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateHome) onNavigateHome();
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateHome) onNavigateHome();
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-1"
             >
@@ -199,13 +201,16 @@ export const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({
             </ul>
             {onNavigateToWarranty && (
               <div className="pt-2">
-                <button
-                  onClick={onNavigateToWarranty}
-                  className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1.5 cursor-pointer underline"
+                <a
+                  href="/warranty"
+                  onClick={(e) => {
+                    handleLinkClick(e, onNavigateToWarranty);
+                  }}
+                  className="text-xs font-bold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1.5 cursor-pointer underline"
                 >
-                  View full Warranty &amp; Replacement Guidelines
+                  <span>View full Warranty &amp; Replacement Guidelines</span>
                   <ChevronRight className="w-3.5 h-3.5" />
-                </button>
+                </a>
               </div>
             )}
           </article>

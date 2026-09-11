@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { blogGuides, allGuideTopics } from '../../data/blogData';
 import { BlogGuide } from '../../types';
+import { handleLinkClick } from '../../utils/navigation';
 
 interface BlogPageProps {
   onNavigateHome?: () => void;
@@ -79,9 +80,10 @@ export const BlogPage: React.FC<BlogPageProps> = ({
             <a 
               href="/"
               onClick={(e) => {
-                e.preventDefault();
-                if (onNavigateHome) onNavigateHome();
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleLinkClick(e, () => {
+                  if (onNavigateHome) onNavigateHome();
+                  else window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
@@ -92,13 +94,16 @@ export const BlogPage: React.FC<BlogPageProps> = ({
           </div>
 
           {activeArticle && (
-            <button
-              onClick={() => setActiveArticle(null)}
+            <a
+              href="/blog"
+              onClick={(e) => {
+                handleLinkClick(e, () => setActiveArticle(null));
+              }}
               className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to All Articles</span>
-            </button>
+            </a>
           )}
         </div>
       </div>
@@ -210,12 +215,15 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                 ))}
               </div>
 
-              <button
-                onClick={() => handleSelectArticle(null)}
-                className="px-5 py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+              <a
+                href="/blog"
+                onClick={(e) => {
+                  handleLinkClick(e, () => handleSelectArticle(null));
+                }}
+                className="px-5 py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer inline-block"
               >
                 Back to All Guides
-              </button>
+              </a>
             </div>
           </div>
         ) : (
@@ -227,8 +235,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                   key={guide.id}
                   href={`/blog/${guide.slug}`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleSelectArticle(guide);
+                    handleLinkClick(e, () => handleSelectArticle(guide));
                   }}
                   className="bg-white rounded-3xl p-6 border border-slate-200 hover:border-blue-400 shadow-xs hover:shadow-xl transition-all duration-200 flex flex-col justify-between cursor-pointer group text-left block"
                 >
