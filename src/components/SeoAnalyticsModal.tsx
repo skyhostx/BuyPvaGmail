@@ -606,13 +606,13 @@ export const SeoAnalyticsModal: React.FC<SeoAnalyticsModalProps> = ({
                     <span className="text-[11px] text-slate-400">6 Products</span>
                   </a>
                   <a
-                    href="https://buypvagmail.com/vintage-sitemap.xml"
+                    href="https://buypvagmail.com/post-sitemap.xml"
                     target="_blank"
                     rel="noreferrer"
                     className="p-2.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-emerald-500 flex items-center justify-between text-slate-300 hover:text-white transition-colors"
                   >
-                    <span className="font-mono text-emerald-400">/vintage-sitemap.xml</span>
-                    <span className="text-[11px] text-slate-400">18 Vintage Years</span>
+                    <span className="font-mono text-emerald-400">/post-sitemap.xml</span>
+                    <span className="text-[11px] text-slate-400">6 Blog Guides</span>
                   </a>
                   <a
                     href="https://buypvagmail.com/page-sitemap.xml"

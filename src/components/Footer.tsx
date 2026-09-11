@@ -440,6 +440,15 @@ export const Footer: React.FC<FooterProps> = ({
             </a>
             <span className="text-slate-700">•</span>
             <a 
+              href="/robots.txt"
+              className="hover:text-white transition-colors cursor-pointer font-medium"
+              target="_blank"
+              rel="noopener"
+            >
+              Robots.txt
+            </a>
+            <span className="text-slate-700">•</span>
+            <a 
               href="/sitemap.xml"
               className="hover:text-white transition-colors cursor-pointer font-medium"
               target="_blank"

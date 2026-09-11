@@ -43,25 +43,13 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/services/aged-gmail-for-google-ads',
   'https://buypvagmail.com/services/new-gmail-accounts',
 
-  // Vintage 2008-2025 Aged Gmail Pages
-  'https://buypvagmail.com/services/aged-2008-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2009-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2010-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2011-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2012-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2013-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2014-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2015-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2016-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2017-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2018-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2019-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2020-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2021-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2022-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2023-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2024-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2025-gmail-accounts'
+  // 6 Technical Warmup Guides & Agency SOPs
+  'https://buypvagmail.com/blog/warming-up-aged-gmail-accounts-cold-outreach',
+  'https://buypvagmail.com/blog/safe-login-multiple-gmails-antidetect-browsers',
+  'https://buypvagmail.com/blog/google-ads-aged-account-warmup-guide',
+  'https://buypvagmail.com/blog/google-maps-reviews-stick-strategy',
+  'https://buypvagmail.com/blog/proxy-comparison-residential-vs-mobile-gmail',
+  'https://buypvagmail.com/blog/gmail-credential-format-explained-2fa-recovery'
 ];
 
 async function submitInstantIndexing() {

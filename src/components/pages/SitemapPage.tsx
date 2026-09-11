@@ -23,7 +23,8 @@ import {
   Layers,
   Sparkles
 } from 'lucide-react';
-import { detailedServicesData, VINTAGE_YEAR_TIERS, VINTAGE_YEARS } from '../../data/servicesData';
+import { detailedServicesData, VINTAGE_YEAR_TIERS } from '../../data/servicesData';
+import { blogGuides } from '../../data/blogData';
 import { AppView } from '../../App';
 
 interface SitemapPageProps {
@@ -149,14 +150,12 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
     }
   ];
 
-  const technicalGuides = [
-    { title: 'Aged Gmail 14-Day Warmup Protocol', category: 'Warmup SOP', slug: 'warmup-sop' },
-    { title: 'Anti-Detect Browser Configuration (AdsPower / Dolphin)', category: 'Security', slug: 'anti-detect' },
-    { title: 'Google Ads Threshold & Suspension Mitigation', category: 'PPC Media', slug: 'google-ads' },
-    { title: 'Google Maps Review Stickiness & Local Guide Algorithms', category: 'SEO Reviews', slug: 'maps-reviews' },
-    { title: '2FA TOTP Secret Key Google Authenticator Setup', category: 'Authentication', slug: '2fa-setup' },
-    { title: 'Residential vs Datacenter Proxy Comparison for Gmail', category: 'Network SOP', slug: 'proxy-guide' }
-  ];
+  const technicalGuides = blogGuides.map((g) => ({
+    title: g.title,
+    category: g.category,
+    slug: g.slug,
+    readTime: g.readTime
+  }));
 
   // Filter logic
   const normalizedSearch = searchTerm.toLowerCase().trim();
@@ -524,7 +523,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                   </h3>
                 </div>
                 <div className="pt-3 mt-3 border-t border-slate-200/70 flex items-center justify-between text-[11px] text-slate-500">
-                  <span className="font-mono">/blog#{guide.slug}</span>
+                  <span className="font-mono">/blog/{guide.slug}</span>
                   <span className="font-bold text-purple-600 group-hover:translate-x-0.5 transition-transform">Read &rarr;</span>
                 </div>
               </div>
@@ -624,12 +623,12 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                 product-sitemap.xml
               </a>
               <a
-                href="/vintage-sitemap.xml"
+                href="/post-sitemap.xml"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition-all"
               >
-                vintage-sitemap.xml
+                post-sitemap.xml
               </a>
               <a
                 href="/sitemap_index.xml"

@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-
 Disallow: /api/
 Disallow: /checkout
 Disallow: /cart
@@ -9,46 +8,4 @@ Disallow: /dashboard
 Disallow: /login
 Disallow: /admin
 
-Sitemap: https://buypvagmail.com/sitemap_index.xml
 Sitemap: https://buypvagmail.com/sitemap.xml
-
-# Search Engine Specific Crawlers
-User-agent: Googlebot
-Allow: /
-Disallow: /api/
-Disallow: /checkout
-Disallow: /cart
-Disallow: /orders
-Disallow: /dashboard
-Disallow: /login
-Disallow: /admin
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-Disallow: /api/
-Disallow: /checkout
-Disallow: /cart
-Disallow: /orders
-Disallow: /dashboard
-Disallow: /login
-Disallow: /admin
-
-# AI Search & Indexing Crawlers
-User-agent: GPTBot
-Allow: /
-Disallow: /api/
-Disallow: /checkout
-Disallow: /cart
-Disallow: /orders
-Disallow: /dashboard
-Disallow: /login
-Disallow: /admin
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /

@@ -26,7 +26,8 @@ import {
   Radio,
   FileCheck
 } from 'lucide-react';
-import { detailedServicesData, VINTAGE_YEARS } from '../../data/servicesData';
+import { detailedServicesData } from '../../data/servicesData';
+import { blogGuides } from '../../data/blogData';
 import { AppView } from '../../App';
 
 interface InstantIndexingPageProps {
@@ -56,23 +57,23 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
   const [isSubmittingGoogle, setIsSubmittingGoogle] = useState(false);
   const [selectedUrls, setSelectedUrls] = useState<string[]>([]);
   const [actionType, setActionType] = useState<'URL_UPDATED' | 'URL_DELETED'>('URL_UPDATED');
-  const [filterCategory, setFilterCategory] = useState<'all' | 'products' | 'vintage' | 'pages'>('all');
+  const [filterCategory, setFilterCategory] = useState<'all' | 'products' | 'guides' | 'pages'>('all');
   const [searchFilter, setSearchFilter] = useState('');
 
-  // Master URL catalog for BuyPvaGmail
+  // Master URL catalog for BuyPvaGmail (23 Canonical Public URLs)
   const allIndexedUrls = [
     // Static Pages
     { url: 'https://buypvagmail.com/', category: 'pages', name: 'Homepage (Live Pricing & Stock)', priority: '1.0', changefreq: 'daily', sitemap: 'page-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services', category: 'pages', name: 'Services Catalog', priority: '0.95', changefreq: 'daily', sitemap: 'page-sitemap.xml' },
+    { url: 'https://buypvagmail.com/services', category: 'products', name: 'Services Catalog', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/pricing', category: 'pages', name: 'Wholesale Tiered Pricing', priority: '0.85', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
-    { url: 'https://buypvagmail.com/blog', category: 'pages', name: 'Agency Warmup Guides & SOPs', priority: '0.85', changefreq: 'weekly', sitemap: 'post-sitemap.xml' },
+    { url: 'https://buypvagmail.com/blog', category: 'guides', name: 'Agency Warmup Guides & SOPs', priority: '0.90', changefreq: 'daily', sitemap: 'post-sitemap.xml' },
     { url: 'https://buypvagmail.com/faq', category: 'pages', name: 'Frequently Asked Questions', priority: '0.80', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/about', category: 'pages', name: 'About BuyPvaGmail Supplier', priority: '0.75', changefreq: 'monthly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/contact', category: 'pages', name: '24/7 Live Support Desk', priority: '0.80', changefreq: 'monthly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/warranty', category: 'pages', name: '7-Day Replacement Policy', priority: '0.70', changefreq: 'monthly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/terms', category: 'pages', name: 'Terms of Service', priority: '0.50', changefreq: 'monthly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/privacy', category: 'pages', name: 'Privacy Policy & Zero-Log', priority: '0.50', changefreq: 'monthly', sitemap: 'page-sitemap.xml' },
-    { url: 'https://buypvagmail.com/sitemap', category: 'pages', name: 'HTML Sitemap Directory', priority: '0.65', changefreq: 'daily', sitemap: 'page-sitemap.xml' },
+    { url: 'https://buypvagmail.com/sitemap', category: 'pages', name: 'HTML Sitemap Directory', priority: '0.65', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
 
     // Main 6 PVA Products
     { url: 'https://buypvagmail.com/services/usa-gmail-accounts', category: 'products', name: 'USA Gmail Accounts (Real Carrier SIM)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
@@ -82,14 +83,14 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
     { url: 'https://buypvagmail.com/services/aged-gmail-for-google-ads', category: 'products', name: 'Aged Gmail for Google Ads & Media Buying', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/services/new-gmail-accounts', category: 'products', name: 'Fresh PVA Gmail Accounts (Created 2025)', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
 
-    // 18 Vintage Years (2008–2025)
-    ...VINTAGE_YEARS.map((yr) => ({
-      url: `https://buypvagmail.com/services/aged-${yr}-gmail-accounts`,
-      category: 'vintage',
-      name: `${yr} Aged Vintage Gmail Accounts (${2025 - yr + 1} Yrs Aged)`,
+    // 6 Technical Blog Guides
+    ...blogGuides.map((guide) => ({
+      url: `https://buypvagmail.com/blog/${guide.slug}`,
+      category: 'guides',
+      name: guide.title,
       priority: '0.85',
       changefreq: 'weekly',
-      sitemap: 'vintage-sitemap.xml'
+      sitemap: 'post-sitemap.xml'
     }))
   ];
 
@@ -99,7 +100,7 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
       id: 'log-initial-1',
       timestamp: new Date(Date.now() - 1000 * 60 * 12).toLocaleTimeString(),
       engine: 'IndexNow (Bing/Yandex)',
-      urlCount: 36,
+      urlCount: 23,
       status: 'SUCCESS',
       httpCode: 200,
       message: 'Batch received and queued for priority index crawl by IndexNow API.'
@@ -824,12 +825,12 @@ submitInstantIndexing();
                     PVA Products (6)
                   </button>
                   <button
-                    onClick={() => setFilterCategory('vintage')}
+                    onClick={() => setFilterCategory('guides')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                      filterCategory === 'vintage' ? 'bg-blue-600 text-white' : 'bg-slate-900 text-slate-400 hover:text-white'
+                      filterCategory === 'guides' ? 'bg-blue-600 text-white' : 'bg-slate-900 text-slate-400 hover:text-white'
                     }`}
                   >
-                    Vintage 2008–2025 (18)
+                    Guides &amp; SOPs (6)
                   </button>
                   <button
                     onClick={() => setFilterCategory('pages')}
@@ -1014,7 +1015,7 @@ submitInstantIndexing();
               <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
                 <h4 className="font-bold text-white text-sm mb-1">3. Rank Math Modular XML Sitemaps</h4>
                 <p className="text-slate-400">
-                  Submit <code className="text-purple-400">https://buypvagmail.com/sitemap_index.xml</code> inside Google Search Console &amp; Bing Webmaster Tools. It contains all sub-sitemaps for products, vintage years, pages, and posts.
+                  Submit <code className="text-purple-400">https://buypvagmail.com/sitemap_index.xml</code> inside Google Search Console &amp; Bing Webmaster Tools. It contains all sub-sitemaps for products, pages, and blog guides.
                 </p>
               </div>
             </div>

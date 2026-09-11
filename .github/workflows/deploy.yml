@@ -42,14 +42,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Configure 404 & .nojekyll in build output
+      - name: Configure .nojekyll in build output
         run: |
           touch dist/.nojekyll
           if [ -f "CNAME" ]; then
             cp CNAME dist/CNAME
-          fi
-          if [ -f "dist/index.html" ]; then
-            cp dist/index.html dist/404.html
           fi
 
       - name: Upload GitHub Pages artifact

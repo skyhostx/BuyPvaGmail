@@ -310,7 +310,7 @@ export default function App() {
         pageTitle = '404 - Page Not Found | BuyPvaGmail';
         pageDesc = 'The requested page could not be located. Search our inventory of verified USA PVA and 2008–2025 aged Gmail accounts.';
         pageUrl = 'https://buypvagmail.com/404';
-        isRobotsIndex = true;
+        isRobotsIndex = false;
       }
 
       // Update Document Title
@@ -335,9 +335,13 @@ export default function App() {
       setMeta('name', 'twitter:title', pageTitle);
       setMeta('name', 'twitter:description', pageDesc);
       setMeta('name', 'twitter:url', pageUrl);
-      setMeta('name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
-      setMeta('name', 'googlebot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
-      setMeta('name', 'bingbot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+
+      const robotsDirective = isRobotsIndex
+        ? 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+        : 'noindex, follow';
+      setMeta('name', 'robots', robotsDirective);
+      setMeta('name', 'googlebot', robotsDirective);
+      setMeta('name', 'bingbot', robotsDirective);
 
       // Update Canonical Link
       let canonicalLink = document.querySelector('link[rel="canonical"]');
