@@ -20,13 +20,45 @@ import { BlogGuide } from '../../types';
 
 interface BlogPageProps {
   onNavigateHome?: () => void;
+  initialArticleSlug?: string | null;
+  onSelectArticleSlug?: (slug: string | null) => void;
 }
 
-export const BlogPage: React.FC<BlogPageProps> = ({ onNavigateHome }) => {
+export const BlogPage: React.FC<BlogPageProps> = ({ 
+  onNavigateHome,
+  initialArticleSlug,
+  onSelectArticleSlug
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [activeArticle, setActiveArticle] = useState<BlogGuide | null>(null);
+  const [activeArticle, setActiveArticle] = useState<BlogGuide | null>(() => {
+    if (initialArticleSlug) {
+      return blogGuides.find((g) => g.slug === initialArticleSlug) || null;
+    }
+    return null;
+  });
   const [showAllTopics, setShowAllTopics] = useState(false);
+
+  // Sync if initialArticleSlug changes externally
+  React.useEffect(() => {
+    if (initialArticleSlug) {
+      const match = blogGuides.find((g) => g.slug === initialArticleSlug);
+      if (match) setActiveArticle(match);
+    } else if (initialArticleSlug === null) {
+      setActiveArticle(null);
+    }
+  }, [initialArticleSlug]);
+
+  const handleSelectArticle = (guide: BlogGuide | null) => {
+    setActiveArticle(guide);
+    const newSlug = guide ? guide.slug : null;
+    if (onSelectArticleSlug) {
+      onSelectArticleSlug(newSlug);
+    }
+    const targetPath = guide ? `/blog/${guide.slug}` : '/blog';
+    window.history.pushState(null, '', targetPath);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const categories = ['All', 'Cold Outreach', 'Antidetect & Proxies', 'Google Ads', 'Google Reviews', 'Account Security'];
 
@@ -179,7 +211,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigateHome }) => {
               </div>
 
               <button
-                onClick={() => setActiveArticle(null)}
+                onClick={() => handleSelectArticle(null)}
                 className="px-5 py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
               >
                 Back to All Guides
@@ -191,10 +223,14 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigateHome }) => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredGuides.map((guide) => (
-                <div
+                <a
                   key={guide.id}
-                  onClick={() => setActiveArticle(guide)}
-                  className="bg-white rounded-3xl p-6 border border-slate-200 hover:border-blue-400 shadow-xs hover:shadow-xl transition-all duration-200 flex flex-col justify-between cursor-pointer group"
+                  href={`/blog/${guide.slug}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectArticle(guide);
+                  }}
+                  className="bg-white rounded-3xl p-6 border border-slate-200 hover:border-blue-400 shadow-xs hover:shadow-xl transition-all duration-200 flex flex-col justify-between cursor-pointer group text-left block"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
@@ -230,7 +266,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigateHome }) => {
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
 

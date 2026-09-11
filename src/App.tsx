@@ -37,6 +37,7 @@ import { initGoogleAnalytics, trackPageView, trackAddToCart, trackPurchase } fro
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
+import { blogGuides } from './data/blogData';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -55,7 +56,7 @@ export type AppView =
   | 'instant-indexing'
   | 'not-found';
 
-function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: string } {
+function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: string; articleSlug?: string } {
   try {
     const rawPath = typeof window !== 'undefined' ? (window.location.pathname.replace(/\/+$/, '') || '/') : '/';
     const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
@@ -104,6 +105,20 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
       }
     }
 
+    // Direct blog guide article check: /blog/:slug or /guides/:slug
+    if (effectivePath.startsWith('/blog/') || effectivePath.startsWith('/guides/')) {
+      const parts = effectivePath.split('/');
+      if (parts[2]) {
+        const slug = decodeURIComponent(parts[2]);
+        const matchedGuide = blogGuides.find((g) => g.slug === slug);
+        if (matchedGuide) {
+          return { view: 'blog', serviceId: 'usa-gmail-accounts', articleSlug: matchedGuide.slug };
+        } else {
+          return { view: 'not-found', serviceId: 'usa-gmail-accounts', invalidPath: effectivePath };
+        }
+      }
+    }
+
     if (viewParam === 'service-detail') {
       const matched = targetServiceId ? detailedServicesData.find((s) => s.id === targetServiceId) : detailedServicesData[0];
       return { view: 'service-detail', serviceId: (matched || detailedServicesData[0]).id };
@@ -112,7 +127,17 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
     if (effectivePath === '/' || effectivePath === '' || viewParam === 'home' || rawHash === 'home') {
       return { view: 'home', serviceId: 'usa-gmail-accounts' };
     }
-    if (effectivePath === '/services' || effectivePath === '/services-catalog' || viewParam === 'services' || rawHash === 'services') {
+    if (
+      effectivePath === '/services' || 
+      effectivePath === '/services-catalog' || 
+      effectivePath === '/products' || 
+      effectivePath === '/shop' || 
+      effectivePath === '/category' || 
+      viewParam === 'services' || 
+      rawHash === 'services' ||
+      rawHash === 'products' ||
+      rawHash === 'shop'
+    ) {
       return { view: 'services-catalog', serviceId: 'usa-gmail-accounts' };
     }
     if (effectivePath === '/pricing' || viewParam === 'pricing' || rawHash === 'pricing') {
@@ -190,6 +215,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState(initialRoute.view === 'home' ? 'home' : (initialRoute.view === 'service-detail' || initialRoute.view === 'services-catalog' ? 'services' : initialRoute.view));
   const [currentView, setCurrentView] = useState<AppView>(initialRoute.view);
   const [selectedServiceId, setSelectedServiceId] = useState<string>(initialRoute.serviceId);
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState<string | null>(initialRoute.articleSlug || null);
   const [invalidPath, setInvalidPath] = useState<string | undefined>(initialRoute.invalidPath);
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
@@ -232,9 +258,22 @@ export default function App() {
         pageDesc = 'Wholesale pricing tiers for marketing agencies and lead generators. Up to 30% volume discount on bulk orders of verified USA & aged Gmail accounts.';
         pageUrl = 'https://buypvagmail.com/pricing';
       } else if (currentView === 'blog') {
-        pageTitle = 'Gmail Warmup Guides & Agency SOP Protocols | BuyPvaGmail';
-        pageDesc = 'Expert guides on anti-detect browser setup, residential proxy configuration, 2FA TOTP login, and warming protocols for maximum inbox delivery.';
-        pageUrl = 'https://buypvagmail.com/blog';
+        if (selectedArticleSlug) {
+          const matchedGuide = blogGuides.find((g) => g.slug === selectedArticleSlug);
+          if (matchedGuide) {
+            pageTitle = `${matchedGuide.title} | BuyPvaGmail`;
+            pageDesc = matchedGuide.excerpt;
+            pageUrl = `https://buypvagmail.com/blog/${matchedGuide.slug}`;
+          } else {
+            pageTitle = 'Gmail Warmup Guides & Agency SOP Protocols | BuyPvaGmail';
+            pageDesc = 'Expert guides on anti-detect browser setup, residential proxy configuration, 2FA TOTP login, and warming protocols for maximum inbox delivery.';
+            pageUrl = 'https://buypvagmail.com/blog';
+          }
+        } else {
+          pageTitle = 'Gmail Warmup Guides & Agency SOP Protocols | BuyPvaGmail';
+          pageDesc = 'Expert guides on anti-detect browser setup, residential proxy configuration, 2FA TOTP login, and warming protocols for maximum inbox delivery.';
+          pageUrl = 'https://buypvagmail.com/blog';
+        }
       } else if (currentView === 'faq') {
         pageTitle = 'Frequently Asked Questions (FAQ) — Buying PVA Accounts | BuyPvaGmail';
         pageDesc = 'Clear answers on PVA verification methods, replacement guarantees, delivery formats, cryptocurrency checkout, and multi-login security.';
@@ -348,6 +387,24 @@ export default function App() {
           "name": "Services Catalog",
           "item": "https://buypvagmail.com/services"
         });
+      } else if (currentView === 'blog') {
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides & Blog",
+          "item": "https://buypvagmail.com/blog"
+        });
+        if (selectedArticleSlug) {
+          const guide = blogGuides.find((g) => g.slug === selectedArticleSlug);
+          if (guide) {
+            breadcrumbItems.push({
+              "@type": "ListItem",
+              "position": 3,
+              "name": guide.title,
+              "item": `https://buypvagmail.com/blog/${guide.slug}`
+            });
+          }
+        }
       } else if (currentView !== 'home') {
         const cleanName = currentView.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         breadcrumbItems.push({
@@ -364,12 +421,75 @@ export default function App() {
         "itemListElement": breadcrumbItems
       });
 
+      // Inject / Update Dynamic Product Structured Data (Schema.org / Merchant Listings)
+      // Only present on individual purchasable product pages (/services/:id)
+      let productScript = document.getElementById('dynamic-product-schema');
+      if (currentView === 'service-detail') {
+        if (!productScript) {
+          productScript = document.createElement('script');
+          productScript.id = 'dynamic-product-schema';
+          productScript.setAttribute('type', 'application/ld+json');
+          document.head.appendChild(productScript);
+        }
+        const product = getServiceById(selectedServiceId) || detailedServicesData[0];
+        const productUrl = `https://buypvagmail.com/services/${product.id}`;
+        const productImage = `https://buypvagmail.com/images/products/${product.id}.png`;
+
+        const skuMap: Record<string, string> = {
+          'usa-gmail-accounts': 'PVA-USA-2025',
+          'pva-gmail-accounts': 'PVA-GLOBAL-2025',
+          'aged-mix-country-gmail': 'AGED-2008-2025',
+          'aged-gmail-for-reviews': 'AGED-GMB-REVIEW',
+          'aged-gmail-for-google-ads': 'AGED-GADS-PRO',
+          'new-gmail-accounts': 'FRESH-PVA-2025'
+        };
+        const sku = skuMap[product.id] || `PVA-${product.id.toUpperCase()}`;
+
+        const productSchema = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "@id": `${productUrl}#product`,
+          "name": product.name,
+          "description": product.shortDescription || product.description,
+          "image": [productImage],
+          "sku": sku,
+          "brand": {
+            "@type": "Brand",
+            "name": "BuyPvaGmail"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": productUrl,
+            "priceCurrency": "USD",
+            "price": product.unitPrice.toFixed(2),
+            "priceValidUntil": "2027-12-31",
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "BuyPvaGmail",
+              "url": "https://buypvagmail.com/"
+            }
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": product.rating.toFixed(2),
+            "reviewCount": product.reviewsCount,
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        };
+        productScript.textContent = JSON.stringify(productSchema);
+      } else if (productScript) {
+        productScript.remove();
+      }
+
       // Trigger Google Analytics 4 SPA page view telemetry
       trackPageView(pageUrl.replace('https://buypvagmail.com', '') || '/', pageTitle);
     } catch {
       // ignore
     }
-  }, [currentView, selectedServiceId]);
+  }, [currentView, selectedServiceId, selectedArticleSlug]);
 
   // Initialize GA on application mount
   useEffect(() => {
@@ -459,13 +579,18 @@ export default function App() {
         }
 
 
-        // Services Catalog
+        // Services Catalog (including /products, /shop, /category)
         if (
           effectivePath === '/services' ||
           effectivePath === '/services-catalog' ||
+          effectivePath === '/products' ||
+          effectivePath === '/shop' ||
+          effectivePath === '/category' ||
           viewParam === 'services' ||
           viewParam === 'services-catalog' ||
-          rawHash === 'services'
+          rawHash === 'services' ||
+          rawHash === 'products' ||
+          rawHash === 'shop'
         ) {
           setCurrentView('services-catalog');
           setActiveSection('services');
@@ -495,7 +620,29 @@ export default function App() {
           return;
         }
 
-        // Blog / Guides
+        // Direct blog guide article check: /blog/:slug or /guides/:slug
+        if (effectivePath.startsWith('/blog/') || effectivePath.startsWith('/guides/')) {
+          const parts = effectivePath.split('/');
+          if (parts[2]) {
+            const slug = decodeURIComponent(parts[2]);
+            const matchedGuide = blogGuides.find((g) => g.slug === slug);
+            if (matchedGuide) {
+              setSelectedArticleSlug(matchedGuide.slug);
+              setCurrentView('blog');
+              setActiveSection('blog');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            } else {
+              setCurrentView('not-found');
+              setActiveSection('not-found');
+              setInvalidPath(effectivePath);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            }
+          }
+        }
+
+        // Blog / Guides Overview
         if (
           effectivePath === '/blog' ||
           effectivePath === '/guides' ||
@@ -503,6 +650,7 @@ export default function App() {
           rawHash === 'blog' ||
           rawHash === 'guides'
         ) {
+          setSelectedArticleSlug(null);
           setCurrentView('blog');
           setActiveSection('blog');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -641,7 +789,7 @@ export default function App() {
     }, 3000);
   };
 
-  const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean) => {
+  const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean, articleSlug?: string) => {
     let targetUrl = '/';
 
     if (view === 'service-detail') {
@@ -666,7 +814,13 @@ export default function App() {
     } else if (view === 'blog') {
       setCurrentView('blog');
       setActiveSection('blog');
-      targetUrl = '/blog';
+      if (articleSlug) {
+        setSelectedArticleSlug(articleSlug);
+        targetUrl = `/blog/${articleSlug}`;
+      } else {
+        setSelectedArticleSlug(null);
+        targetUrl = '/blog';
+      }
     } else if (view === 'faq') {
       setCurrentView('faq');
       setActiveSection('faq');
@@ -888,6 +1042,8 @@ export default function App() {
 
         {currentView === 'blog' && (
           <BlogPage 
+            initialArticleSlug={selectedArticleSlug}
+            onSelectArticleSlug={(slug) => setSelectedArticleSlug(slug)}
             onNavigateHome={() => navigateToPage('home')}
           />
         )}

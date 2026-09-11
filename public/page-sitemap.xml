@@ -3,62 +3,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://buypvagmail.com/</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/pricing</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://buypvagmail.com/blog</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://buypvagmail.com/faq</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/about</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/contact</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://buypvagmail.com/warranty</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://buypvagmail.com/sitemap</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/privacy</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/terms</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/warranty</loc>
-    <lastmod>2026-08-28T11:59:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.65</priority>
   </url>
 </urlset>

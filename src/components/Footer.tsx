@@ -250,7 +250,7 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2.5">
               <li>
                 <a 
-                  href="/blog"
+                  href="/blog/warming-up-aged-gmail-accounts-cold-outreach"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -262,7 +262,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/blog"
+                  href="/blog/safe-login-multiple-gmails-antidetect-browsers"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -274,7 +274,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/blog"
+                  href="/blog/google-ads-aged-account-warmup-guide"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -286,7 +286,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/blog"
+                  href="/blog/google-maps-reviews-stick-strategy"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -298,10 +298,10 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/faq"
+                  href="/blog/gmail-credential-format-explained-2fa-recovery"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (onNavigateToPage) onNavigateToPage('faq');
+                    if (onNavigateToPage) onNavigateToPage('blog');
                   }} 
                   className="hover:text-white transition-colors cursor-pointer text-left block"
                 >

@@ -1,23 +1,27 @@
 User-agent: *
 Allow: /
+
 Disallow: /api/
 Disallow: /checkout
+Disallow: /cart
+Disallow: /orders
 Disallow: /dashboard
-Disallow: /admin
 Disallow: /login
-Disallow: /order/
-Disallow: /*?order=*
-Disallow: /*?payment=*
+Disallow: /admin
 
-# Major Search Engine Crawlers
+Sitemap: https://buypvagmail.com/sitemap_index.xml
+Sitemap: https://buypvagmail.com/sitemap.xml
+
+# Search Engine Specific Crawlers
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
 Disallow: /checkout
+Disallow: /cart
+Disallow: /orders
 Disallow: /dashboard
-Disallow: /admin
 Disallow: /login
-Disallow: /order/
+Disallow: /admin
 
 User-agent: Googlebot-Image
 Allow: /
@@ -26,48 +30,25 @@ User-agent: Bingbot
 Allow: /
 Disallow: /api/
 Disallow: /checkout
+Disallow: /cart
+Disallow: /orders
 Disallow: /dashboard
-Disallow: /admin
 Disallow: /login
-Disallow: /order/
+Disallow: /admin
 
-User-agent: YandexBot
+# AI Search & Indexing Crawlers
+User-agent: GPTBot
 Allow: /
 Disallow: /api/
 Disallow: /checkout
+Disallow: /cart
+Disallow: /orders
 Disallow: /dashboard
-Disallow: /admin
 Disallow: /login
-Disallow: /order/
-
-User-agent: Applebot
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-# AI Search & Retrieval Crawlers
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
+Disallow: /admin
 
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
-
-# XML Sitemaps (Production Domain)
-Sitemap: https://buypvagmail.com/sitemap.xml
-Sitemap: https://buypvagmail.com/sitemap_index.xml
-Sitemap: https://buypvagmail.com/product-sitemap.xml
-Sitemap: https://buypvagmail.com/page-sitemap.xml
-Sitemap: https://buypvagmail.com/vintage-sitemap.xml
-Sitemap: https://buypvagmail.com/post-sitemap.xml
-
-

@@ -1,226 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Public Canonical Pages -->
   <url>
     <loc>https://buypvagmail.com/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
-
-  <!-- Core Services & Catalog -->
   <url>
     <loc>https://buypvagmail.com/services</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services/usa-gmail-accounts</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services/pva-gmail-accounts</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services/aged-mix-country-gmail</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services/aged-gmail-for-reviews</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/services/aged-gmail-for-google-ads</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/services/new-gmail-accounts</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://buypvagmail.com/services/new-gmail-accounts</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Commercial & Informational Hubs -->
-  <url>
     <loc>https://buypvagmail.com/pricing</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/blog</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/warming-up-aged-gmail-accounts-cold-outreach</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/safe-login-multiple-gmails-antidetect-browsers</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/google-ads-aged-account-warmup-guide</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/google-maps-reviews-stick-strategy</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/proxy-comparison-residential-vs-mobile-gmail</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://buypvagmail.com/blog/gmail-credential-format-explained-2fa-recovery</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/faq</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/about</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/contact</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://buypvagmail.com/warranty</loc>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://buypvagmail.com/sitemap</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
-
-  <!-- Vintage Aged Gmail Inventory (2008 to 2025) -->
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2008</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2009</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2010</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2011</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2012</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2013</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2014</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2015</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2016</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2017</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2018</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2019</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2020</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2021</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2022</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2023</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2024</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail?vintage=2025</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Legal & Policies -->
   <url>
     <loc>https://buypvagmail.com/privacy</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://buypvagmail.com/terms</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://buypvagmail.com/warranty</loc>
-    <lastmod>2026-08-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.65</priority>
   </url>
 </urlset>

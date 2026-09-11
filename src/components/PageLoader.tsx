@@ -81,9 +81,9 @@ export const PageLoader: React.FC<PageLoaderProps> = ({ isLoading, onFinish }) =
               transition={{ delay: 0.1, duration: 0.3 }}
               className="flex items-center gap-2 mb-2"
             >
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+              <div className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
                 BuyPva<span className="text-red-500">Gmail</span>
-              </h1>
+              </div>
               <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 text-[10px] font-black uppercase px-2 py-0.5 rounded-md flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 PVA
