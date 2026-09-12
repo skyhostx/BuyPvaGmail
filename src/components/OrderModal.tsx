@@ -27,7 +27,11 @@ import {
   Send,
   Landmark,
   Building2,
-  FileText
+  FileText,
+  ShoppingCart,
+  Minus,
+  Plus,
+  Tag
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
@@ -40,6 +44,11 @@ interface OrderModalProps {
   initialProduct?: ServiceProduct;
   initialQuantity?: number;
   cartItems?: CartItem[];
+  isCartCheckout?: boolean;
+  cartDiscountPercent?: number;
+  cartCouponCode?: string;
+  onUpdateCartQuantity?: (productId: string, qty: number) => void;
+  onRemoveCartItem?: (productId: string) => void;
   onOrderSuccess?: (order: OrderDetails) => void;
 }
 
@@ -355,8 +364,26 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   initialProduct,
   initialQuantity = 20,
   cartItems = [],
+  isCartCheckout = false,
+  cartDiscountPercent = 0,
+  cartCouponCode = '',
+  onUpdateCartQuantity,
+  onRemoveCartItem,
   onOrderSuccess
 }) => {
+  // Checkout mode: 'cart' vs 'single'
+  const [checkoutMode, setCheckoutMode] = useState<'cart' | 'single'>('single');
+
+  useEffect(() => {
+    if (isOpen) {
+      if (isCartCheckout && cartItems && cartItems.length > 0) {
+        setCheckoutMode('cart');
+      } else {
+        setCheckoutMode('single');
+      }
+    }
+  }, [isOpen, isCartCheckout, cartItems.length]);
+
   // Step navigation (1: Package, 2: Contact, 3: Payment, 4: Verify)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
 
@@ -527,6 +554,21 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   const currentPricing = calculatePrice(selectedServiceId, selectedQuantity);
 
+  // Cart pricing calculations
+  const cartSubtotal = cartItems.reduce((sum, item) => {
+    const itemPrice = typeof item.totalPrice === 'number' && !isNaN(item.totalPrice)
+      ? item.totalPrice
+      : (Number(item.product?.unitPrice) || 3.0) * (Number(item.quantity) || 2);
+    return sum + itemPrice;
+  }, 0);
+  const cartDiscountAmount = cartSubtotal * (cartDiscountPercent || 0);
+  const cartTotal = Math.max(0, +(cartSubtotal - cartDiscountAmount).toFixed(2));
+  const totalCartAccounts = cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+
+  const isCartMode = Boolean(checkoutMode === 'cart' && cartItems && cartItems.length > 0);
+  const effectiveTotal = isCartMode ? cartTotal : currentPricing.totalPrice;
+  const effectiveAccounts = isCartMode ? totalCartAccounts : selectedQuantity;
+
   // Copy address handler
   const handleCopyAddress = () => {
     navigator.clipboard?.writeText(activeCrypto.address);
@@ -555,7 +597,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       `Account Title / Beneficiary: ${activeBank.accountTitle}`,
       `Account Type: ${activeBank.accountType}`,
       `Currency: ${activeBank.currency}`,
-      `Amount to Pay: $${currentPricing.totalPrice} USD`
+      `Amount to Pay: $${effectiveTotal} USD`
     ];
 
     if (activeBank.accountNumber) lines.push(`Account Number: ${activeBank.accountNumber}`);
@@ -650,15 +692,19 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         paymentLabel = 'Skrill E-Wallet (USD)';
       }
 
+      const orderItems = isCartMode
+        ? cartItems
+        : [
+            {
+              product: activeProduct,
+              quantity: selectedQuantity,
+              totalPrice: currentPricing.totalPrice
+            }
+          ];
+
       const order: OrderDetails = {
         orderId,
-        items: [
-          {
-            product: activeProduct,
-            quantity: selectedQuantity,
-            totalPrice: currentPricing.totalPrice
-          }
-        ],
+        items: orderItems,
         email: deliveryEmail,
         telegramOrSkype: telegramUsername || whatsappNumber || fullName,
         paymentMethod: paymentMode,
@@ -667,7 +713,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         skrillEmail: paymentMode === 'skrill' ? SKRILL_CONFIG.email : undefined,
         cryptoCurrency: paymentLabel,
         txHash: txHash,
-        totalAmount: currentPricing.totalPrice,
+        totalAmount: effectiveTotal,
         date: new Date().toLocaleDateString(),
         status: 'delivered'
       };
@@ -698,12 +744,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       paymentDesc = `Skrill E-Wallet (Sent to ${SKRILL_CONFIG.email})`;
     }
 
+    const packageSummary = isCartMode
+      ? cartItems.map((item) => `${item.quantity}x ${item.product.name} ($${(item.totalPrice || 0).toFixed(2)} USD)`).join('\nService Package    : ')
+      : `${selectedQuantity}x ${activeProduct.name}`;
+
     const lines = [
       '=================================================================================',
       ' BUYPVAGMAIL.COM - OFFICIAL CREDENTIALS DISPATCH MANIFEST',
       '=================================================================================',
       `Order Reference ID : ${completedOrder?.orderId}`,
-      `Service Package    : ${selectedQuantity}x ${activeProduct.name}`,
+      `Service Package    : ${packageSummary}`,
       `Delivery Email     : ${completedOrder?.email}`,
       `Payment Method     : ${paymentDesc}`,
       `Transaction Ref/ID : ${completedOrder?.txHash}`,
@@ -781,7 +831,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   </span>
                 )}
                 <span className={currentStep === 1 ? 'text-red-600 font-extrabold' : currentStep > 1 ? 'text-emerald-700' : 'text-slate-500'}>
-                  1. Package
+                  {isCartMode ? '1. Cart' : '1. Package'}
                 </span>
               </div>
 
@@ -855,11 +905,198 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         <div className="p-5 sm:p-7 overflow-y-auto flex-1">
           
           {/* ========================================================================= */}
-          {/* STEP 1: PACKAGE & QUANTITY SELECTION */}
+          {/* STEP 1: PACKAGE & QUANTITY SELECTION / CART ITEMS REVIEW */}
           {/* ========================================================================= */}
-          {!completedOrder && currentStep === 1 && (
+          {!completedOrder && currentStep === 1 && isCartMode && (
+            <div className="space-y-5">
+              
+              {/* Cart Mode Header Banner */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-200/80 flex-wrap gap-2">
+                <div>
+                  <h4 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4 text-blue-600" />
+                    Review Your Cart Accounts ({cartItems.length} {cartItems.length === 1 ? 'Service' : 'Services'})
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {totalCartAccounts} total verified accounts configured for immediate automated delivery
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setCheckoutMode('single')}
+                  className="text-xs font-bold text-slate-600 hover:text-blue-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+                >
+                  Switch to Single Package
+                </button>
+              </div>
+
+              {/* Cart Items List */}
+              <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                {cartItems.map((item) => {
+                  const itemPrice = typeof item.totalPrice === 'number' && !isNaN(item.totalPrice)
+                    ? item.totalPrice
+                    : (Number(item.product?.unitPrice) || 3.0) * (Number(item.quantity) || 2);
+                  const unitRate = item.quantity > 0 ? (itemPrice / item.quantity) : (item.product?.unitPrice || 3.0);
+
+                  return (
+                    <div
+                      key={item.product.id}
+                      className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between gap-3"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-black text-slate-900 truncate">
+                            {item.product.name}
+                          </span>
+                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                            {item.product.age || 'PVA Verified'}
+                          </span>
+                        </div>
+                        <span className="text-xs text-slate-500 font-medium">
+                          ${unitRate.toFixed(2)} / account
+                        </span>
+                      </div>
+
+                      {/* Quantity & Controls */}
+                      <div className="flex items-center gap-3 shrink-0">
+                        {onUpdateCartQuantity && onRemoveCartItem && (
+                          <div className="flex items-center gap-1.5 bg-white px-2 py-1 rounded-xl border border-slate-200 shadow-2xs">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (item.quantity <= 1) {
+                                  onRemoveCartItem(item.product.id);
+                                } else {
+                                  onUpdateCartQuantity(item.product.id, item.quantity - 1);
+                                }
+                              }}
+                              className="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
+                              title={item.quantity <= 1 ? "Remove item" : "Decrease quantity"}
+                            >
+                              {item.quantity <= 1 ? <Trash2 className="w-3.5 h-3.5 text-rose-500" /> : <Minus className="w-3.5 h-3.5" />}
+                            </button>
+                            <span className="font-mono text-xs font-black text-slate-900 min-w-[28px] text-center">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => onUpdateCartQuantity(item.product.id, item.quantity + 1)}
+                              className="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
+                              title="Increase quantity"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
+
+                        <div className="text-right min-w-[70px]">
+                          <span className="text-sm font-black text-slate-900 block">
+                            ${itemPrice.toFixed(2)}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-semibold">USD</span>
+                        </div>
+
+                        {onRemoveCartItem && (
+                          <button
+                            type="button"
+                            onClick={() => onRemoveCartItem(item.product.id)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                            title="Remove from order"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Coupon / Discount Info */}
+              {cartDiscountPercent > 0 && (
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-800 font-bold">
+                  <div className="flex items-center gap-2">
+                    <Tag className="w-4 h-4 text-emerald-600" />
+                    <span>Coupon Discount Applied: {cartCouponCode || 'PROMO'} ({(cartDiscountPercent * 100).toFixed(0)}% OFF)</span>
+                  </div>
+                  <span className="text-emerald-700 font-black">-${cartDiscountAmount.toFixed(2)} USD</span>
+                </div>
+              )}
+
+              {/* Selected Package Summary Box */}
+              <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs text-slate-500 font-semibold block">Cart Order Summary:</span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-base sm:text-lg font-black text-slate-900">
+                      ${cartSubtotal.toFixed(2)} USD
+                    </span>
+                    {cartDiscountPercent > 0 && (
+                      <span className="text-xs text-emerald-600 font-bold">
+                        (Coupon Saved ${cartDiscountAmount.toFixed(2)})
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-slate-500 font-medium">
+                    {totalCartAccounts} Total Accounts across {cartItems.length} Products
+                  </span>
+                </div>
+
+                <div className="text-right flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto">
+                  <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">
+                    Total Due:
+                  </span>
+                  <span className="text-2xl sm:text-3xl font-black text-red-600">
+                    ${effectiveTotal} USD
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2 px-3 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  + Add More Accounts
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(2)}
+                  className="bg-red-600 hover:bg-red-700 text-white font-extrabold py-3.5 px-8 rounded-xl text-sm sm:text-base shadow-lg shadow-red-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                >
+                  <span>Continue to Contact Details</span>
+                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                </button>
+              </div>
+
+            </div>
+          )}
+
+          {/* SINGLE PACKAGE SELECTION STEP 1 */}
+          {!completedOrder && currentStep === 1 && !isCartMode && (
             <div className="space-y-6">
               
+              {/* Optional switch to cart banner */}
+              {cartItems.length > 0 && (
+                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 text-blue-900 font-semibold">
+                    <ShoppingCart className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>You have {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart (${cartTotal} USD).</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setCheckoutMode('cart')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold transition-colors cursor-pointer shrink-0 shadow-xs"
+                  >
+                    Checkout Full Cart →
+                  </button>
+                </div>
+              )}
+
               {/* Category Selection Section */}
               <div>
                 <span className="text-[11px] font-extrabold tracking-wider text-slate-500 uppercase block mb-2.5">
@@ -971,7 +1208,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     Total Due:
                   </span>
                   <span className="text-2xl sm:text-3xl font-black text-red-600">
-                    ${currentPricing.totalPrice} USD
+                    ${effectiveTotal} USD
                   </span>
                 </div>
               </div>
@@ -1307,7 +1544,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                       <div className="text-left sm:text-right">
                         <span className="text-xs text-slate-500 font-bold block">Total to Transfer:</span>
                         <span className="text-xl sm:text-2xl font-black text-blue-700">
-                          ${currentPricing.totalPrice} USD
+                          ${effectiveTotal} USD
                         </span>
                       </div>
                     </div>
@@ -1831,7 +2068,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     <div className="text-left sm:text-right">
                       <span className="text-xs text-slate-500 font-bold block">Amount to Send:</span>
                       <span className="text-xl sm:text-2xl font-black text-[#811241]">
-                        ${currentPricing.totalPrice} USD
+                        ${effectiveTotal} USD
                       </span>
                     </div>
                   </div>
@@ -1892,7 +2129,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                           <span className="text-xs font-black text-slate-900">Send Money</span>
                         </div>
                         <p className="text-[11px] text-slate-600 leading-relaxed">
-                          Choose <strong>Transfer → Skrill to Skrill</strong> and send <strong className="text-slate-900">${currentPricing.totalPrice} USD</strong> to <strong className="font-mono text-slate-900">onlinespay247@gmail.com</strong>.
+                          Choose <strong>Transfer → Skrill to Skrill</strong> and send <strong className="text-slate-900">${effectiveTotal} USD</strong> to <strong className="font-mono text-slate-900">onlinespay247@gmail.com</strong>.
                         </p>
                       </div>
 
@@ -1987,7 +2224,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                       <div className="text-left sm:text-right">
                         <span className="text-xs text-slate-500 font-bold block">Amount to Send:</span>
                         <span className="text-xl sm:text-2xl font-black text-red-600">
-                          ${currentPricing.totalPrice} USD equivalent
+                          ${effectiveTotal} USD equivalent
                         </span>
                       </div>
                     </div>
@@ -2234,7 +2471,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
                 <div className="flex justify-between text-slate-600">
                   <span className="font-medium">Order Summary:</span>
-                  <span className="font-bold text-slate-900">{selectedQuantity}x {activeProduct.name}</span>
+                  <span className="font-bold text-slate-900">
+                    {isCartMode
+                      ? `${effectiveAccounts} Accounts across ${cartItems.length} Products`
+                      : `${selectedQuantity}x ${activeProduct.name}`}
+                  </span>
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span className="font-medium">Payment Channel:</span>
@@ -2248,7 +2489,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
                 <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-200 items-baseline">
                   <span className="font-extrabold text-sm text-slate-900 uppercase">Total Amount:</span>
-                  <span className="text-xl font-black text-blue-700">${currentPricing.totalPrice} USD</span>
+                  <span className="text-xl font-black text-blue-700">${effectiveTotal} USD</span>
                 </div>
               </div>
 
@@ -2331,7 +2572,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span>Package:</span>
-                  <span className="font-bold text-slate-900">{selectedQuantity}x {activeProduct.name}</span>
+                  <span className="font-bold text-slate-900">
+                    {completedOrder.items.length > 1
+                      ? `${completedOrder.items.reduce((s, i) => s + (Number(i.quantity) || 0), 0)} Accounts (${completedOrder.items.length} Services)`
+                      : `${completedOrder.items[0]?.quantity || selectedQuantity}x ${completedOrder.items[0]?.product?.name || activeProduct.name}`}
+                  </span>
                 </div>
                 <div className="flex justify-between text-slate-600">
                   <span>Total Amount Paid:</span>

@@ -33,7 +33,7 @@ import { SitemapPage } from './components/pages/SitemapPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
 import { SeoAnalyticsModal } from './components/SeoAnalyticsModal';
-import { initGoogleAnalytics, trackPageView, trackAddToCart, trackPurchase } from './utils/analytics';
+import { initGoogleAnalytics, trackPageView, trackAddToCart, trackRemoveFromCart, trackPurchase } from './utils/analytics';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
@@ -221,6 +221,9 @@ export default function App() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderModalProduct, setOrderModalProduct] = useState<ServiceProduct>(servicesData[0]);
   const [orderModalQuantity, setOrderModalQuantity] = useState<number>(2);
+  const [isCartCheckout, setIsCartCheckout] = useState(false);
+  const [cartDiscountPercent, setCartDiscountPercent] = useState(0);
+  const [cartCouponCode, setCartCouponCode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckerModalOpen, setIsCheckerModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
@@ -925,6 +928,7 @@ export default function App() {
   };
 
   const handleQuickBuy = (product: ServiceProduct, quantity: number) => {
+    setIsCartCheckout(false);
     setOrderModalProduct(product);
     setOrderModalQuantity(quantity);
     setIsOrderModalOpen(true);
@@ -940,6 +944,10 @@ export default function App() {
   };
 
   const handleUpdateCartQuantity = (productId: string, qty: number) => {
+    if (qty <= 0) {
+      handleRemoveCartItem(productId);
+      return;
+    }
     setCart((prev) => {
       return prev.map((item) => {
         if (item.product.id === productId) {
@@ -962,14 +970,21 @@ export default function App() {
   };
 
   const handleRemoveCartItem = (productId: string) => {
+    const itemToRemove = cart.find((i) => i.product.id === productId);
     setCart((prev) => prev.filter((item) => item.product.id !== productId));
+    if (itemToRemove) {
+      showToast(`Removed ${itemToRemove.product.name} from cart`);
+      trackRemoveFromCart(itemToRemove.product.id, itemToRemove.product.name);
+    }
   };
 
   const handleClearCart = () => {
     setCart([]);
+    showToast('Shopping cart cleared');
   };
 
   const handleOpenOrderModal = (productId?: string) => {
+    setIsCartCheckout(false);
     if (productId) {
       const found = servicesData.find((p) => p.id === productId);
       if (found) {
@@ -1180,8 +1195,11 @@ export default function App() {
         onUpdateQuantity={handleUpdateCartQuantity}
         onRemoveItem={handleRemoveCartItem}
         onClearCart={handleClearCart}
-        onProceedToCheckout={() => {
+        onProceedToCheckout={(discountPercent, couponCode) => {
           setIsCartOpen(false);
+          setIsCartCheckout(true);
+          setCartDiscountPercent(discountPercent || 0);
+          setCartCouponCode(couponCode || '');
           setIsOrderModalOpen(true);
         }}
       />
@@ -1189,12 +1207,21 @@ export default function App() {
       {/* Order & Checkout Modal */}
       <OrderModal
         isOpen={isOrderModalOpen}
-        onClose={() => setIsOrderModalOpen(false)}
+        onClose={() => {
+          setIsOrderModalOpen(false);
+          setIsCartCheckout(false);
+        }}
         initialProduct={orderModalProduct}
         initialQuantity={orderModalQuantity}
         cartItems={cart.length > 0 ? cart : []}
+        isCartCheckout={isCartCheckout}
+        cartDiscountPercent={cartDiscountPercent}
+        cartCouponCode={cartCouponCode}
+        onUpdateCartQuantity={handleUpdateCartQuantity}
+        onRemoveCartItem={handleRemoveCartItem}
         onOrderSuccess={(order) => {
           setCart([]);
+          setIsCartCheckout(false);
           try {
             localStorage.setItem('buypvagmail_last_order', JSON.stringify(order));
             // GA4 Enhanced E-commerce track conversion
