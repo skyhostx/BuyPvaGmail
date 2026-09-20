@@ -34,7 +34,7 @@ interface ServiceDetailPageProps {
   onBackToCatalog: () => void;
   onSelectOtherService: (id: string) => void;
   onQuickBuy: (product: ServiceProduct, quantity: number) => void;
-  onAddToCart: (product: ServiceProduct, quantity: number) => void;
+  onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
   onNavigateHome?: () => void;
 }
 
@@ -361,15 +361,15 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                     }`}
                   >
                     <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
-                    <span>Order {pkg.quantity} Accounts Now</span>
+                    <span>{service.category === 'smtp' ? `Order ${pkg.name} Now` : `Order ${pkg.quantity} Accounts Now`}</span>
                   </button>
 
                   <button
-                    onClick={() => onAddToCart(service, pkg.quantity)}
+                    onClick={() => onAddToCart(service, pkg.quantity, pkg.id, pkg.name)}
                     className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <ShoppingCart className="w-3.5 h-3.5 text-slate-600" />
-                    <span>Add to Cart</span>
+                    <span>Add {pkg.name} to Cart</span>
                   </button>
                 </div>
               </div>

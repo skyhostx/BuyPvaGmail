@@ -12,7 +12,7 @@ export interface ServiceProduct {
   popular?: boolean;
   bestValue?: boolean;
   age: string;
-  category: 'usa' | 'pva' | 'aged' | 'reviews' | 'google-ads' | 'new';
+  category: 'usa' | 'pva' | 'aged' | 'reviews' | 'google-ads' | 'new' | 'smtp';
   country: string;
   countryCode: string;
   inStock: number;
@@ -35,6 +35,8 @@ export interface CartItem {
   selectedCountry?: string;
   selectedAge?: string;
   totalPrice: number;
+  packageName?: string;
+  packageId?: string;
 }
 
 export interface BlogGuide {

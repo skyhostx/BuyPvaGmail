@@ -17,7 +17,10 @@ import {
   Smartphone,
   Globe,
   Star,
-  TrendingUp
+  TrendingUp,
+  Send,
+  Mail,
+  Server
 } from 'lucide-react';
 import { SiteIdentityLogo } from './GmailLogo';
 import { CartItem } from '../types';
@@ -50,8 +53,12 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [smtpDropdownOpen, setSmtpDropdownOpen] = useState(false);
+  const [mobileSmtpOpen, setMobileSmtpOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const smtpDropdownRef = useRef<HTMLDivElement>(null);
+  const smtpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleDropdownMouseEnter = () => {
     if (hoverTimeoutRef.current) {
@@ -70,7 +77,24 @@ export const Header: React.FC<HeaderProps> = ({
     }, 180);
   };
 
-  const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const handleSmtpMouseEnter = () => {
+    if (smtpTimeoutRef.current) {
+      clearTimeout(smtpTimeoutRef.current);
+      smtpTimeoutRef.current = null;
+    }
+    setSmtpDropdownOpen(true);
+  };
+
+  const handleSmtpMouseLeave = () => {
+    if (smtpTimeoutRef.current) {
+      clearTimeout(smtpTimeoutRef.current);
+    }
+    smtpTimeoutRef.current = setTimeout(() => {
+      setSmtpDropdownOpen(false);
+    }, 180);
+  };
+
+  const totalCartItems = cart.length;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,12 +109,18 @@ export const Header: React.FC<HeaderProps> = ({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setServicesDropdownOpen(false);
       }
+      if (smtpDropdownRef.current && !smtpDropdownRef.current.contains(event.target as Node)) {
+        setSmtpDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
+      }
+      if (smtpTimeoutRef.current) {
+        clearTimeout(smtpTimeoutRef.current);
       }
     };
   }, []);
@@ -152,9 +182,40 @@ export const Header: React.FC<HeaderProps> = ({
     }
   ];
 
+  const smtpSubmenuItems = [
+    {
+      id: 'smtp-mailgun-accounts',
+      title: 'Buy SMTP Mailgun Accounts',
+      price: 'From $150',
+      subtitle: '⚡ 50k, 100k, 200k/mo • Pre-warmed & Verified API',
+      icon: Send,
+      iconBg: 'bg-rose-50 text-rose-600',
+      priceBg: 'bg-rose-50 text-rose-600 border border-rose-100'
+    },
+    {
+      id: 'smtp-brevo-accounts',
+      title: 'Buy SMTP Brevo Accounts',
+      price: 'From $150',
+      subtitle: '🛡️ 50k, 100k, 200k/mo • Clean Tier 1 Relay IP',
+      icon: Mail,
+      iconBg: 'bg-blue-50 text-blue-600',
+      priceBg: 'bg-blue-50 text-blue-600 border border-blue-100'
+    },
+    {
+      id: 'smtp-relay-services-account',
+      title: 'Buy SMTP Relay Services Account',
+      price: 'From $190',
+      subtitle: '🚀 50k, 100k, 200k/mo • Dedicated IP & rDNS',
+      icon: Server,
+      iconBg: 'bg-indigo-50 text-indigo-600',
+      priceBg: 'bg-indigo-50 text-indigo-600 border border-indigo-100'
+    }
+  ];
+
   const navItems: { label: string; id: string; badge?: string }[] = [
     { label: 'Home', id: 'home' },
     { label: 'Services', id: 'services' },
+    { label: 'Smtp', id: 'smtp', badge: 'Hot' },
     { label: 'Pricing', id: 'pricing' },
     { label: 'About Us', id: 'about' },
     { label: 'Blog', id: 'blog' },
@@ -166,10 +227,13 @@ export const Header: React.FC<HeaderProps> = ({
     setActiveSection(id);
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
+    setSmtpDropdownOpen(false);
 
     if (onNavigateToPage) {
       if (id === 'services') {
         onNavigateToPage('services-catalog');
+      } else if (id === 'smtp') {
+        onNavigateToPage('services-catalog', 'smtp-mailgun-accounts');
       } else if (id === 'pricing') {
         onNavigateToPage('pricing');
       } else if (id === 'about') {
@@ -391,11 +455,119 @@ export const Header: React.FC<HeaderProps> = ({
                   );
                 }
 
+                if (item.id === 'smtp') {
+                  return (
+                    <div 
+                      key="smtp" 
+                      className="relative"
+                      ref={smtpDropdownRef}
+                      onMouseEnter={handleSmtpMouseEnter}
+                      onMouseLeave={handleSmtpMouseLeave}
+                    >
+                      <a
+                        href="/smtp"
+                        onClick={(e) => {
+                          handleLinkClick(e, () => {
+                            handleNavClick('smtp');
+                            setSmtpDropdownOpen(false);
+                          });
+                        }}
+                        className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-150 relative flex items-center gap-1.5 cursor-pointer select-none ${
+                          smtpDropdownOpen || activeSection === 'smtp'
+                            ? 'text-rose-600 bg-rose-50/90 shadow-xs' 
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>Smtp</span>
+                        {item.badge && (
+                          <span className="bg-gradient-to-r from-rose-500 to-red-500 text-white text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase tracking-wider shadow-xs">
+                            {item.badge}
+                          </span>
+                        )}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ease-out ${smtpDropdownOpen ? 'rotate-180 text-rose-600' : 'text-slate-400'}`} />
+                      </a>
+
+                      {/* SMTP Dropdown Menu */}
+                      <div 
+                        className={`absolute top-full left-0 pt-2 w-[390px] z-50 transition-all duration-200 ease-out origin-top-left transform ${
+                          smtpDropdownOpen 
+                            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto visible' 
+                            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none invisible'
+                        }`}
+                      >
+                        <div className="bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 backdrop-blur-md">
+                          {/* Header label */}
+                          <div className="px-3 py-1.5 text-[10px] font-extrabold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+                            <span>SMTP SENDING ACCOUNTS & RELAYS</span>
+                            <span className="text-[10px] text-rose-600 font-bold bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200">
+                              Instant Delivery
+                            </span>
+                          </div>
+
+                          {/* Submenu Items */}
+                          <div className="space-y-1 mt-1">
+                            {smtpSubmenuItems.map((subItem) => {
+                              const IconComponent = subItem.icon;
+                              return (
+                                <a
+                                  key={subItem.id}
+                                  href={`/services/${encodeURIComponent(subItem.id)}`}
+                                  onClick={(e) => {
+                                    handleLinkClick(e, () => handleSubmenuServiceClick(subItem.id));
+                                  }}
+                                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 active:bg-slate-100 transition-all duration-150 cursor-pointer group"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className={`w-9 h-9 rounded-xl ${subItem.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-150 shadow-xs`}>
+                                      <IconComponent className="w-4 h-4 stroke-[2.2]" />
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                                      <span className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors line-clamp-1">
+                                        {subItem.title}
+                                      </span>
+                                      <span className="text-[11px] text-slate-500 font-medium line-clamp-1">
+                                        {subItem.subtitle}
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <span className={`text-[11px] font-black px-2 py-0.5 rounded-md ${subItem.priceBg} shrink-0 ml-2 group-hover:scale-105 transition-transform duration-150`}>
+                                    {subItem.price}
+                                  </span>
+                                </a>
+                              );
+                            })}
+                          </div>
+
+                          {/* View All CTA */}
+                          <div className="pt-2 mt-1.5 border-t border-slate-100">
+                            <a
+                              href="/services"
+                              onClick={(e) => {
+                                handleLinkClick(e, () => {
+                                  setSmtpDropdownOpen(false);
+                                  handleNavClick('smtp');
+                                });
+                              }}
+                              className="w-full py-2.5 text-center text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50/70 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                              <span>Explore All SMTP Accounts (50k - 200k/mo)</span>
+                              <span className="text-sm font-black transition-transform group-hover:translate-x-0.5">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 const targetHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
                     ? '/services' 
-                    : `/${encodeURIComponent(item.id)}`;
+                    : item.id === 'smtp'
+                      ? '/smtp'
+                      : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a
@@ -536,11 +708,82 @@ export const Header: React.FC<HeaderProps> = ({
                   );
                 }
 
+                if (item.id === 'smtp') {
+                  return (
+                    <div key="mobile-smtp" className="space-y-1">
+                      <button
+                        onClick={() => setMobileSmtpOpen(!mobileSmtpOpen)}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                          activeSection === 'smtp' || mobileSmtpOpen
+                            ? 'bg-rose-50 text-rose-600' 
+                            : 'text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span>Smtp</span>
+                          <span className="text-[10px] bg-rose-100 text-rose-700 font-bold px-1.5 py-0.5 rounded">
+                            Hot • 3 Plans
+                          </span>
+                        </div>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileSmtpOpen ? 'rotate-180 text-rose-600' : 'text-slate-400'}`} />
+                      </button>
+
+                      {mobileSmtpOpen && (
+                        <div className="pl-2 pr-1 py-1 space-y-1 bg-rose-50/40 rounded-xl border border-rose-100">
+                          {smtpSubmenuItems.map((subItem) => {
+                            const IconComponent = subItem.icon;
+                            return (
+                              <a
+                                key={`m-${subItem.id}`}
+                                href={`/services/${encodeURIComponent(subItem.id)}`}
+                                onClick={(e) => {
+                                  handleLinkClick(e, () => {
+                                    handleSubmenuServiceClick(subItem.id);
+                                    setMobileMenuOpen(false);
+                                  });
+                                }}
+                                className="flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors cursor-pointer"
+                              >
+                                <div className="flex items-center gap-2.5">
+                                  <div className={`w-7 h-7 rounded-lg ${subItem.iconBg} flex items-center justify-center shrink-0`}>
+                                    <IconComponent className="w-3.5 h-3.5" />
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-slate-800 line-clamp-1">{subItem.title}</span>
+                                    <span className="text-[10px] text-slate-500">{subItem.subtitle}</span>
+                                  </div>
+                                </div>
+                                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${subItem.priceBg}`}>
+                                  {subItem.price}
+                                </span>
+                              </a>
+                            );
+                          })}
+                          <a
+                            href="/services"
+                            onClick={(e) => {
+                              handleLinkClick(e, () => {
+                                handleNavClick('smtp');
+                                setMobileMenuOpen(false);
+                              });
+                            }}
+                            className="block w-full text-center py-2 text-xs font-bold text-rose-600 hover:underline"
+                          >
+                            View All SMTP Accounts (50k - 200k/mo) →
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 const targetMobileHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
                     ? '/services' 
-                    : `/${encodeURIComponent(item.id)}`;
+                    : item.id === 'smtp'
+                      ? '/smtp'
+                      : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a

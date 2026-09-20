@@ -739,6 +739,265 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         features: ['500 Fresh 2025 PVA Accounts', 'Bottom Dollar Wholesale ($1.05/ea)', 'Automated API Webhook', 'Dedicated Support Manager']
       }
     ]
+  },
+  {
+    id: 'smtp-mailgun-accounts',
+    name: 'Buy SMTP Mailgun Accounts',
+    shortDesc: 'Fully warmed Mailgun SMTP accounts with authentic DNS configuration (SPF, DKIM, DMARC, MX). Available in 50k, 100k, and 200k monthly sending limits.',
+    shortDescription: 'Buy verified Mailgun SMTP accounts configured for high-volume cold outreach and transactional emailing. Includes custom domain verification, dedicated sending credentials, and 99.8% inbox placement.',
+    description: 'Our Mailgun SMTP accounts provide maximum email deliverability for cold outreach, marketing agencies, SaaS platforms, and transactional notifications. Each account comes pre-configured with dedicated DNS authentication (SPF, DKIM, DMARC), clean IP pool allocation, and full API/SMTP credentials compatible with Smartlead, Instantly, Lemlist, Woodpecker, and custom mail servers.',
+    focusKeyword: 'Buy SMTP Mailgun Accounts',
+    tags: ['Buy SMTP Mailgun Accounts', 'Mailgun SMTP Server', 'Cold Email SMTP', 'Bulk Email Sender', 'Dedicated Sending IP', 'SPF DKIM DMARC Verified', 'Instantly Smartlead SMTP', 'Transactional Email Relay'],
+    heroTagline: 'High-Deliverability Mailgun SMTP Accounts with Custom SPF, DKIM & DMARC (50k - 200k/mo)',
+    longDescription: 'Our Mailgun SMTP accounts provide maximum email deliverability for cold outreach, marketing agencies, SaaS platforms, and transactional notifications. Each account comes pre-configured with dedicated DNS authentication (SPF, DKIM, DMARC), clean IP pool allocation, and full API/SMTP credentials compatible with Smartlead, Instantly, Lemlist, Woodpecker, and custom mail servers.',
+    basePrice: 150,
+    baseQuantity: 50,
+    unitPrice: 150.0,
+    popular: true,
+    age: 'Pre-Warmed High Reputation IP',
+    category: 'smtp',
+    country: 'United States & Global',
+    countryCode: 'US',
+    inStock: 48,
+    rating: 4.96,
+    reviewsCount: 412,
+    features: [
+      '50k, 100k, and 200k monthly email sending plans',
+      'Custom Domain DNS setup (SPF, DKIM, DMARC, Return-Path)',
+      'Zero warmup delay - ready for high-volume cold outreach',
+      'High inbox placement rate (>99.2% inbox deliverability)',
+      'Full SMTP credentials (Port 587/465) & HTTP API keys',
+      'Compatible with Smartlead, Instantly, Lemlist & Woodpecker',
+      '7-Day 100% replacement and technical warranty'
+    ],
+    specs: {
+      phoneType: 'Enterprise Mailgun SMTP',
+      recoveryMail: true,
+      twoFA: true,
+      ipOrigin: 'Dedicated Warm IP Pool',
+      deliveryTime: 'Instant (Under 60 seconds)',
+      warranty: '7-Day Replacement Policy'
+    },
+    useCases: [
+      'High-Volume B2B Cold Email Sequences (Instantly, Smartlead)',
+      'SaaS & E-Commerce Transactional Notifications',
+      'Email Marketing Newsletters & Automated Drip Campaigns',
+      'Agency Lead Generation Outreach with High Inbox Placement'
+    ],
+    loginInstructions: [
+      'Enter provided SMTP host (smtp.mailgun.org), port 587 or 465, username, and password.',
+      'Copy the provided API private key into your outreach software.',
+      'Ensure your sending domain has the provided SPF, DKIM, and DMARC TXT records.',
+      'Begin sending campaigns immediately with pre-warmed reputation.'
+    ],
+    bestTools: ['Smartlead.ai', 'Instantly.ai', 'Lemlist', 'Woodpecker', 'Mailwizz', 'ActiveCampaign'],
+    sampleFormat: 'smtp.mailgun.org : 587 : postmaster@domain.com : Password123 : API-KEY-xxxxxxxx : Verified-Domain',
+    packages: [
+      {
+        id: 'mailgun-50k',
+        name: '50k Email Per Month',
+        quantity: 50,
+        price: 150.00,
+        unitPrice: 150.00,
+        discountPercent: 0,
+        badge: 'Starter Plan',
+        features: ['50k Email Per Month Only $150', 'Full Mailgun SMTP & API Access', 'SPF, DKIM & DMARC Configured', 'Zero Warmup Delay - Ready to Send', 'Instant Delivery & 7-Day Warranty']
+      },
+      {
+        id: 'mailgun-100k',
+        name: '100k Email Per Month',
+        quantity: 100,
+        price: 190.00,
+        unitPrice: 190.00,
+        discountPercent: 36,
+        badge: '🔥 Most Popular',
+        isPopular: true,
+        features: ['100k Email Per Month Only $190', 'Dedicated Clean Sending Reputation', 'Smartlead / Instantly Optimized', 'High-Speed Pipeline & Bounce Handling', 'Priority 24/7 Telegram Support']
+      },
+      {
+        id: 'mailgun-200k',
+        name: '200k Email Per Month',
+        quantity: 200,
+        price: 320.00,
+        unitPrice: 320.00,
+        discountPercent: 47,
+        badge: '⚡ Best Value Scale',
+        features: ['200k Email Per Month Only $320', 'High-Volume Enterprise Sending', 'Pre-Warmed Reputation Domain Pool', 'Dedicated VIP Account Manager', '7-Day Full Replacement Guarantee']
+      }
+    ]
+  },
+  {
+    id: 'smtp-brevo-accounts',
+    name: 'Buy SMTP Brevo Accounts',
+    shortDesc: 'Authentic Brevo (formerly Sendinblue) SMTP sending accounts with verified sending domains. Available in 50k, 100k, and 200k monthly sending limits.',
+    shortDescription: 'Buy verified Brevo SMTP accounts for cold email campaigns, newsletters, and transactional messages. Includes authenticated SMTP relay ports, dedicated API access, and spam-free reputation.',
+    description: 'Brevo SMTP accounts offer exceptional deliverability to major email providers including Gmail, Google Workspace, Outlook, and Yahoo. Each account includes verified domain records, dedicated IP warmup, automated bounce handling, and complete SMTP/API connection parameters for immediate deployment in your cold email sequence software.',
+    focusKeyword: 'Buy SMTP Brevo Accounts',
+    tags: ['Buy SMTP Brevo Accounts', 'Brevo SMTP Server', 'Sendinblue SMTP Accounts', 'Cold Email Relay', 'Transactional SMTP', 'DKIM SPF Authenticated', 'Smartlead Brevo SMTP'],
+    heroTagline: 'Enterprise Brevo SMTP Accounts with Clean IP Reputation & Authenticated Domains',
+    longDescription: 'Brevo SMTP accounts offer exceptional deliverability to major email providers including Gmail, Google Workspace, Outlook, and Yahoo. Each account includes verified domain records, dedicated IP warmup, automated bounce handling, and complete SMTP/API connection parameters for immediate deployment in your cold email sequence software.',
+    basePrice: 150,
+    baseQuantity: 50,
+    unitPrice: 150.0,
+    popular: false,
+    bestValue: true,
+    age: 'Clean High-Deliverability Pool',
+    category: 'smtp',
+    country: 'European Union & USA',
+    countryCode: 'EU',
+    inStock: 36,
+    rating: 4.94,
+    reviewsCount: 328,
+    features: [
+      '50k, 100k, and 200k monthly email sending capacity',
+      'Brevo authenticated SMTP relay (Ports 587, 465, 2525)',
+      'Configured SPF, DKIM, and DMARC domain records',
+      'Clean sending reputation with low spam score',
+      'Compatible with Instantly, Smartlead, Mailwizz, and CRMs',
+      'Full administrative login and API key access',
+      '7-Day replacement guarantee and technical assistance'
+    ],
+    specs: {
+      phoneType: 'Dedicated Brevo SMTP',
+      recoveryMail: true,
+      twoFA: true,
+      ipOrigin: 'Tier 1 Clean European/US IP',
+      deliveryTime: 'Instant (Under 60 seconds)',
+      warranty: '7-Day Replacement Policy'
+    },
+    useCases: [
+      'Multi-Inbox Cold Outreach Sequences & Warmup Integration',
+      'Automated Transactional Emails & Password Reset Notifications',
+      'Marketing Newsletters & Affiliate Outbound Campaigns',
+      'CRM Email Routing via SMTP Relay'
+    ],
+    loginInstructions: [
+      'Connect via smtp-relay.brevo.com on port 587 with TLS encryption.',
+      'Use the generated Brevo master SMTP login key provided in your manifest.',
+      'Import verified domain records to enable full inbox deliverability.',
+      'Integrate with your preferred outreach platform or autoresponder.'
+    ],
+    bestTools: ['Smartlead.ai', 'Instantly.ai', 'Mailwizz', 'Lemlist', 'HubSpot', 'WordPress SMTP'],
+    sampleFormat: 'smtp-relay.brevo.com : 587 : account@brevo.com : MasterKey123 : API-v3-xxxxxxxx : VerifiedDomain',
+    packages: [
+      {
+        id: 'brevo-50k',
+        name: '50k Email Per Month',
+        quantity: 50,
+        price: 150.00,
+        unitPrice: 150.00,
+        discountPercent: 0,
+        badge: 'Starter Plan',
+        features: ['50k Email Per Month Only $150', 'Full Brevo SMTP & API Access', 'SPF, DKIM & DMARC Setup', 'Clean Sending Reputation', 'Instant Delivery & 7-Day Warranty']
+      },
+      {
+        id: 'brevo-100k',
+        name: '100k Email Per Month',
+        quantity: 100,
+        price: 190.00,
+        unitPrice: 190.00,
+        discountPercent: 36,
+        badge: '🔥 Best Seller',
+        isPopular: true,
+        features: ['100k Email Per Month Only $190', 'Multi-Domain Sending Support', 'Smartlead / Instantly Optimized', 'High-Speed SMTP Relay Pipeline', 'Priority Support Desk']
+      },
+      {
+        id: 'brevo-200k',
+        name: '200k Email Per Month',
+        quantity: 200,
+        price: 320.00,
+        unitPrice: 320.00,
+        discountPercent: 47,
+        badge: '⚡ High Volume',
+        features: ['200k Email Per Month Only $320', 'High-Volume Enterprise Sending', 'Full API & Webhook Telemetry', 'VIP Account Manager', '7-Day Free Replacement']
+      }
+    ]
+  },
+  {
+    id: 'smtp-relay-services-account',
+    name: 'Buy SMTP Relay Services Account',
+    shortDesc: 'Universal enterprise-grade SMTP relay server with dedicated clean IP, unlimited domain connections, and guaranteed high inbox placement.',
+    shortDescription: 'Buy dedicated SMTP relay service accounts engineered for maximum cold email deliverability. Supports 50k, 100k, and 200k monthly emails with dedicated relay queues and zero rate limiting.',
+    description: 'Our SMTP Relay Service provides an enterprise-class dedicated mail transfer agent (MTA) architecture designed specifically for cold outbound outreach, bulk email marketing, and mission-critical transactional emails. Featuring dedicated clean IPs, reverse DNS (rDNS/PTR), SPF, DKIM, and DMARC alignment, our relay accounts bypass strict spam filters on Gmail, Outlook, and corporate Exchange servers.',
+    focusKeyword: 'Buy SMTP Relay Services Account',
+    tags: ['Buy SMTP Relay Services Account', 'SMTP Relay Server', 'Dedicated SMTP Relay', 'Cold Outreach Relay', 'High Inbox Placement SMTP', 'Bulk Email Relay', 'Unlimited Domains SMTP'],
+    heroTagline: 'High-Performance Dedicated SMTP Relay Infrastructure (50k - 200k/mo)',
+    longDescription: 'Our SMTP Relay Service provides an enterprise-class dedicated mail transfer agent (MTA) architecture designed specifically for cold outbound outreach, bulk email marketing, and mission-critical transactional emails. Featuring dedicated clean IPs, reverse DNS (rDNS/PTR), SPF, DKIM, and DMARC alignment, our relay accounts bypass strict spam filters on Gmail, Outlook, and corporate Exchange servers.',
+    basePrice: 190,
+    baseQuantity: 50,
+    unitPrice: 190.0,
+    popular: true,
+    age: 'Clean Dedicated MTA Node',
+    category: 'smtp',
+    country: 'United States & Tier 1',
+    countryCode: 'US',
+    inStock: 25,
+    rating: 4.98,
+    reviewsCount: 284,
+    features: [
+      '50k, 100k, and 200k monthly email throughput',
+      'Dedicated static clean sending IP with rDNS / PTR records',
+      'Unlimited sender domain authentication (DKIM, SPF, DMARC)',
+      'Ultra-low latency relay on ports 25, 465, 587 & 2525',
+      'Zero rate limiting or spam throttling for cold outreach',
+      'Compatible with any CRM, autoresponder, or cold outreach app',
+      '24/7 dedicated server health monitoring and 7-day warranty'
+    ],
+    specs: {
+      phoneType: 'Dedicated SMTP Relay Engine',
+      recoveryMail: true,
+      twoFA: true,
+      ipOrigin: 'Clean Tier 1 Dedicated IP',
+      deliveryTime: 'Instant (Under 60 seconds)',
+      warranty: '7-Day Replacement Policy'
+    },
+    useCases: [
+      'Unlimited Domain Cold Outreach Campaigns',
+      'Bulk Marketing Broadcasts with Zero Throttling',
+      'Custom Mail Server & Postfix/Exim Relay Backend',
+      'Enterprise Transactional Email Routing'
+    ],
+    loginInstructions: [
+      'Configure your outreach tool or mail client with the dedicated relay host and port 587 (TLS) or 465 (SSL).',
+      'Authenticate using your dedicated username and secure API token.',
+      'Add the provided SPF and DKIM public keys to your DNS management console.',
+      'Test delivery and scale throughput seamlessly.'
+    ],
+    bestTools: ['Instantly.ai', 'Smartlead.ai', 'Mailwizz', 'Mumara', 'Woodpecker', 'Custom MTAs'],
+    sampleFormat: 'relay.buypvagmail.com : 587 : relay_user_xxxx : SecurePass123 : Dedicated-IP: 198.51.100.24 : PTR-Configured',
+    packages: [
+      {
+        id: 'relay-50k',
+        name: '50k Email Per Month',
+        quantity: 50,
+        price: 190.00,
+        unitPrice: 190.00,
+        discountPercent: 0,
+        badge: 'Starter Relay',
+        features: ['50k Email Per Month Only $190', 'Dedicated Static Sending IP', 'Universal SMTP Relay Integration', 'Instant Dispatch & 7-Day Warranty']
+      },
+      {
+        id: 'relay-100k',
+        name: '100k Email Per Month',
+        quantity: 100,
+        price: 240.00,
+        unitPrice: 240.00,
+        discountPercent: 25,
+        badge: '🔥 Best Seller',
+        isPopular: true,
+        features: ['100k Email Per Month Only $240', 'Unlimited Sending Domains', 'Zero Outbound Throttling', 'Ultra-Fast Relay Ports 587/465', 'Priority 24/7 Support']
+      },
+      {
+        id: 'relay-200k',
+        name: '200k Email Per Month',
+        quantity: 200,
+        price: 350.00,
+        unitPrice: 350.00,
+        discountPercent: 38,
+        badge: '⚡ Enterprise Scale',
+        features: ['200k Email Per Month Only $350', 'Dedicated High-Throughput MTA', 'Real-Time Telemetry & Bounce Logs', 'VIP Account Manager', '7-Day Free Replacement']
+      }
+    ]
   }
 ];
 

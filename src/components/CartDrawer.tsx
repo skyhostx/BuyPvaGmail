@@ -20,8 +20,8 @@ interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   cart: CartItem[];
-  onUpdateQuantity: (productId: string, qty: number) => void;
-  onRemoveItem: (productId: string) => void;
+  onUpdateQuantity: (productId: string, qty: number, packageId?: string) => void;
+  onRemoveItem: (productId: string, packageId?: string) => void;
   onClearCart: () => void;
   onProceedToCheckout: (discountPercent: number, couponCode: string) => void;
   onExploreServices?: () => void;
@@ -200,18 +200,20 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
             ) : (
               <div className="space-y-3">
-                {cart.map((item) => {
+                {cart.map((item, index) => {
+                  const isSmtp = item.product.category === 'smtp' || item.product.id.startsWith('smtp-');
                   const itemPrice = typeof item.totalPrice === 'number' && !isNaN(item.totalPrice)
                     ? item.totalPrice
                     : (Number(item.product?.unitPrice) || 3.0) * (Number(item.quantity) || 2);
 
                   const unitRate = item.quantity > 0 ? (itemPrice / item.quantity) : (item.product?.unitPrice || 3.0);
                   const baseUnit = item.product?.unitPrice || 3.0;
-                  const hasVolumeDiscount = unitRate < baseUnit;
+                  const hasVolumeDiscount = !isSmtp && unitRate < baseUnit;
+                  const itemKey = item.packageId ? `${item.product.id}-${item.packageId}-${index}` : `${item.product.id}-${index}`;
 
                   return (
                     <div
-                      key={item.product.id}
+                      key={itemKey}
                       className="bg-slate-50/80 hover:bg-slate-50 p-4 rounded-2xl border border-slate-200/90 transition-all flex flex-col gap-3 group"
                     >
                       {/* Item Top Row */}
@@ -221,12 +223,21 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             {item.product.name}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 flex-wrap">
-                            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
-                              {item.product.age || 'PVA Verified'}
-                            </span>
-                            <span className="text-[11px] text-slate-500 font-medium">
-                              ${unitRate.toFixed(2)} / ea
-                            </span>
+                            {isSmtp ? (
+                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200">
+                                {item.packageName || 'Dedicated SMTP Plan'}
+                              </span>
+                            ) : (
+                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                                {item.product.age || 'PVA Verified'}
+                              </span>
+                            )}
+                            
+                            {!isSmtp && (
+                              <span className="text-[11px] text-slate-500 font-medium">
+                                ${unitRate.toFixed(2)} / ea
+                              </span>
+                            )}
                             {hasVolumeDiscount && (
                               <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
                                 Bulk Tier Saved
@@ -237,7 +248,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                         <button
                           type="button"
-                          onClick={() => onRemoveItem(item.product.id)}
+                          onClick={() => onRemoveItem(item.product.id, item.packageId)}
                           className="text-slate-400 hover:text-rose-600 hover:bg-rose-50 p-1.5 rounded-lg transition-colors cursor-pointer shrink-0"
                           title="Remove item"
                           aria-label={`Remove ${item.product.name}`}
@@ -246,66 +257,74 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         </button>
                       </div>
 
-                      {/* Quantity Selector & Item Subtotal */}
+                      {/* Quantity Selector / Plan Details & Item Subtotal */}
                       <div className="flex items-center justify-between pt-3 border-t border-slate-200/60">
-                        {/* Quantity Counter */}
-                        <div className="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (item.quantity <= 1) {
-                                onRemoveItem(item.product.id);
-                              } else {
-                                onUpdateQuantity(item.product.id, item.quantity - 1);
-                              }
-                            }}
-                            className="w-7 h-7 bg-white rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-colors cursor-pointer active:scale-95 shadow-2xs"
-                            title={item.quantity <= 1 ? "Remove item" : "Decrease quantity"}
-                          >
-                            {item.quantity <= 1 ? <Trash2 className="w-3.5 h-3.5 text-rose-500" /> : <Minus className="w-3.5 h-3.5" />}
-                          </button>
-
-                          <div className="flex items-center">
-                            <input
-                              type="number"
-                              min="1"
-                              max="5000"
-                              value={item.quantity}
-                              onChange={(e) => handleManualQtyChange(item.product.id, e.target.value)}
-                              className="w-14 text-center text-xs font-black text-slate-900 py-1 bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-500 focus:outline-hidden"
-                            />
-                            <span className="text-[10px] font-bold text-slate-400 ml-1">pcs</span>
+                        {isSmtp ? (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-slate-600 bg-white border border-slate-200 px-2.5 py-1 rounded-lg shadow-2xs">
+                              {item.packageName || '1 Monthly License'}
+                            </span>
                           </div>
-
-                          <button
-                            type="button"
-                            onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                            className="w-7 h-7 bg-white rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-colors cursor-pointer active:scale-95 shadow-2xs"
-                            title="Increase quantity"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-
-                          {/* Quick Add Pills */}
-                          <div className="hidden sm:flex items-center gap-1 ml-1.5">
+                        ) : (
+                          /* Quantity Counter for standard PVA accounts */
+                          <div className="flex items-center gap-1.5">
                             <button
                               type="button"
-                              onClick={() => onUpdateQuantity(item.product.id, item.quantity + 5)}
-                              className="px-1.5 py-0.5 bg-slate-200/70 hover:bg-blue-100 hover:text-blue-700 rounded text-[10px] font-bold text-slate-600 transition-colors cursor-pointer"
-                              title="Add 5 accounts"
+                              onClick={() => {
+                                if (item.quantity <= 1) {
+                                  onRemoveItem(item.product.id, item.packageId);
+                                } else {
+                                  onUpdateQuantity(item.product.id, item.quantity - 1, item.packageId);
+                                }
+                              }}
+                              className="w-7 h-7 bg-white rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-colors cursor-pointer active:scale-95 shadow-2xs"
+                              title={item.quantity <= 1 ? "Remove item" : "Decrease quantity"}
                             >
-                              +5
+                              {item.quantity <= 1 ? <Trash2 className="w-3.5 h-3.5 text-rose-500" /> : <Minus className="w-3.5 h-3.5" />}
                             </button>
+
+                            <div className="flex items-center">
+                              <input
+                                type="number"
+                                min="1"
+                                max="5000"
+                                value={item.quantity}
+                                onChange={(e) => handleManualQtyChange(item.product.id, e.target.value)}
+                                className="w-14 text-center text-xs font-black text-slate-900 py-1 bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-500 focus:outline-hidden"
+                              />
+                              <span className="text-[10px] font-bold text-slate-400 ml-1">pcs</span>
+                            </div>
+
                             <button
                               type="button"
-                              onClick={() => onUpdateQuantity(item.product.id, item.quantity + 10)}
-                              className="px-1.5 py-0.5 bg-slate-200/70 hover:bg-blue-100 hover:text-blue-700 rounded text-[10px] font-bold text-slate-600 transition-colors cursor-pointer"
-                              title="Add 10 accounts"
+                              onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1, item.packageId)}
+                              className="w-7 h-7 bg-white rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-colors cursor-pointer active:scale-95 shadow-2xs"
+                              title="Increase quantity"
                             >
-                              +10
+                              <Plus className="w-3.5 h-3.5" />
                             </button>
+
+                            {/* Quick Add Pills */}
+                            <div className="hidden sm:flex items-center gap-1 ml-1.5">
+                              <button
+                                type="button"
+                                onClick={() => onUpdateQuantity(item.product.id, item.quantity + 5, item.packageId)}
+                                className="px-1.5 py-0.5 bg-slate-200/70 hover:bg-blue-100 hover:text-blue-700 rounded text-[10px] font-bold text-slate-600 transition-colors cursor-pointer"
+                                title="Add 5 accounts"
+                              >
+                                +5
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => onUpdateQuantity(item.product.id, item.quantity + 10, item.packageId)}
+                                className="px-1.5 py-0.5 bg-slate-200/70 hover:bg-blue-100 hover:text-blue-700 rounded text-[10px] font-bold text-slate-600 transition-colors cursor-pointer"
+                                title="Add 10 accounts"
+                              >
+                                +10
+                              </button>
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         {/* Price */}
                         <div className="text-right">

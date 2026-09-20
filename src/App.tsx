@@ -38,6 +38,7 @@ import { initGoogleAnalytics, trackPageView, trackAddToCart, trackRemoveFromCart
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
 import { blogGuides } from './data/blogData';
+import { calculateProductPricing, sanitizeCart } from './utils/pricing';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -206,7 +207,7 @@ export default function App() {
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('buypvagmail_cart');
-      return saved ? JSON.parse(saved) : [];
+      return saved ? sanitizeCart(JSON.parse(saved)) : [];
     } catch {
       return [];
     }
@@ -882,48 +883,59 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleAddToCart = (product: ServiceProduct, quantity: number) => {
-    let discount = 0;
-    if (quantity >= 500) discount = 0.30;
-    else if (quantity >= 100) discount = 0.20;
-    else if (quantity >= 50) discount = 0.15;
-    else if (quantity >= 25) discount = 0.10;
-    else if (quantity >= 10) discount = 0.05;
-
-    const totalPrice = product.unitPrice * (1 - discount) * quantity;
+  const handleAddToCart = (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => {
+    const pricing = calculateProductPricing(product, quantity, packageId);
+    const resolvedPackageName = packageName || pricing.packageName;
+    const resolvedPackageId = packageId || pricing.packageId;
 
     setCart((prev) => {
-      const existingIndex = prev.findIndex((item) => item.product.id === product.id);
+      const existingIndex = prev.findIndex((item) => {
+        if (pricing.isSmtp) {
+          return item.product.id === product.id && item.packageId === resolvedPackageId;
+        }
+        return item.product.id === product.id;
+      });
+
       if (existingIndex > -1) {
         const updated = [...prev];
+        if (pricing.isSmtp) {
+          // Keep existing package and show drawer
+          return updated;
+        }
         const newQty = updated[existingIndex].quantity + quantity;
-        let newDiscount = 0;
-        if (newQty >= 500) newDiscount = 0.30;
-        else if (newQty >= 100) newDiscount = 0.20;
-        else if (newQty >= 50) newDiscount = 0.15;
-        else if (newQty >= 25) newDiscount = 0.10;
-        else if (newQty >= 10) newDiscount = 0.05;
+        const newPricing = calculateProductPricing(product, newQty);
 
         updated[existingIndex] = {
           ...updated[existingIndex],
           quantity: newQty,
-          totalPrice: product.unitPrice * (1 - newDiscount) * newQty
+          totalPrice: newPricing.totalPrice
         };
         return updated;
       } else {
-        return [...prev, { product, quantity, totalPrice }];
+        return [
+          ...prev, 
+          { 
+            product, 
+            quantity, 
+            totalPrice: pricing.totalPrice,
+            packageName: resolvedPackageName,
+            packageId: resolvedPackageId
+          }
+        ];
       }
     });
 
-    showToast(`Added ${quantity}x ${product.name} to your cart!`);
+    const label = resolvedPackageName ? `${product.name} (${resolvedPackageName})` : `${quantity}x ${product.name}`;
+    showToast(`Added ${label} to cart!`);
+    setIsCartOpen(true);
 
     // GA4 Enhanced E-commerce track add to cart
     trackAddToCart({
       id: product.id,
       name: product.name,
-      price: product.unitPrice,
+      price: pricing.unitPrice,
       quantity,
-      category: 'PVA Gmail Accounts'
+      category: product.category === 'smtp' ? 'SMTP Sending Accounts' : 'PVA Gmail Accounts'
     });
   };
 
@@ -939,29 +951,27 @@ export default function App() {
       name: product.name,
       price: product.unitPrice,
       quantity,
-      category: 'PVA Gmail Accounts'
+      category: product.category === 'smtp' ? 'SMTP Sending Accounts' : 'PVA Gmail Accounts'
     });
   };
 
-  const handleUpdateCartQuantity = (productId: string, qty: number) => {
+  const handleUpdateCartQuantity = (productId: string, qty: number, packageId?: string) => {
     if (qty <= 0) {
-      handleRemoveCartItem(productId);
+      handleRemoveCartItem(productId, packageId);
       return;
     }
     setCart((prev) => {
       return prev.map((item) => {
-        if (item.product.id === productId) {
-          let discount = 0;
-          if (qty >= 500) discount = 0.30;
-          else if (qty >= 100) discount = 0.20;
-          else if (qty >= 50) discount = 0.15;
-          else if (qty >= 25) discount = 0.10;
-          else if (qty >= 10) discount = 0.05;
+        const isMatch = packageId 
+          ? (item.product.id === productId && item.packageId === packageId)
+          : (item.product.id === productId);
 
+        if (isMatch) {
+          const newPricing = calculateProductPricing(item.product, qty, item.packageId);
           return {
             ...item,
             quantity: qty,
-            totalPrice: item.product.unitPrice * (1 - discount) * qty
+            totalPrice: newPricing.totalPrice
           };
         }
         return item;
@@ -969,9 +979,13 @@ export default function App() {
     });
   };
 
-  const handleRemoveCartItem = (productId: string) => {
-    const itemToRemove = cart.find((i) => i.product.id === productId);
-    setCart((prev) => prev.filter((item) => item.product.id !== productId));
+  const handleRemoveCartItem = (productId: string, packageId?: string) => {
+    const itemToRemove = cart.find((i) => 
+      packageId ? (i.product.id === productId && i.packageId === packageId) : (i.product.id === productId)
+    );
+    setCart((prev) => prev.filter((item) => 
+      packageId ? !(item.product.id === productId && item.packageId === packageId) : (item.product.id !== productId)
+    ));
     if (itemToRemove) {
       showToast(`Removed ${itemToRemove.product.name} from cart`);
       trackRemoveFromCart(itemToRemove.product.id, itemToRemove.product.name);

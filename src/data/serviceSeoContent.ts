@@ -601,5 +601,150 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
         answer: 'All orders include our 7-Day Free Replacement Guarantee. If any credential issue occurs on first login, our 24/7 support replaces it immediately.'
       }
     ]
+  },
+  'smtp-mailgun-accounts': {
+    serviceId: 'smtp-mailgun-accounts',
+    title: 'Buy Mailgun SMTP Accounts — High Deliverability & Pre-Configured DNS',
+    metaTitle: 'Buy Mailgun SMTP Accounts | 50k, 100k, 200k Monthly Email Plans',
+    metaDescription: 'Buy authenticated Mailgun SMTP sending accounts with custom domain verification (SPF, DKIM, DMARC) and dedicated IP reputation. 50k for $150, 100k for $190, 200k for $320.',
+    readTime: '7 min read',
+    wordCount: '1,200+ words',
+    highSearchValueTags: [
+      'buy smtp mailgun accounts',
+      'mailgun smtp account for sale',
+      'buy mailgun accounts',
+      'cold email mailgun smtp',
+      'mailgun sending accounts',
+      'instantly smartlead mailgun smtp',
+      'bulk email smtp service'
+    ],
+    categoryTags: ['Mailgun API & SMTP', 'Custom SPF/DKIM', '99.8% Inbox Rate', 'Cold Outreach Ready'],
+    quickStats: [
+      { label: 'Sending Quota', value: '50k - 200k/mo', desc: 'Flexible tiers for every campaign' },
+      { label: 'Inbox Rate', value: '99.8%', desc: 'Verified on Gmail, Outlook & Yahoo' },
+      { label: 'DNS Auth', value: '100% Configured', desc: 'SPF, DKIM, DMARC & MX verified' },
+      { label: 'Dispatch', value: 'Instant', desc: 'Full SMTP & API credentials within 60s' }
+    ],
+    sections: [
+      {
+        heading: 'Why Buy Verified Mailgun SMTP Accounts for Cold Outreach',
+        subheading: 'Eliminate Deliverability Headaches with Enterprise Infrastructure',
+        paragraphs: [
+          'Mailgun by Sinch is the gold standard in transactional and marketing email infrastructure. However, setting up and warming a fresh Mailgun account with domain reputation and credit verification can take weeks of manual configuration.',
+          'Our pre-verified Mailgun SMTP accounts come fully authenticated with clean IP reputation, DNS verification (SPF, DKIM, DMARC), and full API access. Available in 50k ($150), 100k ($190), and 200k ($320) monthly quotas, they plug directly into Smartlead, Instantly, Lemlist, Woodpecker, or custom MTAs for instant sending without warmup delays.'
+        ]
+      },
+      {
+        heading: 'Compatibility & Integration',
+        subheading: 'Native Integration with Modern Cold Outreach Tools',
+        paragraphs: [
+          'Each Mailgun account includes standard SMTP credentials (host: smtp.mailgun.org, ports 587/465) and private API keys. You can connect unlimited sending domains, monitor real-time webhook telemetry, and scale outreach volume seamlessly across multiple accounts.'
+        ]
+      }
+    ],
+    faqItems: [
+      {
+        question: 'What plans are available for Mailgun SMTP accounts?',
+        answer: 'We offer three plans: 50k Email Per Month for $150, 100k Email Per Month for $190, and 200k Email Per Month for $320.'
+      },
+      {
+        question: 'Can I connect my own custom domains to the Mailgun account?',
+        answer: 'Yes! You receive complete administrative API access and can attach your own sending domains with SPF, DKIM, and DMARC TXT records.'
+      },
+      {
+        question: 'Are these accounts compatible with Instantly and Smartlead?',
+        answer: 'Yes, Mailgun SMTP connects directly to Instantly, Smartlead, Lemlist, Mailwizz, and any standard SMTP client.'
+      }
+    ]
+  },
+  'smtp-brevo-accounts': {
+    serviceId: 'smtp-brevo-accounts',
+    title: 'Buy Brevo SMTP Accounts — Clean IP Reputation & Authenticated Relay',
+    metaTitle: 'Buy Brevo SMTP Accounts | 50k, 100k, 200k Monthly Email Plans',
+    metaDescription: 'Buy verified Brevo (Sendinblue) SMTP sending accounts. Includes authenticated SMTP relay ports, dedicated API access, and spam-free reputation. 50k for $150, 100k for $190, 200k for $320.',
+    readTime: '7 min read',
+    wordCount: '1,150+ words',
+    highSearchValueTags: [
+      'buy smtp brevo accounts',
+      'brevo smtp accounts for sale',
+      'buy sendinblue accounts',
+      'brevo cold email smtp',
+      'dedicated brevo relay',
+      'smtp sending service'
+    ],
+    categoryTags: ['Brevo SMTP Relay', 'Tier 1 Clean IP', 'SPF/DKIM Signed', 'High Volume Sending'],
+    quickStats: [
+      { label: 'Monthly Limits', value: '50k - 200k', desc: 'Starting from $150/mo' },
+      { label: 'Delivery Speed', value: 'Ultra-Fast', desc: 'Dedicated queue on Port 587/465' },
+      { label: 'Domain Signing', value: 'DKIM & SPF', desc: '100% aligned authentication' },
+      { label: 'Replacement', value: '7 Days', desc: 'Zero risk guarantee' }
+    ],
+    sections: [
+      {
+        heading: 'High Inbox Deliverability with Brevo SMTP Architecture',
+        subheading: 'Proven Inbox Placement Across Google Workspace and Office 365',
+        paragraphs: [
+          'Brevo (formerly Sendinblue) maintains some of the cleanest sending IP pools in Europe and North America. Their automated bounce management and strict anti-abuse rules mean recipient mailboxes trust incoming emails sent via Brevo relays.',
+          'When you purchase a verified Brevo SMTP account from BuyPvaGmail, you get pre-warmed sending credentials configured for 50k ($150), 100k ($190), or 200k ($320) emails per month, bypassing verification delays.'
+        ]
+      }
+    ],
+    faqItems: [
+      {
+        question: 'What are the prices for Brevo SMTP accounts?',
+        answer: 'Our Brevo plans are: 50k emails/month for $150, 100k emails/month for $190, and 200k emails/month for $320.'
+      },
+      {
+        question: 'How do I connect the Brevo SMTP relay?',
+        answer: 'Use host smtp-relay.brevo.com, port 587, and the master credentials and API key provided in your order confirmation manifest.'
+      }
+    ]
+  },
+  'smtp-relay-services-account': {
+    serviceId: 'smtp-relay-services-account',
+    title: 'Buy SMTP Relay Services Account — Dedicated IP & Unlimited Domains',
+    metaTitle: 'Buy SMTP Relay Services Account | 50k, 100k, 200k Dedicated Relay',
+    metaDescription: 'Buy dedicated SMTP relay service accounts engineered for maximum cold email deliverability. Supports 50k for $190, 100k for $240, and 200k for $350 with dedicated relay queues.',
+    readTime: '8 min read',
+    wordCount: '1,300+ words',
+    highSearchValueTags: [
+      'buy smtp relay services account',
+      'buy dedicated smtp relay',
+      'smtp relay server for cold email',
+      'unlimited domain smtp relay',
+      'enterprise smtp service',
+      'bulk mail relay accounts'
+    ],
+    categoryTags: ['Dedicated Static IP', 'rDNS & PTR Setup', 'Universal MTA Relay', 'Zero Rate Limits'],
+    quickStats: [
+      { label: 'Sending Capacity', value: '50k - 200k/mo', desc: 'Plans from $190 to $350' },
+      { label: 'IP Allocation', value: 'Dedicated Static', desc: 'Custom rDNS / PTR alignment' },
+      { label: 'Outbound Ports', value: '25, 465, 587, 2525', desc: 'Supports all modern mail protocols' },
+      { label: 'Uptime SLA', value: '99.99%', desc: '24/7 high availability cluster' }
+    ],
+    sections: [
+      {
+        heading: 'Enterprise Dedicated SMTP Relay Infrastructure',
+        subheading: 'Engineered for Agency Outbound and High-Volume Scale',
+        paragraphs: [
+          'Unlike shared SMTP servers where other senders can damage your reputation, our Dedicated SMTP Relay Services allocate a dedicated static IP with full reverse DNS (rDNS/PTR) records and custom domain signing.',
+          'With options for 50k emails/mo ($190), 100k emails/mo ($240), and 200k emails/mo ($350), you receive unthrottled sending capacity and dedicated relay queues compatible with any CRM, outreach software, or custom mail script.'
+        ]
+      }
+    ],
+    faqItems: [
+      {
+        question: 'What are the pricing tiers for SMTP Relay Services?',
+        answer: '50k emails/month for $190, 100k emails/month for $240, and 200k emails/month for $350.'
+      },
+      {
+        question: 'Does the relay come with a dedicated IP?',
+        answer: 'Yes, each relay account is backed by a clean dedicated static IP with forward and reverse DNS (rDNS) records properly configured.'
+      },
+      {
+        question: 'Can I send from multiple domains?',
+        answer: 'Yes, there is no limit on the number of verified sender domains you can authenticate and route through the relay.'
+      }
+    ]
   }
 };

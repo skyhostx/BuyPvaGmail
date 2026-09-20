@@ -36,6 +36,7 @@ import {
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
 import { detailedServicesData, VINTAGE_YEARS, VINTAGE_YEAR_TIERS } from '../data/servicesData';
+import { calculateProductPricing } from '../utils/pricing';
 import { GmailLogo } from './GmailLogo';
 
 interface OrderModalProps {
@@ -47,8 +48,8 @@ interface OrderModalProps {
   isCartCheckout?: boolean;
   cartDiscountPercent?: number;
   cartCouponCode?: string;
-  onUpdateCartQuantity?: (productId: string, qty: number) => void;
-  onRemoveCartItem?: (productId: string) => void;
+  onUpdateCartQuantity?: (productId: string, qty: number, packageId?: string) => void;
+  onRemoveCartItem?: (productId: string, packageId?: string) => void;
   onOrderSuccess?: (order: OrderDetails) => void;
 }
 
@@ -109,6 +110,30 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     subtitle: '⚡ Lowest Price • High Volume',
     fromPrice: 'From $3',
     icon: Zap,
+    iconColor: 'text-amber-500'
+  },
+  {
+    id: 'smtp-mailgun-accounts',
+    name: 'SMTP Mailgun Accounts',
+    subtitle: '🚀 High Volume • 50k-200k/mo',
+    fromPrice: 'From $150',
+    icon: Send,
+    iconColor: 'text-rose-500'
+  },
+  {
+    id: 'smtp-brevo-accounts',
+    name: 'SMTP Brevo Accounts',
+    subtitle: '⚡ Smartlead Ready • 50k-200k/mo',
+    fromPrice: 'From $150',
+    icon: Zap,
+    iconColor: 'text-indigo-500'
+  },
+  {
+    id: 'smtp-relay-services-account',
+    name: 'SMTP Relay Services',
+    subtitle: '🛡️ Dedicated IP • 50k-200k/mo',
+    fromPrice: 'From $190',
+    icon: ShieldCheck,
     iconColor: 'text-amber-500'
   }
 ];
@@ -497,58 +522,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const activeProduct = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
 
   // Calculate pricing based on selected service and quantity tier
-  const calculatePrice = (serviceId: string, count: number) => {
+  const calculatePrice = (serviceId: string, count: number, packageId?: string) => {
     const product = detailedServicesData.find((s) => s.id === serviceId) || detailedServicesData[0];
-    
-    // Check if the service has an exact package configured
-    const exactPkg = product.packages?.find((p) => p.quantity === count);
-    if (exactPkg) {
-      return {
-        totalPrice: exactPkg.price,
-        unitPrice: exactPkg.unitPrice
-      };
-    }
-
-    // Default calculations for 2, 5, 20, 50, 100
-    if (serviceId === 'usa-gmail-accounts' || serviceId === 'pva-gmail-accounts' || serviceId === 'aged-gmail-for-reviews') {
-      if (count === 2) return { totalPrice: 6, unitPrice: 3.0 };
-      if (count === 5) return { totalPrice: 15, unitPrice: 3.0 };
-      if (count === 20) return { totalPrice: 55, unitPrice: 2.75 };
-      if (count === 50) return { totalPrice: 130, unitPrice: 2.60 };
-      if (count === 100) return { totalPrice: 220, unitPrice: 2.20 };
-    } else if (serviceId === 'aged-mix-country-gmail') {
-      if (count === 2) return { totalPrice: 5, unitPrice: 2.5 };
-      if (count === 5) return { totalPrice: 12, unitPrice: 2.4 };
-      if (count === 20) return { totalPrice: 45, unitPrice: 2.25 };
-      if (count === 50) return { totalPrice: 105, unitPrice: 2.10 };
-      if (count === 100) return { totalPrice: 190, unitPrice: 1.90 };
-    } else if (serviceId === 'aged-gmail-for-google-ads') {
-      if (count === 2) return { totalPrice: 10, unitPrice: 5.0 };
-      if (count === 5) return { totalPrice: 24, unitPrice: 4.8 };
-      if (count === 20) return { totalPrice: 90, unitPrice: 4.5 };
-      if (count === 50) return { totalPrice: 210, unitPrice: 4.2 };
-      if (count === 100) return { totalPrice: 390, unitPrice: 3.9 };
-    } else if (serviceId === 'new-gmail-accounts') {
-      if (count === 2) return { totalPrice: 3, unitPrice: 1.5 };
-      if (count === 5) return { totalPrice: 7, unitPrice: 1.4 };
-      if (count === 20) return { totalPrice: 26, unitPrice: 1.3 };
-      if (count === 50) return { totalPrice: 60, unitPrice: 1.2 };
-      if (count === 100) return { totalPrice: 110, unitPrice: 1.1 };
-    }
-
-    // Generic fallback
-    const unitRate = product.unitPrice || 3.0;
-    const base = unitRate * count;
-    let discount = 0;
-    if (count >= 100) discount = 0.25;
-    else if (count >= 50) discount = 0.15;
-    else if (count >= 20) discount = 0.10;
-    else if (count >= 5) discount = 0.05;
-
-    const finalTotal = base * (1 - discount);
+    const pricing = calculateProductPricing(product, count, packageId);
     return {
-      totalPrice: Math.round(finalTotal),
-      unitPrice: +(finalTotal / count).toFixed(2)
+      totalPrice: pricing.totalPrice,
+      unitPrice: pricing.unitPrice
     };
   };
 
@@ -933,15 +912,17 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
               {/* Cart Items List */}
               <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
-                {cartItems.map((item) => {
+                {cartItems.map((item, index) => {
+                  const isSmtp = item.product.category === 'smtp' || item.product.id.startsWith('smtp-');
                   const itemPrice = typeof item.totalPrice === 'number' && !isNaN(item.totalPrice)
                     ? item.totalPrice
                     : (Number(item.product?.unitPrice) || 3.0) * (Number(item.quantity) || 2);
                   const unitRate = item.quantity > 0 ? (itemPrice / item.quantity) : (item.product?.unitPrice || 3.0);
+                  const itemKey = item.packageId ? `${item.product.id}-${item.packageId}-${index}` : `${item.product.id}-${index}`;
 
                   return (
                     <div
-                      key={item.product.id}
+                      key={itemKey}
                       className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between gap-3"
                     >
                       <div className="flex-1 min-w-0">
@@ -949,26 +930,34 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                           <span className="text-sm font-black text-slate-900 truncate">
                             {item.product.name}
                           </span>
-                          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
-                            {item.product.age || 'PVA Verified'}
-                          </span>
+                          {isSmtp ? (
+                            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
+                              {item.packageName || 'Monthly SMTP Plan'}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                              {item.product.age || 'PVA Verified'}
+                            </span>
+                          )}
                         </div>
                         <span className="text-xs text-slate-500 font-medium">
-                          ${unitRate.toFixed(2)} / account
+                          {isSmtp 
+                            ? 'Dedicated IP • Instant Dispatch' 
+                            : `$${unitRate.toFixed(2)} / account`}
                         </span>
                       </div>
 
                       {/* Quantity & Controls */}
                       <div className="flex items-center gap-3 shrink-0">
-                        {onUpdateCartQuantity && onRemoveCartItem && (
+                        {onUpdateCartQuantity && onRemoveCartItem && !isSmtp && (
                           <div className="flex items-center gap-1.5 bg-white px-2 py-1 rounded-xl border border-slate-200 shadow-2xs">
                             <button
                               type="button"
                               onClick={() => {
                                 if (item.quantity <= 1) {
-                                  onRemoveCartItem(item.product.id);
+                                  onRemoveCartItem(item.product.id, item.packageId);
                                 } else {
-                                  onUpdateCartQuantity(item.product.id, item.quantity - 1);
+                                  onUpdateCartQuantity(item.product.id, item.quantity - 1, item.packageId);
                                 }
                               }}
                               className="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
@@ -981,7 +970,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                             </span>
                             <button
                               type="button"
-                              onClick={() => onUpdateCartQuantity(item.product.id, item.quantity + 1)}
+                              onClick={() => onUpdateCartQuantity(item.product.id, item.quantity + 1, item.packageId)}
                               className="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center cursor-pointer transition-colors"
                               title="Increase quantity"
                             >
@@ -1000,7 +989,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                         {onRemoveCartItem && (
                           <button
                             type="button"
-                            onClick={() => onRemoveCartItem(item.product.id)}
+                            onClick={() => onRemoveCartItem(item.product.id, item.packageId)}
                             className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                             title="Remove from order"
                           >
@@ -1150,44 +1139,80 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5">
-                  {DEFAULT_QUANTITY_TIERS.map((tier) => {
-                    const isSelected = selectedQuantity === tier.count;
-                    const tierPricing = calculatePrice(selectedServiceId, tier.count);
-
-                    return (
-                      <div key={tier.count} className="relative">
-                        {tier.isPopular && (
-                          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10">
-                            <span className="bg-amber-400 text-slate-950 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
-                              POPULAR
+                <div className={`grid gap-2 sm:gap-2.5 ${activeProduct.packages && activeProduct.packages.length > 0 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-5'}`}>
+                  {activeProduct.packages && activeProduct.packages.length > 0 ? (
+                    activeProduct.packages.map((pkg) => {
+                      const isSelected = selectedQuantity === pkg.quantity;
+                      return (
+                        <div key={pkg.id} className="relative">
+                          {pkg.isPopular && (
+                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10">
+                              <span className="bg-amber-400 text-slate-950 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
+                                POPULAR
+                              </span>
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setSelectedQuantity(pkg.quantity)}
+                            className={`w-full p-3 sm:p-3.5 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center min-h-[100px] border ${
+                              isSelected
+                                ? 'bg-gradient-to-b from-blue-600 to-indigo-600 text-white border-blue-600 shadow-lg shadow-blue-500/30'
+                                : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
+                            }`}
+                          >
+                            <span className={`text-xs sm:text-sm font-black ${isSelected ? 'text-white' : 'text-slate-900'}`}>
+                              {pkg.name}
                             </span>
-                          </div>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setSelectedQuantity(tier.count)}
-                          className={`w-full p-3 sm:p-3.5 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center min-h-[100px] border ${
-                            isSelected
-                              ? 'bg-gradient-to-b from-red-500 to-red-600 text-white border-red-600 shadow-lg shadow-red-500/30'
-                              : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
-                          }`}
-                        >
-                          <span className={`text-base sm:text-lg font-black ${isSelected ? 'text-white' : 'text-slate-900'}`}>
-                            {tier.count}x
-                          </span>
-                          <span className={`text-xs sm:text-sm font-extrabold my-0.5 ${isSelected ? 'text-white' : 'text-red-600'}`}>
-                            ${tierPricing.totalPrice}
-                          </span>
-                          <span className={`text-[10px] font-semibold ${isSelected ? 'text-red-100' : 'text-slate-400'}`}>
-                            {tier.count === 100 
-                              ? `Best Agency Rate ($${tierPricing.unitPrice}/ea)` 
-                              : tier.saveText || tier.label || `$${tierPricing.unitPrice}/ea`}
-                          </span>
-                        </button>
-                      </div>
-                    );
-                  })}
+                            <span className={`text-base sm:text-lg font-extrabold my-0.5 ${isSelected ? 'text-white' : 'text-blue-600'}`}>
+                              ${pkg.price}
+                            </span>
+                            <span className={`text-[10px] font-semibold ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
+                              {pkg.badge || `${pkg.quantity} accounts`}
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    DEFAULT_QUANTITY_TIERS.map((tier) => {
+                      const isSelected = selectedQuantity === tier.count;
+                      const tierPricing = calculatePrice(selectedServiceId, tier.count);
+
+                      return (
+                        <div key={tier.count} className="relative">
+                          {tier.isPopular && (
+                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10">
+                              <span className="bg-amber-400 text-slate-950 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
+                                POPULAR
+                              </span>
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setSelectedQuantity(tier.count)}
+                            className={`w-full p-3 sm:p-3.5 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center min-h-[100px] border ${
+                              isSelected
+                                ? 'bg-gradient-to-b from-red-500 to-red-600 text-white border-red-600 shadow-lg shadow-red-500/30'
+                                : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
+                            }`}
+                          >
+                            <span className={`text-base sm:text-lg font-black ${isSelected ? 'text-white' : 'text-slate-900'}`}>
+                              {tier.count}x
+                            </span>
+                            <span className={`text-xs sm:text-sm font-extrabold my-0.5 ${isSelected ? 'text-white' : 'text-red-600'}`}>
+                              ${tierPricing.totalPrice}
+                            </span>
+                            <span className={`text-[10px] font-semibold ${isSelected ? 'text-red-100' : 'text-slate-400'}`}>
+                              {tier.count === 100 
+                                ? `Best Agency Rate ($${tierPricing.unitPrice}/ea)` 
+                                : tier.saveText || tier.label || `$${tierPricing.unitPrice}/ea`}
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               </div>
 

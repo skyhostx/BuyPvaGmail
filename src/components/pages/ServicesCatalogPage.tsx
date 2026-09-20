@@ -17,13 +17,17 @@ import {
   Award,
   Filter,
   Check,
-  ChevronRight
+  ChevronRight,
+  Send,
+  Mail,
+  Server
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo } from '../../data/servicesData';
 import { ServiceProduct } from '../../types';
 import { handleLinkClick } from '../../utils/navigation';
 
 interface ServicesCatalogPageProps {
+  initialFilter?: string;
   onSelectServicePage: (serviceId: string) => void;
   onQuickBuy: (product: ServiceProduct, quantity: number) => void;
   onAddToCart: (product: ServiceProduct, quantity: number) => void;
@@ -31,16 +35,18 @@ interface ServicesCatalogPageProps {
 }
 
 export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
+  initialFilter,
   onSelectServicePage,
   onQuickBuy,
   onAddToCart,
   onNavigateHome
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState<string>('all');
+  const [selectedFilter, setSelectedFilter] = useState<string>(initialFilter || 'all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const filterCategories = [
-    { id: 'all', label: 'All Services (6)' },
+    { id: 'all', label: `All Services (${detailedServicesData.length})` },
+    { id: 'smtp', label: '🚀 Smtp Sending (3)' },
     { id: 'usa', label: 'USA Residential' },
     { id: 'pva', label: 'Phone Verified (PVA)' },
     { id: 'aged', label: 'Vintage Aged (3-8 Yrs)' },
@@ -59,6 +65,9 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
   const getServiceIcon = (id: string) => {
     switch (id) {
+      case 'smtp-mailgun-accounts': return Send;
+      case 'smtp-brevo-accounts': return Mail;
+      case 'smtp-relay-services-account': return Server;
       case 'usa-gmail-accounts': return Shield;
       case 'pva-gmail-accounts': return Smartphone;
       case 'aged-mix-country-gmail': return Globe;
@@ -71,6 +80,9 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
   const getServiceColor = (id: string) => {
     switch (id) {
+      case 'smtp-mailgun-accounts': return { bg: 'bg-rose-50 text-rose-600 border-rose-200', tag: 'bg-rose-100 text-rose-700' };
+      case 'smtp-brevo-accounts': return { bg: 'bg-blue-50 text-blue-600 border-blue-200', tag: 'bg-blue-100 text-blue-700' };
+      case 'smtp-relay-services-account': return { bg: 'bg-indigo-50 text-indigo-600 border-indigo-200', tag: 'bg-indigo-100 text-indigo-700' };
       case 'usa-gmail-accounts': return { bg: 'bg-red-50 text-red-600 border-red-200', tag: 'bg-red-100 text-red-700' };
       case 'pva-gmail-accounts': return { bg: 'bg-blue-50 text-blue-600 border-blue-200', tag: 'bg-blue-100 text-blue-700' };
       case 'aged-mix-country-gmail': return { bg: 'bg-emerald-50 text-emerald-600 border-emerald-200', tag: 'bg-emerald-100 text-emerald-700' };
@@ -291,7 +303,9 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                       <span className="text-2xl font-black text-slate-900">
                         ${service.unitPrice.toFixed(2)}
                       </span>
-                      <span className="text-xs text-slate-500 font-medium ml-1">/ account</span>
+                      <span className="text-xs text-slate-500 font-medium ml-1">
+                        {service.category === 'smtp' ? '/ month' : '/ account'}
+                      </span>
                     </div>
                     <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
                       Up to 30% Bulk OFF
