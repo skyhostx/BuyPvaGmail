@@ -42,7 +42,7 @@ export const LiveSupportWidget: React.FC = () => {
 
     // Simulated automated smart reply
     setTimeout(() => {
-      let replyText = 'Thanks for contacting us! All orders are delivered automatically within 60 seconds. For direct custom orders or instant replacements, reach our senior engineers directly on Telegram @Go2Rapid or WhatsApp +1 (253) 408-0049';
+      let replyText = 'Thanks for contacting us! All orders are delivered automatically within 60 seconds. For direct custom orders or instant replacements, reach our senior engineers directly on Telegram @BuyPvaGmail or WhatsApp +1 (253) 408-0049';
       
       if (text.toLowerCase().includes('delivery') || text.toLowerCase().includes('fast')) {
         replyText = '⚡ Orders are delivered automatically within 30–90 seconds after payment confirmation via on-screen download and email TXT/CSV files!';
@@ -115,12 +115,12 @@ export const LiveSupportWidget: React.FC = () => {
           {/* Quick Direct Channel Links */}
           <div className="bg-slate-50 px-3 py-2 border-b border-slate-200 flex items-center justify-between gap-1 text-[11px]">
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1 text-blue-600 font-bold hover:underline"
             >
-              <span>Telegram: @Go2Rapid</span>
+              <span>Telegram: @BuyPvaGmail</span>
               <ExternalLink className="w-3 h-3" />
             </a>
             <span className="text-slate-300">|</span>

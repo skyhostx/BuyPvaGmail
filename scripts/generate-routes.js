@@ -188,7 +188,7 @@ const staticPages = [
   {
     path: 'contact',
     title: '24/7 Customer Support & Live Desk | BuyPvaGmail',
-    description: 'Need help with your Gmail account order? Contact BuyPvaGmail 24/7 via Telegram @Go2Rapid or WhatsApp +1-253-408-0049 for instant assistance.',
+    description: 'Need help with your Gmail account order? Contact BuyPvaGmail 24/7 via Telegram @BuyPvaGmail or WhatsApp +1-253-408-0049 for instant assistance.',
     heading: '24/7 Customer Support & Live Assistance',
     subheading: 'Our dedicated support engineers are available round the clock on Telegram and WhatsApp.'
   },

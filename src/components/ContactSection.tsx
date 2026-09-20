@@ -53,7 +53,7 @@ export const ContactSection: React.FC = () => {
             
             {/* Telegram Card */}
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noreferrer"
               className="bg-blue-50/80 hover:bg-blue-100/80 p-5 rounded-2xl border border-blue-200 transition-all flex items-start gap-4 group"
@@ -72,7 +72,7 @@ export const ContactSection: React.FC = () => {
                   Fastest response (&lt;5 mins) for bulk discounts & instant replacements.
                 </p>
                 <span className="inline-block text-xs font-black text-blue-700 mt-2">
-                  @Go2Rapid
+                  @BuyPvaGmail
                 </span>
               </div>
             </a>

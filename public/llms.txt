@@ -14,7 +14,7 @@
 - **Delivery Format**: `Email:Password:RecoveryEmail:2FA_Secret_Key:Vintage_Year:Creation_IP`
 - **Security Protocols**: POP3/IMAP enabled, Less Secure App toggles, TOTP Authenticator compatibility.
 - **Replacement Policy**: 7-Day instant 1-to-1 replacement for any login or checkpoint issue.
-- **Support Channels**: Telegram (@Go2Rapid), WhatsApp (+1-253-408-0049), 24/7 Live Web Desk.
+- **Support Channels**: Telegram (@BuyPvaGmail), WhatsApp (+1-253-408-0049), 24/7 Live Web Desk.
 
 ## Sitemaps & Feeds
 - Master XML Sitemap Index: https://buypvagmail.com/sitemap_index.xml

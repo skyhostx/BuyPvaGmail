@@ -187,7 +187,7 @@ export const SeoAnalyticsModal: React.FC<SeoAnalyticsModalProps> = ({
       "name": "BuyPvaGmail",
       "url": "https://buypvagmail.com/",
       "logo": "https://buypvagmail.com/logo.png",
-      "sameAs": ["https://t.me/Go2Rapid", "https://wa.me/12534080049"]
+      "sameAs": ["https://t.me/BuyPvaGmail", "https://wa.me/12534080049"]
     },
     {
       "@type": "Store",

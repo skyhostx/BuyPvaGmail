@@ -173,13 +173,13 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noreferrer"
               className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
             >
               <Send className="w-4 h-4" />
-              <span>Telegram: @Go2Rapid</span>
+              <span>Telegram: @BuyPvaGmail</span>
             </a>
 
             <a

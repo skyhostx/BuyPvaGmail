@@ -135,13 +135,13 @@ export const Footer: React.FC<FooterProps> = ({
             {/* Quick Contact & Status Badges */}
             <div className="flex items-center gap-2.5 pt-2 flex-wrap">
               <a
-                href="https://t.me/Go2Rapid"
+                href="https://t.me/BuyPvaGmail"
                 target="_blank"
                 rel="noreferrer"
                 className="bg-slate-900 hover:bg-blue-600 hover:text-white text-slate-300 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 transition-all flex items-center gap-2 shadow-xs"
               >
                 <Send className="w-3.5 h-3.5 text-blue-400" />
-                <span>Telegram: @Go2Rapid</span>
+                <span>Telegram: @BuyPvaGmail</span>
               </a>
               <a
                 href="https://wa.me/12534080049"

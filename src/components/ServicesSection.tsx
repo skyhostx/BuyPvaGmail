@@ -440,13 +440,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noreferrer"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"
             >
               <Send className="w-4 h-4" />
-              <span>Telegram: @Go2Rapid</span>
+              <span>Telegram: @BuyPvaGmail</span>
             </a>
             <a
               href="https://wa.me/12534080049"

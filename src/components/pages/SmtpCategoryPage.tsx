@@ -769,13 +769,13 @@ export const SmtpCategoryPage: React.FC<SmtpCategoryPageProps> = ({
 
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <a 
-                href="https://t.me/skyhostexp"
+                href="https://t.me/BuyPvaGmail"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white text-slate-900 hover:bg-slate-100 font-extrabold px-5 py-3 rounded-xl text-xs flex items-center gap-2 shadow-md transition-all cursor-pointer"
               >
                 <Send className="w-4 h-4 text-blue-500" />
-                <span>Chat on Telegram (@skyhostexp)</span>
+                <span>Chat on Telegram (@BuyPvaGmail)</span>
               </a>
 
               <a 

@@ -124,7 +124,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
       url: 'https://buypvagmail.com/contact', 
       path: '/contact', 
       view: 'contact' as AppView,
-      desc: 'Direct Telegram desk (@Go2Rapid), WhatsApp (+1-253-408-0049), and support tickets.',
+      desc: 'Direct Telegram desk (@BuyPvaGmail), WhatsApp (+1-253-408-0049), and support tickets.',
       icon: Headphones,
       priority: '0.75',
       changefreq: 'Monthly'

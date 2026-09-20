@@ -240,7 +240,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
                 </div>
                 <div>
                   <h3 className="text-lg font-black text-white">Instant Telegram Desk</h3>
-                  <p className="text-xs text-slate-400 font-semibold">Direct 1-on-1 agent messaging (@Go2Rapid)</p>
+                  <p className="text-xs text-slate-400 font-semibold">Direct 1-on-1 agent messaging (@BuyPvaGmail)</p>
                 </div>
               </div>
 
@@ -249,13 +249,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
               </p>
 
               <a
-                href="https://t.me/Go2Rapid"
+                href="https://t.me/BuyPvaGmail"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
               >
                 <Send className="w-4 h-4" />
-                <span>Open Telegram (@Go2Rapid)</span>
+                <span>Open Telegram (@BuyPvaGmail)</span>
               </a>
             </div>
 

@@ -303,7 +303,7 @@ export default function App() {
         pageUrl = 'https://buypvagmail.com/about';
       } else if (currentView === 'contact') {
         pageTitle = 'Contact 24/7 Support Desk — Telegram, WhatsApp & Email | BuyPvaGmail';
-        pageDesc = 'Connect with our live technical support desk on Telegram (@Go2Rapid) and WhatsApp (+1-253-408-0049) for instant account support and bulk quotes.';
+        pageDesc = 'Connect with our live technical support desk on Telegram (@BuyPvaGmail) and WhatsApp (+1-253-408-0049) for instant account support and bulk quotes.';
         pageUrl = 'https://buypvagmail.com/contact';
       } else if (currentView === 'privacy') {
         pageTitle = 'Privacy Policy — Confidentiality & Order Data Protection | BuyPvaGmail';

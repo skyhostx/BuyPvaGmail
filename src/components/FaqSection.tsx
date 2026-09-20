@@ -104,13 +104,13 @@ export const FaqSection: React.FC = () => {
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>Telegram: @Go2Rapid</span>
+              <span>Telegram: @BuyPvaGmail</span>
             </a>
             <a
               href="https://wa.me/12534080049"
