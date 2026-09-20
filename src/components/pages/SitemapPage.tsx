@@ -70,6 +70,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
       changefreq: 'Daily'
     },
     { 
+      title: 'SMTP Sending Accounts Category', 
+      url: 'https://buypvagmail.com/smtp', 
+      path: '/smtp', 
+      view: 'smtp' as AppView,
+      desc: 'Enterprise Mailgun, Brevo & Dedicated SMTP Relays (50k - 200k/mo) with pre-warmed IPs and verified SPF/DKIM/DMARC.',
+      icon: Mail,
+      priority: '0.95',
+      changefreq: 'Daily'
+    },
+    { 
       title: 'Pricing & Packages', 
       url: 'https://buypvagmail.com/pricing', 
       path: '/pricing', 

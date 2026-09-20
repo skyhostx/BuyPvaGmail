@@ -32,6 +32,7 @@ interface ServicesCatalogPageProps {
   onQuickBuy: (product: ServiceProduct, quantity: number) => void;
   onAddToCart: (product: ServiceProduct, quantity: number) => void;
   onNavigateHome?: () => void;
+  onNavigateToSmtp?: () => void;
 }
 
 export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
@@ -39,7 +40,8 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
   onSelectServicePage,
   onQuickBuy,
   onAddToCart,
-  onNavigateHome
+  onNavigateHome,
+  onNavigateToSmtp
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>(initialFilter || 'all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -209,6 +211,31 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
             </button>
           ))}
         </div>
+
+        {/* Dedicated SMTP Page Link Banner */}
+        {selectedFilter === 'smtp' && onNavigateToSmtp && (
+          <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-rose-50 via-red-50 to-amber-50 border border-rose-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Send className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-black text-slate-900">Dedicated SMTP Category Landing Page Available</h4>
+                <p className="text-xs text-slate-600">View side-by-side technical benchmarks, package comparisons (50k - 200k/mo), SPF/DKIM authentication & warmup protocols.</p>
+              </div>
+            </div>
+            <a
+              href="/smtp"
+              onClick={(e) => {
+                handleLinkClick(e, () => onNavigateToSmtp());
+              }}
+              className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shrink-0 transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Explore Dedicated SMTP Page</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

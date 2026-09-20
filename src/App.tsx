@@ -32,6 +32,7 @@ import { WarrantyGuidelinesPage } from './components/pages/WarrantyGuidelinesPag
 import { SitemapPage } from './components/pages/SitemapPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
+import { SmtpCategoryPage } from './components/pages/SmtpCategoryPage';
 import { SeoAnalyticsModal } from './components/SeoAnalyticsModal';
 import { initGoogleAnalytics, trackPageView, trackAddToCart, trackRemoveFromCart, trackPurchase } from './utils/analytics';
 
@@ -45,6 +46,7 @@ export type AppView =
   | 'home' 
   | 'services-catalog' 
   | 'service-detail' 
+  | 'smtp'
   | 'pricing' 
   | 'about' 
   | 'blog' 
@@ -67,6 +69,7 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
 
     const effectivePath = rawHash && (
       rawHash.startsWith('service') || 
+      rawHash.startsWith('smtp') || 
       rawHash.startsWith('pricing') || 
       rawHash.startsWith('about') || 
       rawHash.startsWith('blog') || 
@@ -127,6 +130,18 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
 
     if (effectivePath === '/' || effectivePath === '' || viewParam === 'home' || rawHash === 'home') {
       return { view: 'home', serviceId: 'usa-gmail-accounts' };
+    }
+    if (
+      effectivePath === '/smtp' ||
+      effectivePath === '/smtp-category' ||
+      effectivePath === '/smtp-services' ||
+      effectivePath === '/smtp-accounts' ||
+      effectivePath === '/category/smtp' ||
+      viewParam === 'smtp' ||
+      rawHash === 'smtp' ||
+      rawHash === 'smtp-services'
+    ) {
+      return { view: 'smtp', serviceId: 'smtp-mailgun-accounts' };
     }
     if (
       effectivePath === '/services' || 
@@ -587,6 +602,23 @@ export default function App() {
         }
 
 
+        // SMTP Category Page
+        if (
+          effectivePath === '/smtp' ||
+          effectivePath === '/smtp-category' ||
+          effectivePath === '/smtp-services' ||
+          effectivePath === '/smtp-accounts' ||
+          effectivePath === '/category/smtp' ||
+          viewParam === 'smtp' ||
+          rawHash === 'smtp' ||
+          rawHash === 'smtp-services'
+        ) {
+          setCurrentView('smtp');
+          setActiveSection('smtp');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         // Services Catalog (including /products, /shop, /category)
         if (
           effectivePath === '/services' ||
@@ -811,6 +843,10 @@ export default function App() {
       setCurrentView('services-catalog');
       setActiveSection('services');
       targetUrl = '/services';
+    } else if (view === 'smtp') {
+      setCurrentView('smtp');
+      setActiveSection('smtp');
+      targetUrl = '/smtp';
     } else if (view === 'pricing') {
       setCurrentView('pricing');
       setActiveSection('pricing');
@@ -1041,6 +1077,18 @@ export default function App() {
             onQuickBuy={handleQuickBuy}
             onAddToCart={handleAddToCart}
             onNavigateHome={() => navigateToPage('home')}
+            onNavigateToSmtp={() => navigateToPage('smtp')}
+          />
+        )}
+
+        {currentView === 'smtp' && (
+          <SmtpCategoryPage
+            onSelectServicePage={(id) => navigateToPage('service-detail', id)}
+            onQuickBuy={handleQuickBuy}
+            onAddToCart={handleAddToCart}
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToPricing={() => navigateToPage('pricing')}
+            onNavigateToContact={() => navigateToPage('contact')}
           />
         )}
 

@@ -234,6 +234,23 @@ export const Footer: React.FC<FooterProps> = ({
                   <span className="text-[10px] font-bold text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">$3/2pcs</span>
                 </a>
               </li>
+              <li className="pt-1 mt-1 border-t border-slate-850">
+                <a 
+                  href="/smtp"
+                  onClick={(e) => {
+                    handleLinkClick(e, () => {
+                      if (onNavigateToPage) onNavigateToPage('smtp');
+                    });
+                  }} 
+                  className="text-rose-400 hover:text-rose-300 transition-colors cursor-pointer text-left flex items-center justify-between group font-bold"
+                >
+                  <span className="group-hover:translate-x-0.5 transition-transform flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                    SMTP Sending Category
+                  </span>
+                  <span className="text-[9px] font-black uppercase text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded border border-rose-500/30">Hot</span>
+                </a>
+              </li>
             </ul>
           </div>
 

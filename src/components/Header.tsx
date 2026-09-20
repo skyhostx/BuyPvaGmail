@@ -233,7 +233,7 @@ export const Header: React.FC<HeaderProps> = ({
       if (id === 'services') {
         onNavigateToPage('services-catalog');
       } else if (id === 'smtp') {
-        onNavigateToPage('services-catalog', 'smtp-mailgun-accounts');
+        onNavigateToPage('smtp');
       } else if (id === 'pricing') {
         onNavigateToPage('pricing');
       } else if (id === 'about') {
@@ -542,7 +542,7 @@ export const Header: React.FC<HeaderProps> = ({
                           {/* View All CTA */}
                           <div className="pt-2 mt-1.5 border-t border-slate-100">
                             <a
-                              href="/services"
+                              href="/smtp"
                               onClick={(e) => {
                                 handleLinkClick(e, () => {
                                   setSmtpDropdownOpen(false);
@@ -760,7 +760,7 @@ export const Header: React.FC<HeaderProps> = ({
                             );
                           })}
                           <a
-                            href="/services"
+                            href="/smtp"
                             onClick={(e) => {
                               handleLinkClick(e, () => {
                                 handleNavClick('smtp');
