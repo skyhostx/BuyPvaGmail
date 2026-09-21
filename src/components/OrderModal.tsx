@@ -81,6 +81,14 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     iconColor: 'text-blue-500'
   },
   {
+    id: 'new-gmail-accounts',
+    name: 'New Gmail Accounts',
+    subtitle: '⚡ Lowest Price • High Volume',
+    fromPrice: 'From $3',
+    icon: Zap,
+    iconColor: 'text-amber-500'
+  },
+  {
     id: 'aged-mix-country-gmail',
     name: 'Aged Mix Country Gmail Accounts',
     subtitle: '🌍 Global Diversity • Best Value',
@@ -103,14 +111,6 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     fromPrice: 'From $5',
     icon: TrendingUp,
     iconColor: 'text-purple-500'
-  },
-  {
-    id: 'new-gmail-accounts',
-    name: 'New Gmail Accounts',
-    subtitle: '⚡ Lowest Price • High Volume',
-    fromPrice: 'From $3',
-    icon: Zap,
-    iconColor: 'text-amber-500'
   },
   {
     id: 'smtp-mailgun-accounts',
@@ -1089,7 +1089,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               {/* Category Selection Section */}
               <div>
                 <span className="text-[11px] font-extrabold tracking-wider text-slate-500 uppercase block mb-2.5">
-                  SELECT VERIFIED SERVICE CATEGORY
+                  SELECT VERIFIED GMAIL CATEGORY
                 </span>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">

@@ -47,14 +47,14 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const filterCategories = [
-    { id: 'all', label: `All Services (${detailedServicesData.length})` },
+    { id: 'all', label: `All Gmail (${detailedServicesData.length})` },
     { id: 'smtp', label: '🚀 Smtp Sending (3)' },
     { id: 'usa', label: 'USA Residential' },
     { id: 'pva', label: 'Phone Verified (PVA)' },
+    { id: 'new', label: 'Fresh Budget Bulk' },
     { id: 'aged', label: 'Vintage Aged (3-8 Yrs)' },
     { id: 'reviews', label: 'Reviews & Local Guides' },
-    { id: 'google-ads', label: 'Google Ads Ready' },
-    { id: 'new', label: 'Fresh Budget Bulk' }
+    { id: 'google-ads', label: 'Google Ads Ready' }
   ];
 
   const filteredServices = detailedServicesData.filter((service) => {
@@ -113,7 +113,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
             Home
           </a>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-900 font-bold">Services Catalog</span>
+          <span className="text-slate-900 font-bold">Gmail Catalog</span>
         </div>
       </div>
 
@@ -179,7 +179,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
           <div className="w-full md:w-64">
             <input
               type="text"
-              placeholder="Search services..."
+              placeholder="Search Gmail accounts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
@@ -270,7 +270,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                   {/* Title & Rating */}
                   <h3 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
                     <a
-                      href={`/services/${encodeURIComponent(service.id)}`}
+                      href={`/gmail/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onSelectServicePage(service.id));
                       }}
@@ -341,7 +341,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
                   <div className="grid grid-cols-2 gap-2">
                     <a
-                      href={`/services/${encodeURIComponent(service.id)}`}
+                      href={`/gmail/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onSelectServicePage(service.id));
                       }}
@@ -415,7 +415,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <a
-                        href={`/services/${encodeURIComponent(svc.id)}`}
+                        href={`/gmail/${encodeURIComponent(svc.id)}`}
                         onClick={(e) => {
                           handleLinkClick(e, () => onSelectServicePage(svc.id));
                         }}

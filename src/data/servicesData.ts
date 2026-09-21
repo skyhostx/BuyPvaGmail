@@ -276,6 +276,121 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ]
   },
   {
+    id: 'new-gmail-accounts',
+    name: 'New Gmail Accounts',
+    shortDesc: 'Freshly generated clean PVA Gmails registered within 2025. Budget-friendly for high-volume tasks & automation.',
+    shortDescription: 'Freshly generated 2025 PVA phone-verified Gmail accounts on clean residential IP subnets. Low-cost wholesale solution for mass social signups and automated testing.',
+    description: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments, software QA testing, and promotional signups.',
+    focusKeyword: 'Buy Fresh PVA Gmail Accounts',
+    tags: ['Buy Fresh PVA Gmail Accounts', 'New Gmail Accounts 2025', 'Budget PVA Accounts', 'Mass Account Creation', 'Software QA Testing', 'Social Media Signups', 'Clean Residential IPs', 'Wholesale Gmail Bulk', 'Automated Script Ready', '48-Hour Replacement'],
+    heroTagline: 'Fresh 2025 100% Phone Verified PVA Accounts at Wholesale Pricing',
+    longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
+    basePrice: 3,
+    baseQuantity: 2,
+    unitPrice: 1.5,
+    popular: false,
+    age: '2025 Fresh (1-3 Months Old)',
+    category: 'new',
+    country: 'Worldwide / Mixed',
+    countryCode: 'GLOBAL',
+    inStock: 6800,
+    rating: 4.82,
+    reviewsCount: 620,
+    features: [
+      'Fresh 2025 PVA creation with zero spam history',
+      'Low cost bulk solution ($1.50 per account)',
+      '100% Phone Verified with unique SIM numbers',
+      'Complete email : password : recovery credentials format',
+      'Great for account creation, social signups & testers',
+      '48-Hour Instant Replacement Guarantee'
+    ],
+    specs: {
+      phoneType: 'SMS Carrier PVA',
+      recoveryMail: true,
+      twoFA: false,
+      ipOrigin: 'Clean Residential Proxies',
+      deliveryTime: 'Instant (Under 60 seconds)',
+      warranty: '48-Hour Replacement Policy'
+    },
+    useCases: [
+      'High-Volume Social Media Account Registrations',
+      'Software Testing, QA Benchmarks & Script Development',
+      'Coupon, Rebate & Promo Signups',
+      'Bulk Newsletter & Community Registrations',
+      'Temporary Account Needs & Mass Verification'
+    ],
+    loginInstructions: [
+      'Login with matching country proxy or clean VPN.',
+      'Use the recovery email provided if a secondary checkpoint appears.',
+      'Avoid sending mass spam emails on day 1 to preserve account health.'
+    ],
+    bestTools: ['Python', 'Puppeteer', 'Selenium', 'Postman', 'Ant-Detect Browsers'],
+    sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com',
+    packages: [
+      {
+        id: 'new-duo',
+        name: 'Budget Duo Pack',
+        quantity: 2,
+        price: 3.00,
+        unitPrice: 1.50,
+        discountPercent: 0,
+        badge: 'Trial',
+        features: ['2 Fresh 2025 PVA Accounts', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
+      },
+      {
+        id: 'new-starter',
+        name: 'Starter Fresh 10',
+        quantity: 10,
+        price: 14.25,
+        unitPrice: 1.42,
+        discountPercent: 5,
+        badge: 'Save 5%',
+        features: ['10 Fresh 2025 PVA Accounts', 'Clean IP Registration', 'Full Credentials', '48-Hour Warranty']
+      },
+      {
+        id: 'new-signup',
+        name: 'Social Signup Squad 25',
+        quantity: 25,
+        price: 33.75,
+        unitPrice: 1.35,
+        discountPercent: 10,
+        badge: '⚡ Popular',
+        isPopular: true,
+        features: ['25 Fresh 2025 PVA Accounts', 'Zero Prior Usage', 'TXT/CSV Export', 'Priority Support']
+      },
+      {
+        id: 'new-bulk',
+        name: 'Bulk Fresh 50',
+        quantity: 50,
+        price: 63.75,
+        unitPrice: 1.27,
+        discountPercent: 15,
+        badge: 'Save 15%',
+        features: ['50 Fresh 2025 PVA Accounts', 'Ideal for App Testing', 'Fast Import Format', '48-Hour Replacement']
+      },
+      {
+        id: 'new-century',
+        name: 'Automation Century 100',
+        quantity: 100,
+        price: 120.00,
+        unitPrice: 1.20,
+        discountPercent: 20,
+        badge: '⚡ Lowest Unit Price',
+        features: ['100 Fresh 2025 PVA Accounts', 'Just $1.20 per Account', 'Batch File Download', 'Priority Support']
+      },
+      {
+        id: 'new-mass',
+        name: 'Mass Creation 500',
+        quantity: 500,
+        price: 525.00,
+        unitPrice: 1.05,
+        discountPercent: 30,
+        badge: 'Save 30% Wholesale',
+        features: ['500 Fresh 2025 PVA Accounts', 'Bottom Dollar Wholesale ($1.05/ea)', 'Automated API Webhook', 'Dedicated Support Manager']
+      }
+    ]
+  },
+  {
     id: 'aged-mix-country-gmail',
     name: 'Aged Mix Country Gmail Accounts',
     shortDesc: 'High-authority vintage accounts spanning 2008 to 2025 from UK, Canada, Australia & Europe with mature browsing history.',
@@ -622,121 +737,6 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         discountPercent: 25,
         badge: 'Save 25% Wholesale',
         features: ['100 Heavy-Aged Accounts', 'Lowest Rate ($3.75/ea)', 'Bulk Replacement Guarantee', 'Dedicated Ad Strategist Support']
-      }
-    ]
-  },
-  {
-    id: 'new-gmail-accounts',
-    name: 'New Gmail Accounts',
-    shortDesc: 'Freshly generated clean PVA Gmails registered within 2025. Budget-friendly for high-volume tasks & automation.',
-    shortDescription: 'Freshly generated 2025 PVA phone-verified Gmail accounts on clean residential IP subnets. Low-cost wholesale solution for mass social signups and automated testing.',
-    description: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments, software QA testing, and promotional signups.',
-    focusKeyword: 'Buy Fresh PVA Gmail Accounts',
-    tags: ['Buy Fresh PVA Gmail Accounts', 'New Gmail Accounts 2025', 'Budget PVA Accounts', 'Mass Account Creation', 'Software QA Testing', 'Social Media Signups', 'Clean Residential IPs', 'Wholesale Gmail Bulk', 'Automated Script Ready', '48-Hour Replacement'],
-    heroTagline: 'Fresh 2025 100% Phone Verified PVA Accounts at Wholesale Pricing',
-    longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
-    basePrice: 3,
-    baseQuantity: 2,
-    unitPrice: 1.5,
-    popular: false,
-    age: '2025 Fresh (1-3 Months Old)',
-    category: 'new',
-    country: 'Worldwide / Mixed',
-    countryCode: 'GLOBAL',
-    inStock: 6800,
-    rating: 4.82,
-    reviewsCount: 620,
-    features: [
-      'Fresh 2025 PVA creation with zero spam history',
-      'Low cost bulk solution ($1.50 per account)',
-      '100% Phone Verified with unique SIM numbers',
-      'Complete email : password : recovery credentials format',
-      'Great for account creation, social signups & testers',
-      '48-Hour Instant Replacement Guarantee'
-    ],
-    specs: {
-      phoneType: 'SMS Carrier PVA',
-      recoveryMail: true,
-      twoFA: false,
-      ipOrigin: 'Clean Residential Proxies',
-      deliveryTime: 'Instant (Under 60 seconds)',
-      warranty: '48-Hour Replacement Policy'
-    },
-    useCases: [
-      'High-Volume Social Media Account Registrations',
-      'Software Testing, QA Benchmarks & Script Development',
-      'Coupon, Rebate & Promo Signups',
-      'Bulk Newsletter & Community Registrations',
-      'Temporary Account Needs & Mass Verification'
-    ],
-    loginInstructions: [
-      'Login with matching country proxy or clean VPN.',
-      'Use the recovery email provided if a secondary checkpoint appears.',
-      'Avoid sending mass spam emails on day 1 to preserve account health.'
-    ],
-    bestTools: ['Python', 'Puppeteer', 'Selenium', 'Postman', 'Ant-Detect Browsers'],
-    sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com',
-    packages: [
-      {
-        id: 'new-duo',
-        name: 'Budget Duo Pack',
-        quantity: 2,
-        price: 3.00,
-        unitPrice: 1.50,
-        discountPercent: 0,
-        badge: 'Trial',
-        features: ['2 Fresh 2025 PVA Accounts', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
-      },
-      {
-        id: 'new-starter',
-        name: 'Starter Fresh 10',
-        quantity: 10,
-        price: 14.25,
-        unitPrice: 1.42,
-        discountPercent: 5,
-        badge: 'Save 5%',
-        features: ['10 Fresh 2025 PVA Accounts', 'Clean IP Registration', 'Full Credentials', '48-Hour Warranty']
-      },
-      {
-        id: 'new-signup',
-        name: 'Social Signup Squad 25',
-        quantity: 25,
-        price: 33.75,
-        unitPrice: 1.35,
-        discountPercent: 10,
-        badge: '⚡ Popular',
-        isPopular: true,
-        features: ['25 Fresh 2025 PVA Accounts', 'Zero Prior Usage', 'TXT/CSV Export', 'Priority Support']
-      },
-      {
-        id: 'new-bulk',
-        name: 'Bulk Fresh 50',
-        quantity: 50,
-        price: 63.75,
-        unitPrice: 1.27,
-        discountPercent: 15,
-        badge: 'Save 15%',
-        features: ['50 Fresh 2025 PVA Accounts', 'Ideal for App Testing', 'Fast Import Format', '48-Hour Replacement']
-      },
-      {
-        id: 'new-century',
-        name: 'Automation Century 100',
-        quantity: 100,
-        price: 120.00,
-        unitPrice: 1.20,
-        discountPercent: 20,
-        badge: '⚡ Lowest Unit Price',
-        features: ['100 Fresh 2025 PVA Accounts', 'Just $1.20 per Account', 'Batch File Download', 'Priority Support']
-      },
-      {
-        id: 'new-mass',
-        name: 'Mass Creation 500',
-        quantity: 500,
-        price: 525.00,
-        unitPrice: 1.05,
-        discountPercent: 30,
-        badge: 'Save 30% Wholesale',
-        features: ['500 Fresh 2025 PVA Accounts', 'Bottom Dollar Wholesale ($1.05/ea)', 'Automated API Webhook', 'Dedicated Support Manager']
       }
     ]
   },

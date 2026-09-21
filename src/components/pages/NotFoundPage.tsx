@@ -114,14 +114,14 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           </a>
 
           <a
-            href="/services"
+            href="/gmail"
             onClick={(e) => {
               handleLinkClick(e, () => onNavigateToPage('services-catalog'));
             }}
             className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
           >
             <Layers className="w-4 h-4 text-blue-400" />
-            <span>Browse All Services</span>
+            <span>Browse All Gmail Accounts</span>
           </a>
 
           <a
@@ -157,7 +157,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
               </h3>
             </div>
             <a
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, () => onNavigateToPage('services-catalog'));
               }}
@@ -172,7 +172,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
             {filteredServices.map((service) => (
               <a
                 key={service.id}
-                href={`/services/${encodeURIComponent(service.id)}`}
+                href={`/gmail/${encodeURIComponent(service.id)}`}
                 onClick={(e) => {
                   handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
                 }}
@@ -216,7 +216,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href="https://t.me/Go2Rapid"
+              href="https://t.me/BuyPvaGmail"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"

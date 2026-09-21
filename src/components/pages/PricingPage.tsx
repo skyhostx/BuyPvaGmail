@@ -270,7 +270,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
 
                   <h3 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
                     <a
-                      href={`/services/${encodeURIComponent(service.id)}`}
+                      href={`/gmail/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onSelectServicePage(service.id));
                       }}
@@ -310,7 +310,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
 
                 <div className="mt-6 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2">
                   <a
-                    href={`/services/${encodeURIComponent(service.id)}`}
+                    href={`/gmail/${encodeURIComponent(service.id)}`}
                     onClick={(e) => {
                       handleLinkClick(e, () => onSelectServicePage(service.id));
                     }}

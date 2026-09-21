@@ -60,9 +60,9 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
       changefreq: 'Daily'
     },
     { 
-      title: 'Services Catalog', 
-      url: 'https://buypvagmail.com/services', 
-      path: '/services', 
+      title: 'Gmail Catalog', 
+      url: 'https://buypvagmail.com/gmail', 
+      path: '/gmail', 
       view: 'services-catalog' as AppView,
       desc: 'Comprehensive inventory of USA PVA, Aged 2008–2025, Review, and Google Ads accounts.',
       icon: Layers,
@@ -294,7 +294,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
               </h2>
             </div>
             <a
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, () => onNavigateToPage('services-catalog'));
               }}
@@ -323,7 +323,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
 
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-1.5">
                     <a
-                      href={`/services/${encodeURIComponent(service.id)}`}
+                      href={`/gmail/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
                       }}
@@ -340,16 +340,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
 
                 <div className="pt-3 border-t border-slate-200/70 flex items-center justify-between">
                   <span className="text-[11px] font-mono text-slate-400">
-                    /services/{service.id}
+                    /gmail/{service.id}
                   </span>
                   
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => copyToClipboard(`https://buypvagmail.com/services/${service.id}`)}
+                      onClick={() => copyToClipboard(`https://buypvagmail.com/gmail/${service.id}`)}
                       title="Copy URL"
                       className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"
                     >
-                      {copiedUrl === `https://buypvagmail.com/services/${service.id}` ? (
+                      {copiedUrl === `https://buypvagmail.com/gmail/${service.id}` ? (
                         <Check className="w-3.5 h-3.5 text-emerald-600" />
                       ) : (
                         <Copy className="w-3.5 h-3.5" />
@@ -357,7 +357,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                     </button>
 
                     <a
-                      href={`/services/${encodeURIComponent(service.id)}`}
+                      href={`/gmail/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onNavigateToServiceDetail(service.id));
                       }}
@@ -409,7 +409,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
                   {tier.years.map((year) => (
                     <a
                       key={year}
-                      href="/services/aged-mix-country-gmail"
+                      href="/gmail/aged-mix-country-gmail"
                       onClick={(e) => {
                         handleLinkClick(e, () => onNavigateToServiceDetail('aged-mix-country-gmail'));
                       }}

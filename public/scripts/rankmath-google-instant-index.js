@@ -24,7 +24,7 @@ const fs = require('fs');
 const URLS_TO_INDEX = [
   // Core Landing & Service Catalog Pages
   'https://buypvagmail.com/',
-  'https://buypvagmail.com/services',
+  'https://buypvagmail.com/gmail',
   'https://buypvagmail.com/pricing',
   'https://buypvagmail.com/blog',
   'https://buypvagmail.com/faq',
@@ -36,32 +36,32 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/sitemap',
 
   // Product Service Pages
-  'https://buypvagmail.com/services/usa-gmail-accounts',
-  'https://buypvagmail.com/services/pva-gmail-accounts',
-  'https://buypvagmail.com/services/aged-mix-country-gmail',
-  'https://buypvagmail.com/services/fresh-gmail-accounts',
-  'https://buypvagmail.com/services/google-maps-review-gmail',
-  'https://buypvagmail.com/services/google-ads-threshold-gmail',
+  'https://buypvagmail.com/gmail/usa-gmail-accounts',
+  'https://buypvagmail.com/gmail/pva-gmail-accounts',
+  'https://buypvagmail.com/gmail/new-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-mix-country-gmail',
+  'https://buypvagmail.com/gmail/aged-gmail-for-reviews',
+  'https://buypvagmail.com/gmail/aged-gmail-for-google-ads',
 
   // Vintage 2008-2025 Aged Gmail Pages
-  'https://buypvagmail.com/services/aged-2008-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2009-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2010-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2011-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2012-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2013-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2014-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2015-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2016-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2017-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2018-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2019-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2020-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2021-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2022-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2023-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2024-gmail-accounts',
-  'https://buypvagmail.com/services/aged-2025-gmail-accounts'
+  'https://buypvagmail.com/gmail/aged-2008-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2009-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2010-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2011-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2012-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2013-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2014-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2015-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2016-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2017-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2018-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2019-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2020-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2021-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2022-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2023-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2024-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2025-gmail-accounts'
 ];
 
 async function submitInstantIndexing() {

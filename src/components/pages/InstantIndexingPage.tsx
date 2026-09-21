@@ -65,7 +65,7 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
   const allIndexedUrls = [
     // Static Pages
     { url: 'https://buypvagmail.com/', category: 'pages', name: 'Homepage (Live Pricing & Stock)', priority: '1.0', changefreq: 'daily', sitemap: 'page-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services', category: 'products', name: 'Services Catalog', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail', category: 'products', name: 'Gmail Catalog', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/pricing', category: 'pages', name: 'Wholesale Tiered Pricing', priority: '0.85', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/blog', category: 'guides', name: 'Agency Warmup Guides & SOPs', priority: '0.90', changefreq: 'daily', sitemap: 'post-sitemap.xml' },
     { url: 'https://buypvagmail.com/faq', category: 'pages', name: 'Frequently Asked Questions', priority: '0.80', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
@@ -77,12 +77,12 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
     { url: 'https://buypvagmail.com/sitemap', category: 'pages', name: 'HTML Sitemap Directory', priority: '0.65', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
 
     // Main 6 PVA Products
-    { url: 'https://buypvagmail.com/services/usa-gmail-accounts', category: 'products', name: 'USA Gmail Accounts (Real Carrier SIM)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/pva-gmail-accounts', category: 'products', name: 'PVA Gmail Accounts (100% Phone Verified)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/aged-mix-country-gmail', category: 'products', name: 'Aged Mix Country Gmail Accounts', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/aged-gmail-for-reviews', category: 'products', name: 'Aged Gmail for Google Maps Reviews', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/aged-gmail-for-google-ads', category: 'products', name: 'Aged Gmail for Google Ads & Media Buying', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
-    { url: 'https://buypvagmail.com/services/new-gmail-accounts', category: 'products', name: 'Fresh PVA Gmail Accounts (Created 2025)', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/usa-gmail-accounts', category: 'products', name: 'USA Gmail Accounts (Real Carrier SIM)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/pva-gmail-accounts', category: 'products', name: 'PVA Gmail Accounts (100% Phone Verified)', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/new-gmail-accounts', category: 'products', name: 'Fresh PVA Gmail Accounts (Created 2025)', priority: '0.85', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/aged-mix-country-gmail', category: 'products', name: 'Aged Mix Country Gmail Accounts', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/aged-gmail-for-reviews', category: 'products', name: 'Aged Gmail for Google Maps Reviews', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/gmail/aged-gmail-for-google-ads', category: 'products', name: 'Aged Gmail for Google Ads & Media Buying', priority: '0.90', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
 
     // 6 Technical Blog Guides
     ...blogGuides.map((guide) => ({

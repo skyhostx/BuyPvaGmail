@@ -24,7 +24,7 @@ const fs = require('fs');
 const URLS_TO_INDEX = [
   // Core Landing & Service Catalog Pages
   'https://buypvagmail.com/',
-  'https://buypvagmail.com/services',
+  'https://buypvagmail.com/gmail',
   'https://buypvagmail.com/pricing',
   'https://buypvagmail.com/blog',
   'https://buypvagmail.com/faq',
@@ -36,12 +36,12 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/sitemap',
 
   // Product Service Pages
-  'https://buypvagmail.com/services/usa-gmail-accounts',
-  'https://buypvagmail.com/services/pva-gmail-accounts',
-  'https://buypvagmail.com/services/aged-mix-country-gmail',
-  'https://buypvagmail.com/services/aged-gmail-for-reviews',
-  'https://buypvagmail.com/services/aged-gmail-for-google-ads',
-  'https://buypvagmail.com/services/new-gmail-accounts',
+  'https://buypvagmail.com/gmail/usa-gmail-accounts',
+  'https://buypvagmail.com/gmail/pva-gmail-accounts',
+  'https://buypvagmail.com/gmail/new-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-mix-country-gmail',
+  'https://buypvagmail.com/gmail/aged-gmail-for-reviews',
+  'https://buypvagmail.com/gmail/aged-gmail-for-google-ads',
 
   // 6 Technical Warmup Guides & Agency SOPs
   'https://buypvagmail.com/blog/warming-up-aged-gmail-accounts-cold-outreach',

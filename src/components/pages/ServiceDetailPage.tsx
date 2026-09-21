@@ -73,7 +73,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   };
 
   const handleCopyPageLink = () => {
-    const fullUrl = `${window.location.origin}/services/${encodeURIComponent(service.id)}`;
+    const fullUrl = `${window.location.origin}/gmail/${encodeURIComponent(service.id)}`;
     navigator.clipboard.writeText(fullUrl);
     setCopiedPageLink(true);
     setTimeout(() => setCopiedPageLink(false), 2500);
@@ -114,13 +114,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <a 
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, onBackToCatalog);
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
-              Services
+              Gmail
             </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-900 font-bold">{service.name}</span>
@@ -146,14 +146,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </button>
 
             <a
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, onBackToCatalog);
               }}
               className="text-xs font-bold text-slate-600 hover:text-blue-600 inline-flex items-center gap-1.5 cursor-pointer px-2 py-1.5"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Back to All Services</span>
+              <span className="hidden sm:inline">Back to All Gmail Accounts</span>
             </a>
           </div>
         </div>
@@ -584,7 +584,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <p className="text-xs text-slate-500">Discover all 6 verified PVA categories available at BuyPvaGmail</p>
             </div>
             <a
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, onBackToCatalog);
               }}
@@ -601,7 +601,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               return (
                 <a
                   key={other.id}
-                  href={`/services/${encodeURIComponent(other.id)}`}
+                  href={`/gmail/${encodeURIComponent(other.id)}`}
                   onClick={(e) => {
                     handleLinkClick(e, () => onSelectOtherService(other.id));
                   }}

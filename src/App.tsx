@@ -90,7 +90,7 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
     }
 
     let targetServiceId: string | null = null;
-    if (effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
+    if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
       const parts = effectivePath.split('/');
       if (parts[2]) {
         targetServiceId = decodeURIComponent(parts[2]);
@@ -144,12 +144,16 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
       return { view: 'smtp', serviceId: 'smtp-mailgun-accounts' };
     }
     if (
+      effectivePath === '/gmail' ||
+      effectivePath === '/category/gmail' ||
       effectivePath === '/services' || 
       effectivePath === '/services-catalog' || 
       effectivePath === '/products' || 
       effectivePath === '/shop' || 
       effectivePath === '/category' || 
+      viewParam === 'gmail' ||
       viewParam === 'services' || 
+      rawHash === 'gmail' ||
       rawHash === 'services' ||
       rawHash === 'products' ||
       rawHash === 'shop'
@@ -267,11 +271,11 @@ export default function App() {
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
         pageTitle = `${product.name} — Buy Verified Accounts | BuyPvaGmail`;
         pageDesc = `${product.shortDesc} Unit price from $${product.unitPrice.toFixed(2)}. 100% real SIM verified, 2FA secret key, recovery email & 7-day free replacement guarantee.`;
-        pageUrl = `https://buypvagmail.com/services/${product.id}`;
+        pageUrl = `https://buypvagmail.com/gmail/${product.id}`;
       } else if (currentView === 'services-catalog') {
         pageTitle = 'PVA & Aged Gmail Accounts Catalog (USA, Global, 2008–2025) | BuyPvaGmail';
         pageDesc = 'Explore our verified inventory of USA PVA, 2008–2025 Aged Mix, Google Maps Review, and Google Ads media buying Gmail accounts with instant delivery.';
-        pageUrl = 'https://buypvagmail.com/services';
+        pageUrl = 'https://buypvagmail.com/gmail';
       } else if (currentView === 'pricing') {
         pageTitle = 'PVA Gmail Wholesale Pricing & Tiered Volume Discounts | BuyPvaGmail';
         pageDesc = 'Wholesale pricing tiers for marketing agencies and lead generators. Up to 30% volume discount on bulk orders of verified USA & aged Gmail accounts.';
@@ -394,21 +398,21 @@ export default function App() {
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 2,
-          "name": "Services",
-          "item": "https://buypvagmail.com/services"
+          "name": "Gmail",
+          "item": "https://buypvagmail.com/gmail"
         });
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 3,
           "name": product.name,
-          "item": `https://buypvagmail.com/services/${product.id}`
+          "item": `https://buypvagmail.com/gmail/${product.id}`
         });
       } else if (currentView === 'services-catalog') {
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 2,
-          "name": "Services Catalog",
-          "item": "https://buypvagmail.com/services"
+          "name": "Gmail Catalog",
+          "item": "https://buypvagmail.com/gmail"
         });
       } else if (currentView === 'blog') {
         breadcrumbItems.push({
@@ -445,7 +449,7 @@ export default function App() {
       });
 
       // Inject / Update Dynamic Product Structured Data (Schema.org / Merchant Listings)
-      // Only present on individual purchasable product pages (/services/:id)
+      // Only present on individual purchasable product pages (/gmail/:id or /services/:id)
       let productScript = document.getElementById('dynamic-product-schema');
       if (currentView === 'service-detail') {
         if (!productScript) {
@@ -455,16 +459,16 @@ export default function App() {
           document.head.appendChild(productScript);
         }
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
-        const productUrl = `https://buypvagmail.com/services/${product.id}`;
+        const productUrl = `https://buypvagmail.com/gmail/${product.id}`;
         const productImage = `https://buypvagmail.com/images/products/${product.id}.png`;
 
         const skuMap: Record<string, string> = {
           'usa-gmail-accounts': 'PVA-USA-2025',
           'pva-gmail-accounts': 'PVA-GLOBAL-2025',
+          'new-gmail-accounts': 'FRESH-PVA-2025',
           'aged-mix-country-gmail': 'AGED-2008-2025',
           'aged-gmail-for-reviews': 'AGED-GMB-REVIEW',
-          'aged-gmail-for-google-ads': 'AGED-GADS-PRO',
-          'new-gmail-accounts': 'FRESH-PVA-2025'
+          'aged-gmail-for-google-ads': 'AGED-GADS-PRO'
         };
         const sku = skuMap[product.id] || `PVA-${product.id.toUpperCase()}`;
 
@@ -559,9 +563,9 @@ export default function App() {
           return;
         }
 
-        // Match service detail: /services/:id or /service/:id or ?service=:id or ?view=service-detail&service=:id
+        // Match service detail: /gmail/:id or /services/:id or /service/:id or ?service=:id or ?view=service-detail&service=:id
         let targetServiceId: string | null = null;
-        if (effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
+        if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
           const parts = effectivePath.split('/');
           if (parts[2]) {
             targetServiceId = decodeURIComponent(parts[2]);
@@ -619,16 +623,20 @@ export default function App() {
           return;
         }
 
-        // Services Catalog (including /products, /shop, /category)
+        // Services Catalog (including /products, /shop, /category, /gmail)
         if (
           effectivePath === '/services' ||
           effectivePath === '/services-catalog' ||
+          effectivePath === '/gmail' ||
+          effectivePath === '/category/gmail' ||
           effectivePath === '/products' ||
           effectivePath === '/shop' ||
           effectivePath === '/category' ||
           viewParam === 'services' ||
           viewParam === 'services-catalog' ||
+          viewParam === 'gmail' ||
           rawHash === 'services' ||
+          rawHash === 'gmail' ||
           rawHash === 'products' ||
           rawHash === 'shop'
         ) {
@@ -838,11 +846,11 @@ export default function App() {
       setSelectedServiceId(targetService.id);
       setCurrentView('service-detail');
       setActiveSection('services');
-      targetUrl = `/services/${encodeURIComponent(targetService.id)}`;
+      targetUrl = `/gmail/${encodeURIComponent(targetService.id)}`;
     } else if (view === 'services-catalog') {
       setCurrentView('services-catalog');
       setActiveSection('services');
-      targetUrl = '/services';
+      targetUrl = '/gmail';
     } else if (view === 'smtp') {
       setCurrentView('smtp');
       setActiveSection('smtp');

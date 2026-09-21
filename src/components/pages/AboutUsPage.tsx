@@ -211,13 +211,13 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="/services"
+              href="/gmail"
               onClick={(e) => {
                 handleLinkClick(e, onNavigateToServices);
               }}
               className="w-full sm:w-auto px-6 py-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-blue-500/25"
             >
-              <span>Explore Services Catalog</span>
+              <span>Explore Gmail Catalog</span>
               <ArrowRight className="w-4 h-4" />
             </a>
 

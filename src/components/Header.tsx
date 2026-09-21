@@ -145,6 +145,15 @@ export const Header: React.FC<HeaderProps> = ({
       priceBg: 'bg-red-50 text-red-600 border border-red-100'
     },
     {
+      id: 'new-gmail-accounts',
+      title: 'New Gmail Accounts',
+      price: '$3',
+      subtitle: '⚡ Lowest Price • High Volume',
+      icon: Zap,
+      iconBg: 'bg-amber-50 text-amber-600',
+      priceBg: 'bg-red-50 text-red-600 border border-red-100'
+    },
+    {
       id: 'aged-mix-country-gmail',
       title: 'Aged Mix Country Gmail Accounts',
       price: '$5',
@@ -169,15 +178,6 @@ export const Header: React.FC<HeaderProps> = ({
       subtitle: '🎯 Ads Ready • Top Tier',
       icon: TrendingUp,
       iconBg: 'bg-purple-50 text-purple-600',
-      priceBg: 'bg-red-50 text-red-600 border border-red-100'
-    },
-    {
-      id: 'new-gmail-accounts',
-      title: 'New Gmail Accounts',
-      price: '$3',
-      subtitle: '⚡ Lowest Price • High Volume',
-      icon: Zap,
-      iconBg: 'bg-amber-50 text-amber-600',
       priceBg: 'bg-red-50 text-red-600 border border-red-100'
     }
   ];
@@ -214,8 +214,8 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navItems: { label: string; id: string; badge?: string }[] = [
     { label: 'Home', id: 'home' },
-    { label: 'Services', id: 'services' },
-    { label: 'Smtp', id: 'smtp', badge: 'Hot' },
+    { label: 'Gmail', id: 'services' },
+    { label: 'Smtp', id: 'smtp' },
     { label: 'Pricing', id: 'pricing' },
     { label: 'About Us', id: 'about' },
     { label: 'Blog', id: 'blog' },
@@ -364,7 +364,7 @@ export const Header: React.FC<HeaderProps> = ({
                       onMouseLeave={handleDropdownMouseLeave}
                     >
                       <a
-                        href="/services"
+                        href="/gmail"
                         onClick={(e) => {
                           handleLinkClick(e, () => {
                             handleNavClick('services');
@@ -377,7 +377,7 @@ export const Header: React.FC<HeaderProps> = ({
                             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                         }`}
                       >
-                        <span>Services</span>
+                        <span>Gmail</span>
                         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ease-out ${servicesDropdownOpen ? 'rotate-180 text-red-600' : 'text-slate-400'}`} />
                       </a>
 
@@ -392,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({
                         <div className="bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 backdrop-blur-md">
                           {/* Header label */}
                           <div className="px-3 py-1.5 text-[10px] font-extrabold tracking-wider text-slate-400 uppercase flex items-center justify-between">
-                            <span>VERIFIED SERVICE DIRECTORY</span>
+                            <span>VERIFIED GMAIL DIRECTORY</span>
                             <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
                               Instant Stock
                             </span>
@@ -405,7 +405,7 @@ export const Header: React.FC<HeaderProps> = ({
                               return (
                                 <a
                                   key={subItem.id}
-                                  href={`/services/${encodeURIComponent(subItem.id)}`}
+                                  href={`/gmail/${encodeURIComponent(subItem.id)}`}
                                   onClick={(e) => {
                                     handleLinkClick(e, () => handleSubmenuServiceClick(subItem.id));
                                   }}
@@ -436,7 +436,7 @@ export const Header: React.FC<HeaderProps> = ({
                           {/* View All CTA */}
                           <div className="pt-2 mt-1.5 border-t border-slate-100">
                             <a
-                              href="/services"
+                              href="/gmail"
                               onClick={(e) => {
                                 handleLinkClick(e, () => {
                                   setServicesDropdownOpen(false);
@@ -445,7 +445,7 @@ export const Header: React.FC<HeaderProps> = ({
                               }}
                               className="w-full py-2.5 text-center text-xs font-bold text-red-600 hover:text-red-700 hover:bg-red-50/70 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
                             >
-                              <span>Explore All Services Catalog</span>
+                              <span>Explore All Gmail Accounts</span>
                               <span className="text-sm font-black transition-transform group-hover:translate-x-0.5">→</span>
                             </a>
                           </div>
@@ -511,7 +511,7 @@ export const Header: React.FC<HeaderProps> = ({
                               return (
                                 <a
                                   key={subItem.id}
-                                  href={`/services/${encodeURIComponent(subItem.id)}`}
+                                  href={`/smtp`}
                                   onClick={(e) => {
                                     handleLinkClick(e, () => handleSubmenuServiceClick(subItem.id));
                                   }}
@@ -564,7 +564,7 @@ export const Header: React.FC<HeaderProps> = ({
                 const targetHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
-                    ? '/services' 
+                    ? '/gmail' 
                     : item.id === 'smtp'
                       ? '/smtp'
                       : `/${encodeURIComponent(item.id)}`;
@@ -651,7 +651,7 @@ export const Header: React.FC<HeaderProps> = ({
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <span>Services</span>
+                          <span>Gmail</span>
                           <span className="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">
                             6 Types
                           </span>
@@ -666,7 +666,7 @@ export const Header: React.FC<HeaderProps> = ({
                             return (
                               <a
                                 key={`m-${subItem.id}`}
-                                href={`/services/${encodeURIComponent(subItem.id)}`}
+                                href={`/gmail/${encodeURIComponent(subItem.id)}`}
                                 onClick={(e) => {
                                   handleLinkClick(e, () => {
                                     handleSubmenuServiceClick(subItem.id);
@@ -691,7 +691,7 @@ export const Header: React.FC<HeaderProps> = ({
                             );
                           })}
                           <a
-                            href="/services"
+                            href="/gmail"
                             onClick={(e) => {
                               handleLinkClick(e, () => {
                                 handleNavClick('services');
@@ -700,7 +700,7 @@ export const Header: React.FC<HeaderProps> = ({
                             }}
                             className="block w-full text-center py-2 text-xs font-bold text-red-600 hover:underline"
                           >
-                            View All Services Catalog →
+                            View All Gmail Accounts →
                           </a>
                         </div>
                       )}
@@ -722,7 +722,7 @@ export const Header: React.FC<HeaderProps> = ({
                         <div className="flex items-center gap-2">
                           <span>Smtp</span>
                           <span className="text-[10px] bg-rose-100 text-rose-700 font-bold px-1.5 py-0.5 rounded">
-                            Hot • 3 Plans
+                            3 Plans
                           </span>
                         </div>
                         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileSmtpOpen ? 'rotate-180 text-rose-600' : 'text-slate-400'}`} />
@@ -735,7 +735,7 @@ export const Header: React.FC<HeaderProps> = ({
                             return (
                               <a
                                 key={`m-${subItem.id}`}
-                                href={`/services/${encodeURIComponent(subItem.id)}`}
+                                href={`/smtp`}
                                 onClick={(e) => {
                                   handleLinkClick(e, () => {
                                     handleSubmenuServiceClick(subItem.id);
@@ -780,7 +780,7 @@ export const Header: React.FC<HeaderProps> = ({
                 const targetMobileHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
-                    ? '/services' 
+                    ? '/gmail' 
                     : item.id === 'smtp'
                       ? '/smtp'
                       : `/${encodeURIComponent(item.id)}`;

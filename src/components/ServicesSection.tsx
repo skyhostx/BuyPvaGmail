@@ -38,14 +38,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
   });
 
   const categories = [
-    { id: 'all', label: `All Services (${servicesData.length})` },
+    { id: 'all', label: `All Gmail (${servicesData.length})` },
     { id: 'smtp', label: '🚀 Smtp Sending (3)' },
     { id: 'usa', label: '🇺🇸 USA Residential' },
     { id: 'pva', label: '📱 PVA SIM Verified' },
+    { id: 'new', label: '⚡ Fresh PVA' },
     { id: 'aged', label: '⏳ Aged 2016-2022' },
     { id: 'reviews', label: '⭐ Google Reviews' },
-    { id: 'google-ads', label: '🎯 Google Ads Ready' },
-    { id: 'new', label: '⚡ Fresh PVA' }
+    { id: 'google-ads', label: '🎯 Google Ads Ready' }
   ];
 
   const filteredProducts = selectedCategory === 'all'
@@ -203,7 +203,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                   <h3 className="text-xl font-black text-slate-900 tracking-tight">
                     {onExploreServicePage ? (
                       <a
-                        href={`/services/${encodeURIComponent(product.id)}`}
+                        href={`/gmail/${encodeURIComponent(product.id)}`}
                         onClick={(e) => {
                           handleLinkClick(e, () => onExploreServicePage(product.id));
                         }}
@@ -379,7 +379,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                 <div className="p-6 bg-slate-50/80 border-t border-slate-100 flex flex-col gap-2">
                   {onExploreServicePage && (
                     <a
-                      href={`/services/${encodeURIComponent(product.id)}`}
+                      href={`/gmail/${encodeURIComponent(product.id)}`}
                       onClick={(e) => {
                         handleLinkClick(e, () => onExploreServicePage(product.id));
                       }}

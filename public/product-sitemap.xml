@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Services Catalog Overview -->
+  <!-- Gmail Catalog Overview -->
   <url>
-    <loc>https://buypvagmail.com/services</loc>
+    <loc>https://buypvagmail.com/gmail</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -11,7 +11,7 @@
 
   <!-- Product 1: USA PVA Gmail Accounts -->
   <url>
-    <loc>https://buypvagmail.com/services/usa-gmail-accounts</loc>
+    <loc>https://buypvagmail.com/gmail/usa-gmail-accounts</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
@@ -19,7 +19,7 @@
 
   <!-- Product 2: PVA Gmail Accounts (Global / Mixed) -->
   <url>
-    <loc>https://buypvagmail.com/services/pva-gmail-accounts</loc>
+    <loc>https://buypvagmail.com/gmail/pva-gmail-accounts</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -27,7 +27,7 @@
 
   <!-- Product 3: Aged 2008-2025 Mix Country Gmail -->
   <url>
-    <loc>https://buypvagmail.com/services/aged-mix-country-gmail</loc>
+    <loc>https://buypvagmail.com/gmail/aged-mix-country-gmail</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -35,7 +35,7 @@
 
   <!-- Product 4: Aged Gmail for Google Maps Reviews -->
   <url>
-    <loc>https://buypvagmail.com/services/aged-gmail-for-reviews</loc>
+    <loc>https://buypvagmail.com/gmail/aged-gmail-for-reviews</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -43,7 +43,7 @@
 
   <!-- Product 5: Aged Gmail for Google Ads & Media Buying -->
   <url>
-    <loc>https://buypvagmail.com/services/aged-gmail-for-google-ads</loc>
+    <loc>https://buypvagmail.com/gmail/aged-gmail-for-google-ads</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
@@ -51,7 +51,7 @@
 
   <!-- Product 6: Fresh 100% Phone Verified Gmail Accounts -->
   <url>
-    <loc>https://buypvagmail.com/services/new-gmail-accounts</loc>
+    <loc>https://buypvagmail.com/gmail/new-gmail-accounts</loc>
     <lastmod>2026-09-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>

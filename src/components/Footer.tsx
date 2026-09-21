@@ -155,16 +155,16 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
           </div>
 
-          {/* Column 1: Services */}
+          {/* Column 1: Gmail Accounts */}
           <div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
               <span className="w-1.5 h-3 bg-blue-500 rounded-xs" />
-              Verified Services
+              Gmail Accounts
             </h4>
             <ul className="space-y-2.5">
               <li>
                 <a 
-                  href="/services/usa-gmail-accounts"
+                  href="/gmail/usa-gmail-accounts"
                   onClick={(e) => {
                     handleLinkClick(e, () => handleServiceClick('usa-gmail-accounts'));
                   }} 
@@ -176,7 +176,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/services/pva-gmail-accounts"
+                  href="/gmail/pva-gmail-accounts"
                   onClick={(e) => {
                     handleLinkClick(e, () => handleServiceClick('pva-gmail-accounts'));
                   }} 
@@ -188,7 +188,19 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/services/aged-mix-country-gmail"
+                  href="/gmail/new-gmail-accounts"
+                  onClick={(e) => {
+                    handleLinkClick(e, () => handleServiceClick('new-gmail-accounts'));
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
+                >
+                  <span className="group-hover:translate-x-0.5 transition-transform">Fresh Bulk PVA</span>
+                  <span className="text-[10px] font-bold text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">$3/2pcs</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/gmail/aged-mix-country-gmail"
                   onClick={(e) => {
                     handleLinkClick(e, () => handleServiceClick('aged-mix-country-gmail'));
                   }} 
@@ -200,7 +212,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/services/aged-gmail-for-reviews"
+                  href="/gmail/aged-gmail-for-reviews"
                   onClick={(e) => {
                     handleLinkClick(e, () => handleServiceClick('aged-gmail-for-reviews'));
                   }} 
@@ -212,7 +224,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="/services/aged-gmail-for-google-ads"
+                  href="/gmail/aged-gmail-for-google-ads"
                   onClick={(e) => {
                     handleLinkClick(e, () => handleServiceClick('aged-gmail-for-google-ads'));
                   }} 
@@ -220,18 +232,6 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   <span className="group-hover:translate-x-0.5 transition-transform">Google Ads Aged</span>
                   <span className="text-[10px] font-bold text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">$5/1pc</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/services/new-gmail-accounts"
-                  onClick={(e) => {
-                    handleLinkClick(e, () => handleServiceClick('new-gmail-accounts'));
-                  }} 
-                  className="hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
-                >
-                  <span className="group-hover:translate-x-0.5 transition-transform">Fresh Bulk PVA</span>
-                  <span className="text-[10px] font-bold text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">$3/2pcs</span>
                 </a>
               </li>
               <li className="pt-1 mt-1 border-t border-slate-850">
