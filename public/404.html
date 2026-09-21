@@ -16,28 +16,13 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     
     <script type="text/javascript">
-      // SPA redirect for GitHub Pages & Static Web Hosts on known internal paths
-      var validSpaPrefixes = [
-        'services',
-        'pricing',
-        'about',
-        'blog',
-        'faq',
-        'contact',
-        'privacy',
-        'terms',
-        'warranty',
-        'sitemap',
-        'instant-indexing'
-      ];
+      // SPA redirect for GitHub Pages & Static Web Hosts on all non-asset routes
+      var l = window.location;
+      // Do not redirect static assets (images, fonts, stylesheets, scripts, json, xml, txt)
+      var isAsset = /\.(png|jpe?g|gif|svg|ico|webp|js|css|json|xml|txt|map|woff2?|ttf|eot)$/i.test(l.pathname);
       
-      var pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
-      var firstSegment = pathname.split('/')[0];
-      
-      // If it's a known SPA route, redirect smoothly to the SPA root router
-      if (validSpaPrefixes.indexOf(firstSegment) !== -1) {
+      if (!isAsset) {
         var pathSegmentsToKeep = 0;
-        var l = window.location;
         l.replace(
           l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
           l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
@@ -245,6 +230,7 @@
       <div class="actions">
         <a href="/" class="btn btn-primary">Return to Homepage</a>
         <a href="/gmail" class="btn btn-secondary">Browse All Gmail Accounts</a>
+        <a href="/smtp" class="btn btn-secondary">SMTP Accounts</a>
         <a href="/pricing" class="btn btn-secondary">Wholesale Pricing</a>
         <a href="/faq" class="btn btn-secondary">Read FAQ</a>
       </div>
@@ -257,24 +243,28 @@
             <span>100% US Residential IPs • $6/2pcs</span>
           </a>
           <a href="/gmail/pva-gmail-accounts" class="grid-item">
-            <strong>PVA Phone Verified</strong>
+            <strong>PVA Gmail Accounts</strong>
             <span>Real Physical SIM Verified • $6/2pcs</span>
           </a>
+          <a href="/gmail/new-gmail-accounts" class="grid-item">
+            <strong>New Gmail Accounts</strong>
+            <span>Fresh Bulk PVA Accounts • $3/2pcs</span>
+          </a>
           <a href="/gmail/aged-mix-country-gmail" class="grid-item">
-            <strong>2008–2025 Vintage Aged</strong>
-            <span>Global Diversity • 3-17 Years Old</span>
+            <strong>Aged Mix Country Gmail</strong>
+            <span>2008–2025 Historical Accounts</span>
           </a>
           <a href="/gmail/aged-gmail-for-reviews" class="grid-item">
-            <strong>Google Maps Review Accounts</strong>
-            <span>95%+ Stick Rate For Reviews • $6/2pcs</span>
+            <strong>Aged Gmail For Reviews</strong>
+            <span>Google Maps Reviews • 95%+ Stick</span>
           </a>
           <a href="/gmail/aged-gmail-for-google-ads" class="grid-item">
-            <strong>Google Ads Aged Accounts</strong>
+            <strong>Aged Gmail For Google Ads</strong>
             <span>Suspension Resistant • Top Tier</span>
           </a>
-          <a href="/gmail/new-gmail-accounts" class="grid-item">
-            <strong>Fresh Bulk PVA Accounts</strong>
-            <span>High Volume Outreach • $3/2pcs</span>
+          <a href="/smtp" class="grid-item">
+            <strong>SMTP Sending Accounts</strong>
+            <span>Mailgun, Brevo &amp; Relay • 50k-200k/mo</span>
           </a>
         </div>
       </div>
@@ -285,6 +275,7 @@
       <div style="margin-top: 0.5rem;">
         <a href="/">Home</a> |
         <a href="/gmail">Gmail</a> |
+        <a href="/smtp">SMTP</a> |
         <a href="/pricing">Pricing</a> |
         <a href="/blog">Blog</a> |
         <a href="/faq">FAQ</a> |

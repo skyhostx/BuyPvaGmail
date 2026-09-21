@@ -99,6 +99,45 @@ const products = [
     image: 'https://buypvagmail.com/images/products/aged-gmail-for-google-ads.png',
     ratingValue: '4.91',
     reviewCount: '142'
+  },
+  {
+    slug: 'smtp-mailgun-accounts',
+    name: 'Buy SMTP Mailgun Accounts (50k-200k/mo)',
+    title: 'Buy SMTP Mailgun Accounts (50k-200k/mo Warmed Limit) | BuyPvaGmail',
+    description: 'Fully warmed Mailgun SMTP accounts with authentic DNS configuration (SPF, DKIM, DMARC, MX). Available in 50k, 100k, and 200k monthly sending limits.',
+    price: '24.00',
+    minPrice: '24.00',
+    maxPrice: '60.00',
+    sku: 'BPG-SMTP-MAILGUN-01',
+    image: 'https://buypvagmail.com/images/products/smtp-mailgun-accounts.png',
+    ratingValue: '4.96',
+    reviewCount: '178'
+  },
+  {
+    slug: 'smtp-brevo-accounts',
+    name: 'Buy SMTP Brevo Accounts (50k-200k/mo)',
+    title: 'Buy SMTP Brevo Accounts (50k-200k/mo Sending Limit) | BuyPvaGmail',
+    description: 'Pre-activated Brevo (formerly Sendinblue) SMTP accounts ready for API and relay sending. High reputation sender score with dedicated IP routing.',
+    price: '22.00',
+    minPrice: '22.00',
+    maxPrice: '55.00',
+    sku: 'BPG-SMTP-BREVO-02',
+    image: 'https://buypvagmail.com/images/products/smtp-brevo-accounts.png',
+    ratingValue: '4.93',
+    reviewCount: '142'
+  },
+  {
+    slug: 'smtp-relay-services-account',
+    name: 'Buy Dedicated SMTP Relay Services Account',
+    title: 'Buy Dedicated SMTP Relay Services Account | BuyPvaGmail',
+    description: 'Enterprise-grade dedicated SMTP relay service with custom rDNS, clean /24 IP blocks, and unrestricted high-volume transaction deliverability.',
+    price: '28.00',
+    minPrice: '28.00',
+    maxPrice: '70.00',
+    sku: 'BPG-SMTP-RELAY-03',
+    image: 'https://buypvagmail.com/images/products/smtp-relay-services-account.png',
+    ratingValue: '4.97',
+    reviewCount: '119'
   }
 ];
 
@@ -233,6 +272,83 @@ const staticPages = [
     description: 'Technical indexing console for BuyPvaGmail. Broadcast public URLs to Google Search Console and Bing IndexNow API for instant crawl scheduling.',
     heading: 'Instant Indexing Console',
     subheading: 'Direct API dispatch for search engine discovery and index validation.'
+  },
+  {
+    path: 'smtp',
+    title: 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail',
+    description: 'Buy verified high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated SMTP Relays). 50k to 200k monthly sending limits, pre-warmed clean IPs, SPF/DKIM/DMARC configured.',
+    heading: 'Buy SMTP Accounts (Mailgun, Brevo & Dedicated Relays)',
+    subheading: 'Premium pre-warmed SMTP infrastructure with dedicated clean IPs, authenticated DNS records (SPF, DKIM, DMARC), and 50k to 200k monthly sending limits.'
+  },
+  {
+    path: 'smtp-category',
+    title: 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail',
+    description: 'Buy verified high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated SMTP Relays). 50k to 200k monthly sending limits, pre-warmed clean IPs, SPF/DKIM/DMARC configured.',
+    heading: 'Buy SMTP Accounts (Mailgun, Brevo & Dedicated Relays)',
+    subheading: 'Premium pre-warmed SMTP infrastructure with dedicated clean IPs, authenticated DNS records (SPF, DKIM, DMARC), and 50k to 200k monthly sending limits.'
+  },
+  {
+    path: 'smtp-services',
+    title: 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail',
+    description: 'Buy verified high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated SMTP Relays). 50k to 200k monthly sending limits, pre-warmed clean IPs, SPF/DKIM/DMARC configured.',
+    heading: 'Buy SMTP Accounts (Mailgun, Brevo & Dedicated Relays)',
+    subheading: 'Premium pre-warmed SMTP infrastructure with dedicated clean IPs, authenticated DNS records (SPF, DKIM, DMARC), and 50k to 200k monthly sending limits.'
+  },
+  {
+    path: 'smtp-accounts',
+    title: 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail',
+    description: 'Buy verified high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated SMTP Relays). 50k to 200k monthly sending limits, pre-warmed clean IPs, SPF/DKIM/DMARC configured.',
+    heading: 'Buy SMTP Accounts (Mailgun, Brevo & Dedicated Relays)',
+    subheading: 'Premium pre-warmed SMTP infrastructure with dedicated clean IPs, authenticated DNS records (SPF, DKIM, DMARC), and 50k to 200k monthly sending limits.'
+  },
+  {
+    path: 'services-catalog',
+    title: 'Verified PVA & Aged Gmail Accounts Catalog | BuyPvaGmail',
+    description: 'Browse our complete catalog of phone-verified (PVA) and aged Gmail accounts (2008–2025). USA carrier SIM, global mixed, Google Ads, and Maps reviews profiles.',
+    heading: 'Verified PVA & Aged Gmail Accounts Catalog',
+    subheading: 'Explore our full inventory of verified carrier SIM and historical aged accounts with instant auto-dispatch and 7-day replacement warranty.'
+  },
+  {
+    path: 'about-us',
+    title: 'About BuyPvaGmail - Direct Supplier of Verified Accounts | BuyPvaGmail',
+    description: 'Learn about BuyPvaGmail, the industry-trusted direct supplier of verified PVA and historical aged Gmail accounts for agencies, marketers, and enterprises worldwide.',
+    heading: 'About BuyPvaGmail',
+    subheading: 'Direct infrastructure supplier providing genuine phone-verified and historical aged accounts with zero middleman markups.'
+  },
+  {
+    path: 'guides',
+    title: 'Warmup SOPs, Deliverability & Agency Guides | BuyPvaGmail',
+    description: 'Technical knowledge base and standard operating procedures for warming up Gmail accounts, anti-detect browser setup, cold email deliverability, and proxy management.',
+    heading: 'Knowledge Base & Technical Warmup Guides',
+    subheading: 'In-depth SOPs and operational playbooks to protect your accounts and maximize inbox deliverability.'
+  },
+  {
+    path: 'privacy-policy',
+    title: 'Privacy Policy & Zero-Log Commitment | BuyPvaGmail',
+    description: 'BuyPvaGmail zero-log privacy policy. Learn how your order data and transaction details are encrypted, kept private, and never shared with third parties.',
+    heading: 'Privacy Policy & Data Protection',
+    subheading: 'Zero-log commitment and strict customer privacy guidelines.'
+  },
+  {
+    path: 'terms-of-service',
+    title: 'Terms of Service & Usage Guidelines | BuyPvaGmail',
+    description: 'Terms of service and acceptable usage guidelines for purchasing PVA and aged Gmail accounts on BuyPvaGmail.',
+    heading: 'Terms of Service',
+    subheading: 'Operational terms and customer agreements governing all account purchases.'
+  },
+  {
+    path: 'warranty-guidelines',
+    title: '7-Day Free Replacement Warranty Policy | BuyPvaGmail',
+    description: 'Read our comprehensive 7-day replacement warranty policy. Free 1-to-1 account replacement for login checkpoints or disabled flags within 7 days of purchase.',
+    heading: '7-Day 1-to-1 Free Replacement Warranty',
+    subheading: 'Complete peace of mind: every single account delivered is backed by our unconditional 7-day replacement guarantee.'
+  },
+  {
+    path: 'html-sitemap',
+    title: 'HTML Sitemap & Complete Directory | BuyPvaGmail',
+    description: 'Complete HTML sitemap directory of BuyPvaGmail. Easily navigate all PVA products, aged vintage tiers, technical guides, legal policies, and tools.',
+    heading: 'HTML Sitemap & Directory',
+    subheading: 'Full index of all public routes, products, knowledge base articles, and XML sitemaps.'
   }
 ];
 
@@ -359,6 +475,9 @@ for (const product of products) {
   const legacyProductDir = path.join(distDir, 'services', product.slug);
   fs.mkdirSync(legacyProductDir, { recursive: true });
 
+  const smtpProductDir = path.join(distDir, 'smtp', product.slug);
+  fs.mkdirSync(smtpProductDir, { recursive: true });
+
   const canonical = `https://buypvagmail.com/gmail/${product.slug}`;
 
   const bodyContent = `
@@ -474,13 +593,17 @@ for (const product of products) {
 
   fs.writeFileSync(path.join(gmailProductDir, 'index.html'), html, 'utf8');
   fs.writeFileSync(path.join(legacyProductDir, 'index.html'), html, 'utf8');
-  generatedCount += 2;
+  fs.writeFileSync(path.join(smtpProductDir, 'index.html'), html, 'utf8');
+  generatedCount += 3;
 }
 
 // 3. Generate Technical Blog Guides
 for (const article of blogArticles) {
   const articleDir = path.join(distDir, 'blog', article.slug);
   fs.mkdirSync(articleDir, { recursive: true });
+
+  const guidesDir = path.join(distDir, 'guides', article.slug);
+  fs.mkdirSync(guidesDir, { recursive: true });
 
   const canonical = `https://buypvagmail.com/blog/${article.slug}`;
 
@@ -550,7 +673,8 @@ for (const article of blogArticles) {
   });
 
   fs.writeFileSync(path.join(articleDir, 'index.html'), html, 'utf8');
-  generatedCount++;
+  fs.writeFileSync(path.join(guidesDir, 'index.html'), html, 'utf8');
+  generatedCount += 2;
 }
 
 // 4. Handle Vintage Year URLs: Option B (Redirect/canonical to Aged Mix Country Gmail)
