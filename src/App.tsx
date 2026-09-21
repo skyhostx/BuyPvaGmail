@@ -40,6 +40,7 @@ import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
 import { blogGuides } from './data/blogData';
 import { calculateProductPricing, sanitizeCart } from './utils/pricing';
+import { isSmtpProduct, getServiceIdFromSlugOrId, getServiceSlug, getProductPath, getProductFullUrl } from './utils/urlHelpers';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -69,6 +70,7 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
 
     const effectivePath = rawHash && (
       rawHash.startsWith('service') || 
+      rawHash.startsWith('gmail') ||
       rawHash.startsWith('smtp') || 
       rawHash.startsWith('pricing') || 
       rawHash.startsWith('about') || 
@@ -90,11 +92,29 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
     }
 
     let targetServiceId: string | null = null;
+
+    // Check direct /smtp/:slug (e.g. /smtp/buy-smtp-mailgun-accounts/ or /smtp/smtp-mailgun-accounts)
+    if (effectivePath.startsWith('/smtp/')) {
+      const parts = effectivePath.split('/').filter(Boolean);
+      if (parts[1]) {
+        const rawSlug = decodeURIComponent(parts[1]);
+        const matchedId = getServiceIdFromSlugOrId(rawSlug);
+        const matched = detailedServicesData.find((s) => s.id === matchedId || s.id === rawSlug);
+        if (matched) {
+          return { view: 'service-detail', serviceId: matched.id };
+        } else {
+          return { view: 'not-found', serviceId: 'smtp-mailgun-accounts', invalidPath: effectivePath };
+        }
+      }
+    }
+
+    // Check /gmail/:slug, /services/:slug, or /service/:slug
     if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
-      const parts = effectivePath.split('/');
-      if (parts[2]) {
-        targetServiceId = decodeURIComponent(parts[2]);
-        const matched = detailedServicesData.find((s) => s.id === targetServiceId);
+      const parts = effectivePath.split('/').filter(Boolean);
+      if (parts[1]) {
+        const rawSlug = decodeURIComponent(parts[1]);
+        const matchedId = getServiceIdFromSlugOrId(rawSlug);
+        const matched = detailedServicesData.find((s) => s.id === matchedId || s.id === rawSlug);
         if (matched) {
           return { view: 'service-detail', serviceId: matched.id };
         } else {
@@ -102,7 +122,7 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
         }
       }
     } else if (serviceParam) {
-      targetServiceId = serviceParam;
+      targetServiceId = getServiceIdFromSlugOrId(serviceParam);
       const matched = detailedServicesData.find((s) => s.id === targetServiceId);
       if (matched) {
         return { view: 'service-detail', serviceId: matched.id };
@@ -271,7 +291,7 @@ export default function App() {
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
         pageTitle = `${product.name} — Buy Verified Accounts | BuyPvaGmail`;
         pageDesc = `${product.shortDesc} Unit price from $${product.unitPrice.toFixed(2)}. 100% real SIM verified, 2FA secret key, recovery email & 7-day free replacement guarantee.`;
-        pageUrl = `https://buypvagmail.com/gmail/${product.id}`;
+        pageUrl = getProductFullUrl(product);
       } else if (currentView === 'services-catalog') {
         pageTitle = 'PVA & Aged Gmail Accounts Catalog (USA, Global, 2008–2025) | BuyPvaGmail';
         pageDesc = 'Explore our verified inventory of USA PVA, 2008–2025 Aged Mix, Google Maps Review, and Google Ads media buying Gmail accounts with instant delivery.';
@@ -395,17 +415,18 @@ export default function App() {
 
       if (currentView === 'service-detail') {
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
+        const isSmtp = isSmtpProduct(product);
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 2,
-          "name": "Gmail",
-          "item": "https://buypvagmail.com/gmail"
+          "name": isSmtp ? "SMTP" : "Gmail",
+          "item": isSmtp ? "https://buypvagmail.com/smtp" : "https://buypvagmail.com/gmail"
         });
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 3,
           "name": product.name,
-          "item": `https://buypvagmail.com/gmail/${product.id}`
+          "item": getProductFullUrl(product)
         });
       } else if (currentView === 'services-catalog') {
         breadcrumbItems.push({
@@ -459,8 +480,10 @@ export default function App() {
           document.head.appendChild(productScript);
         }
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
-        const productUrl = `https://buypvagmail.com/gmail/${product.id}`;
-        const productImage = `https://buypvagmail.com/images/products/${product.id}.png`;
+        const productUrl = getProductFullUrl(product);
+        const productImage = isSmtpProduct(product)
+          ? `https://buypvagmail.com/images/products/${getServiceSlug(product)}.png`
+          : `https://buypvagmail.com/images/products/${product.id}.png`;
 
         const skuMap: Record<string, string> = {
           'usa-gmail-accounts': 'PVA-USA-2025',
@@ -468,9 +491,12 @@ export default function App() {
           'new-gmail-accounts': 'FRESH-PVA-2025',
           'aged-mix-country-gmail': 'AGED-2008-2025',
           'aged-gmail-for-reviews': 'AGED-GMB-REVIEW',
-          'aged-gmail-for-google-ads': 'AGED-GADS-PRO'
+          'aged-gmail-for-google-ads': 'AGED-GADS-PRO',
+          'smtp-mailgun-accounts': 'BPG-SMTP-MAILGUN-01',
+          'smtp-brevo-accounts': 'BPG-SMTP-BREVO-02',
+          'smtp-relay-services-account': 'BPG-SMTP-RELAY-03'
         };
-        const sku = skuMap[product.id] || `PVA-${product.id.toUpperCase()}`;
+        const sku = skuMap[product.id] || `BPG-${product.id.toUpperCase()}`;
 
         const productSchema = {
           "@context": "https://schema.org",
@@ -518,6 +544,31 @@ export default function App() {
     }
   }, [currentView, selectedServiceId, selectedArticleSlug]);
 
+  // Canonicalize address bar URL for SMTP or legacy paths
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      if (currentView === 'service-detail') {
+        const product = getServiceById(selectedServiceId);
+        if (product) {
+          const canonicalPath = getProductPath(product);
+          const currentPath = window.location.pathname;
+          if (
+            (currentPath.includes('smtp-mailgun-accounts') || 
+             currentPath.includes('smtp-brevo-accounts') || 
+             currentPath.includes('smtp-relay-services-account') ||
+             (isSmtpProduct(product) && !currentPath.startsWith('/smtp/'))) &&
+            currentPath !== canonicalPath
+          ) {
+            window.history.replaceState({ view: 'service-detail', serviceId: product.id }, '', canonicalPath);
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, [currentView, selectedServiceId]);
+
   // Initialize GA on application mount
   useEffect(() => {
     try {
@@ -540,6 +591,8 @@ export default function App() {
         // Effective path can come from pathname or hash
         const effectivePath = rawHash && (
           rawHash.startsWith('service') || 
+          rawHash.startsWith('gmail') || 
+          rawHash.startsWith('smtp') || 
           rawHash.startsWith('pricing') || 
           rawHash.startsWith('about') || 
           rawHash.startsWith('blog') || 
@@ -563,17 +616,41 @@ export default function App() {
           return;
         }
 
-        // Match service detail: /gmail/:id or /services/:id or /service/:id or ?service=:id or ?view=service-detail&service=:id
-        let targetServiceId: string | null = null;
-        if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
-          const parts = effectivePath.split('/');
-          if (parts[2]) {
-            targetServiceId = decodeURIComponent(parts[2]);
-            const matchedService = getServiceById(targetServiceId);
+        // Match service detail: /smtp/:slug (e.g. /smtp/buy-smtp-mailgun-accounts/)
+        if (effectivePath.startsWith('/smtp/')) {
+          const parts = effectivePath.split('/').filter(Boolean);
+          if (parts[1]) {
+            const rawSlug = decodeURIComponent(parts[1]);
+            const matchedId = getServiceIdFromSlugOrId(rawSlug);
+            const matchedService = getServiceById(matchedId) || detailedServicesData.find((s) => s.id === rawSlug);
             if (matchedService) {
               setSelectedServiceId(matchedService.id);
               setCurrentView('service-detail');
-              setActiveSection('services');
+              setActiveSection('smtp');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            } else {
+              setCurrentView('not-found');
+              setActiveSection('not-found');
+              setInvalidPath(effectivePath);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            }
+          }
+        }
+
+        // Match service detail: /gmail/:slug, /services/:slug, or /service/:slug
+        let targetServiceId: string | null = null;
+        if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
+          const parts = effectivePath.split('/').filter(Boolean);
+          if (parts[1]) {
+            const rawSlug = decodeURIComponent(parts[1]);
+            const matchedId = getServiceIdFromSlugOrId(rawSlug);
+            const matchedService = getServiceById(matchedId) || detailedServicesData.find((s) => s.id === rawSlug);
+            if (matchedService) {
+              setSelectedServiceId(matchedService.id);
+              setCurrentView('service-detail');
+              setActiveSection(matchedService.category === 'smtp' ? 'smtp' : 'services');
               window.scrollTo({ top: 0, behavior: 'smooth' });
               return;
             } else {
@@ -585,22 +662,22 @@ export default function App() {
             }
           }
         } else if (serviceParam) {
-          targetServiceId = serviceParam;
+          targetServiceId = getServiceIdFromSlugOrId(serviceParam);
           const matchedService = getServiceById(targetServiceId);
           if (matchedService) {
             setSelectedServiceId(matchedService.id);
             setCurrentView('service-detail');
-            setActiveSection('services');
+            setActiveSection(matchedService.category === 'smtp' ? 'smtp' : 'services');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
           }
         }
 
         if (viewParam === 'service-detail') {
-          const matchedService = targetServiceId ? getServiceById(targetServiceId) : detailedServicesData[0];
-          setSelectedServiceId((matchedService || detailedServicesData[0]).id);
+          const matchedService = targetServiceId ? (getServiceById(targetServiceId) || detailedServicesData[0]) : detailedServicesData[0];
+          setSelectedServiceId(matchedService.id);
           setCurrentView('service-detail');
-          setActiveSection('services');
+          setActiveSection(matchedService.category === 'smtp' ? 'smtp' : 'services');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
@@ -845,8 +922,8 @@ export default function App() {
       const targetService = detailedServicesData.find((s) => s.id === validId) || detailedServicesData[0];
       setSelectedServiceId(targetService.id);
       setCurrentView('service-detail');
-      setActiveSection('services');
-      targetUrl = `/gmail/${encodeURIComponent(targetService.id)}`;
+      setActiveSection(isSmtpProduct(targetService) ? 'smtp' : 'services');
+      targetUrl = getProductPath(targetService);
     } else if (view === 'services-catalog') {
       setCurrentView('services-catalog');
       setActiveSection('services');
