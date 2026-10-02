@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/main-sitemap.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Product & Service Catalog Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/product-sitemap.xml</loc>
+    <lastmod>2026-09-29T12:00:00+00:00</lastmod>
+  </sitemap>
+
+  <!-- Main Pages & Commercial Resources Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/page-sitemap.xml</loc>
+    <lastmod>2026-09-29T12:00:00+00:00</lastmod>
+  </sitemap>
+
+  <!-- Technical Warmup Guides & Agency SOPs Sitemap -->
+  <sitemap>
+    <loc>https://buypvagmail.com/post-sitemap.xml</loc>
+    <lastmod>2026-09-29T12:00:00+00:00</lastmod>
+  </sitemap>
+</sitemapindex>
