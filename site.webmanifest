@@ -1,0 +1,25 @@
+{
+  "name": "BuyPvaGmail — Verified PVA & Aged Gmail Accounts",
+  "short_name": "BuyPvaGmail",
+  "description": "Buy 100% Phone Verified (PVA) USA Aged Gmail Accounts (2008–2025). Clean residential IPs, recovery email & 2FA secret key included. Instant auto-delivery & 7-day warranty.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "shopping"]
+}
