@@ -7,17 +7,21 @@ export interface CalculatedPriceInfo {
   discountPercent: number;
   packageName?: string;
   packageId?: string;
+  variantName?: string;
+  variantId?: string;
   isSmtp: boolean;
   quantityLabel: string;
 }
 
 /**
- * Calculates standard, uniform, and verified pricing for any product and quantity.
+ * Calculates standard, uniform, and verified pricing for any product, variant, and quantity.
  */
 export function calculateProductPricing(
   product: ServiceProduct,
   quantity: number,
-  packageId?: string
+  packageId?: string,
+  variantUnitPrice?: number,
+  variantName?: string
 ): CalculatedPriceInfo {
   const safeQty = Math.max(1, Number(quantity) || 1);
   const isSmtp = product.category === 'smtp' || product.id.startsWith('smtp-');
@@ -29,19 +33,19 @@ export function calculateProductPricing(
     let discountPercent = 0;
 
     if (product.id === 'smtp-relay-services-account') {
-      if (safeQty >= 200 || packageId === 'relay-200k') {
+      if (safeQty >= 200 || packageId === 'relay-200k' || packageId === 'smtp-relay-200k') {
         totalPrice = 350.0;
-        packageName = '200k Email Per Month';
+        packageName = '200k Email Per Month (Enterprise Relay)';
         pkgId = 'relay-200k';
         discountPercent = 38;
-      } else if (safeQty >= 100 || packageId === 'relay-100k') {
+      } else if (safeQty >= 100 || packageId === 'relay-100k' || packageId === 'smtp-relay-100k') {
         totalPrice = 240.0;
-        packageName = '100k Email Per Month';
+        packageName = '100k Email Per Month (Pro Relay)';
         pkgId = 'relay-100k';
         discountPercent = 25;
       } else {
         totalPrice = 190.0;
-        packageName = '50k Email Per Month';
+        packageName = '50k Email Per Month (Starter Relay)';
         pkgId = 'relay-50k';
         discountPercent = 0;
       }
@@ -50,46 +54,56 @@ export function calculateProductPricing(
       const prefix = product.id.includes('mailgun') ? 'mailgun' : 'brevo';
       if (safeQty >= 200 || packageId?.includes('200k')) {
         totalPrice = 320.0;
-        packageName = '200k Email Per Month';
+        packageName = '200k Email Per Month (Enterprise)';
         pkgId = `${prefix}-200k`;
         discountPercent = 47;
       } else if (safeQty >= 100 || packageId?.includes('100k')) {
         totalPrice = 190.0;
-        packageName = '100k Email Per Month';
+        packageName = '100k Email Per Month (High Reputation)';
         pkgId = `${prefix}-100k`;
         discountPercent = 36;
       } else {
         totalPrice = 150.0;
-        packageName = '50k Email Per Month';
+        packageName = '50k Email Per Month (Dedicated Relay)';
         pkgId = `${prefix}-50k`;
         discountPercent = 0;
       }
+    }
+
+    if (variantUnitPrice && variantUnitPrice > 0) {
+      totalPrice = +(variantUnitPrice * safeQty).toFixed(2);
     }
 
     return {
       totalPrice,
       unitPrice: +(totalPrice / safeQty).toFixed(2),
       discountPercent,
-      packageName,
+      packageName: variantName || packageName,
       packageId: pkgId,
+      variantName,
+      variantId: packageId,
       isSmtp: true,
-      quantityLabel: packageName
+      quantityLabel: variantName || packageName
     };
   }
 
-  // Check if there is an exact package defined in detailedServicesData
-  const detailed = detailedServicesData.find((s) => s.id === product.id);
-  const exactPkg = detailed?.packages?.find((p) => p.quantity === safeQty);
-  if (exactPkg) {
-    return {
-      totalPrice: exactPkg.price,
-      unitPrice: exactPkg.unitPrice,
-      discountPercent: exactPkg.discountPercent || 0,
-      packageName: exactPkg.name,
-      packageId: exactPkg.id,
-      isSmtp: false,
-      quantityLabel: `${safeQty} Accounts`
-    };
+  // Check if there is an exact package defined in detailedServicesData (only if no custom variant unit price was passed)
+  if (!variantUnitPrice) {
+    const detailed = detailedServicesData.find((s) => s.id === product.id);
+    const exactPkg = detailed?.packages?.find((p) => p.quantity === safeQty && (!packageId || p.id === packageId));
+    if (exactPkg) {
+      return {
+        totalPrice: exactPkg.price,
+        unitPrice: exactPkg.unitPrice,
+        discountPercent: exactPkg.discountPercent || 0,
+        packageName: exactPkg.name,
+        packageId: exactPkg.id,
+        variantName,
+        variantId: packageId,
+        isSmtp: false,
+        quantityLabel: `${safeQty} Accounts`
+      };
+    }
   }
 
   // Volume discount tiers for standard Gmail products
@@ -100,11 +114,17 @@ export function calculateProductPricing(
   else if (safeQty >= 25) discount = 0.10;
   else if (safeQty >= 10) discount = 0.05;
 
-  let baseUnitRate = product.unitPrice || 3.0;
-  // Specific base rates
-  if (product.id === 'aged-mix-country-gmail') baseUnitRate = 2.50;
-  else if (product.id === 'aged-gmail-for-google-ads') baseUnitRate = 5.00;
-  else if (product.id === 'new-gmail-accounts') baseUnitRate = 1.50;
+  let baseUnitRate = variantUnitPrice && variantUnitPrice > 0
+    ? variantUnitPrice
+    : (product.unitPrice || 3.0);
+
+  // Fallback defaults only if unitPrice is completely missing or 0
+  if (!baseUnitRate || baseUnitRate <= 0) {
+    if (product.id === 'aged-mix-country-gmail') baseUnitRate = 2.50;
+    else if (product.id === 'aged-gmail-for-google-ads') baseUnitRate = 5.00;
+    else if (product.id === 'new-gmail-accounts') baseUnitRate = 1.50;
+    else baseUnitRate = 3.00;
+  }
 
   const discountedUnitRate = +(baseUnitRate * (1 - discount)).toFixed(2);
   const finalTotal = +(discountedUnitRate * safeQty).toFixed(2);
@@ -113,10 +133,15 @@ export function calculateProductPricing(
     totalPrice: finalTotal,
     unitPrice: discountedUnitRate,
     discountPercent: Math.round(discount * 100),
+    packageName: variantName,
+    packageId,
+    variantName,
+    variantId: packageId,
     isSmtp: false,
     quantityLabel: `${safeQty} Accounts`
   };
 }
+
 
 /**
  * Sanitizes and repairs cart data loaded from localStorage to prevent NaNs or broken state.

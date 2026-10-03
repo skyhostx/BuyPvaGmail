@@ -1,4 +1,4 @@
-import { ServiceProduct } from '../types';
+import { ServiceProduct, ProductVariant } from '../types';
 
 export interface ServicePackage {
   id: string;
@@ -24,6 +24,7 @@ export interface DetailedServiceInfo extends ServiceProduct {
   bestTools: string[];
   sampleFormat: string;
   packages: ServicePackage[];
+  variants: ProductVariant[];
 }
 
 export const VINTAGE_YEARS = [
@@ -113,6 +114,81 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['Instantly.ai', 'Smartlead.ai', 'AdsPower', 'Dolphin{anty}', 'Multilogin', 'Lemlist'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com : +1 (555) 234-5678 : 2FA_SECRET : UserAgent',
+    variants: [
+      {
+        id: 'usa-fresh-2025',
+        name: '2024–2025 Fresh US SIM PVA',
+        shortLabel: '2024-2025 Fresh US',
+        description: 'Brand new batch verified with physical US carrier SIMs (Verizon/AT&T/T-Mobile).',
+        unitPrice: 3.00,
+        inStock: 1420,
+        badge: '⚡ Most Popular',
+        isPopular: true,
+        specs: {
+          carrier: 'Verizon / AT&T / T-Mobile SIM',
+          ipOrigin: 'USA Residential (Comcast/Spectrum)',
+          age: '2024–2025 Fresh Batch',
+          trustScore: '96.5%',
+          deliverability: '98.5% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'usa-seasoned-2020',
+        name: '2020–2023 Seasoned USA Aged',
+        shortLabel: '2020-2023 Seasoned US',
+        description: '2–5 years old with organic browsing telemetry. Maximum resistance to login checkpoints.',
+        unitPrice: 3.80,
+        inStock: 980,
+        badge: '🔥 High Trust',
+        specs: {
+          carrier: 'Real US Physical SIM',
+          ipOrigin: 'Tier 1 Clean Residential ISP',
+          age: '2–5 Years Aged Vintage',
+          trustScore: '98.8%',
+          deliverability: '99.2% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'usa-golden-2015',
+        name: '2015–2019 Golden Era USA Vintage',
+        shortLabel: '2015-2019 Golden Era US',
+        description: '6–10 years aged with established Google trust score. Ideal for high-stakes cold outreach.',
+        unitPrice: 5.50,
+        inStock: 640,
+        badge: '🏆 Golden Vintage',
+        specs: {
+          carrier: 'Historical Physical US SIM',
+          ipOrigin: 'Static US ISP Subnet',
+          age: '6–10 Years Aged Vintage',
+          trustScore: '99.5%',
+          deliverability: '99.8% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'usa-ultra-2008',
+        name: '2008–2014 Ultra-Vintage Archive USA',
+        shortLabel: '2008-2014 Ultra Vintage US',
+        description: 'Over 11–17 years aged from Gmail early eras. Zero warmup needed, instant sending authority.',
+        unitPrice: 8.00,
+        inStock: 380,
+        badge: '💎 Rare Archive',
+        specs: {
+          carrier: 'Legacy US SIM Verified',
+          ipOrigin: 'Aged US Residential IP History',
+          age: '11–17 Years Ultra-Vintage',
+          trustScore: '99.9%',
+          deliverability: '99.9% Inbox Authority',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'usa-starter',
@@ -247,6 +323,81 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['GSA Search Engine', 'ScrapeBox', 'Octo Browser', 'Incogniton', 'JarveePro', 'Kameleo'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com : Phone_Number : Recovery_Status',
+    variants: [
+      {
+        id: 'pva-fresh-global',
+        name: 'Fresh 2025 Global PVA (Physical SIM)',
+        shortLabel: 'Fresh 2025 Global',
+        description: '100% SMS verified with real non-VoIP physical carrier SIMs across clean residential IPs.',
+        unitPrice: 3.00,
+        inStock: 1250,
+        badge: '🛡️ Best Seller',
+        isPopular: true,
+        specs: {
+          carrier: 'Physical Carrier SIM (Non-VoIP)',
+          ipOrigin: 'Clean Global Residential IP',
+          age: '2025 Fresh Verified',
+          trustScore: '96.8%',
+          deliverability: '98.5% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'pva-seasoned-global',
+        name: '2021–2024 Seasoned Global PVA',
+        shortLabel: '2021-2024 Seasoned',
+        description: 'Pre-seasoned with natural browsing history and warmup telemetry. Smartlead/Instantly ready.',
+        unitPrice: 3.50,
+        inStock: 890,
+        badge: '⚡ Warmup Ready',
+        specs: {
+          carrier: 'Real Physical Mobile SIM',
+          ipOrigin: 'Tier 1 Clean Residential Subnet',
+          age: '2021–2024 Aged Vintage',
+          trustScore: '98.5%',
+          deliverability: '99.2% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'pva-aged-authority',
+        name: '2016–2020 High-Trust Global Aged PVA',
+        shortLabel: '2016-2020 High Trust',
+        description: '5–9 years aged accounts with mature security cookies and zero checkpoint locks.',
+        unitPrice: 4.80,
+        inStock: 520,
+        badge: '🏆 High Authority',
+        specs: {
+          carrier: 'Historical Physical SIM',
+          ipOrigin: 'Established Residential ISP',
+          age: '5–9 Years Aged',
+          trustScore: '99.3%',
+          deliverability: '99.6% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'pva-tier1-mix',
+        name: 'Tier 1 Region PVA (US / UK / CA / AU)',
+        shortLabel: 'Tier 1 Region Mix',
+        description: 'Registered specifically in Western high-reputation regions for premium SaaS & advertising.',
+        unitPrice: 3.80,
+        inStock: 740,
+        badge: '🌍 Tier 1 Geo',
+        specs: {
+          carrier: 'Tier 1 Western Carrier SIM',
+          ipOrigin: 'US/UK/CA/AU Residential',
+          age: '2022–2025 Mixed Batches',
+          trustScore: '98.9%',
+          deliverability: '99.4% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'pva-starter',
@@ -376,6 +527,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['Python', 'Puppeteer', 'Selenium', 'Postman', 'Ant-Detect Browsers'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com',
+    variants: [
+      {
+        id: 'new-standard-pva',
+        name: 'Fresh 2025 Standard PVA',
+        shortLabel: 'Standard 2025 PVA',
+        description: 'Budget-friendly brand new phone-verified accounts for high-volume automated testing & tasks.',
+        unitPrice: 1.50,
+        inStock: 3200,
+        badge: '⚡ Lowest Rate',
+        isPopular: true,
+        specs: {
+          carrier: 'Standard SMS Verified',
+          ipOrigin: 'Clean Global Residential Pool',
+          age: '2025 Brand New',
+          trustScore: '95.0%',
+          deliverability: '97.5% Inbox Rate',
+          recoveryMail: true,
+          twoFA: false
+        }
+      },
+      {
+        id: 'new-residential-isp',
+        name: 'Fresh 2025 Clean Residential ISP Subnet',
+        shortLabel: 'Clean Residential ISP',
+        description: 'Created on dedicated clean residential ISP subnets with zero blacklist contamination.',
+        unitPrice: 1.80,
+        inStock: 2400,
+        badge: '🛡️ Clean IP',
+        specs: {
+          carrier: 'Real Carrier SIM Card',
+          ipOrigin: 'Dedicated ISP Subnet (Tier 1)',
+          age: '2025 Fresh Creation',
+          trustScore: '97.2%',
+          deliverability: '98.8% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'new-prewarmed',
+        name: 'Fresh 2025 Warmup-Ready (7+ Days Active)',
+        shortLabel: 'Warmup-Ready 7d+',
+        description: 'Pre-aged for 7+ days with gentle organic browsing and search history. Ready for immediate use.',
+        unitPrice: 2.20,
+        inStock: 1200,
+        badge: '🔥 7+ Days Pre-Warmed',
+        specs: {
+          carrier: 'Physical Carrier Verified',
+          ipOrigin: 'Residential ISP with Cookies',
+          age: '7–30 Days Aged Activity',
+          trustScore: '98.0%',
+          deliverability: '99.0% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'new-duo',
@@ -506,6 +714,81 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['AdsPower', 'Dolphin{anty}', 'GoLogin', 'Multilogin', 'Kameleo', 'Python-Playwright'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com : CountryCode : RegYear : Cookies_Base64',
+    variants: [
+      {
+        id: 'aged-mix-2023',
+        name: '2023–2024 Modern Seasoned (2–3 Yrs)',
+        shortLabel: '2023-2024 (2-3 Yrs)',
+        description: '2 to 3 years seasoned with organic activity history across mixed Tier-1 countries.',
+        unitPrice: 2.50,
+        inStock: 1600,
+        badge: '⚡ Best Value',
+        isPopular: true,
+        specs: {
+          carrier: 'Carrier Verified Registration',
+          ipOrigin: 'Mixed Tier-1 (UK/CA/AU/EU)',
+          age: '2–3 Years Aged',
+          trustScore: '97.5%',
+          deliverability: '98.9% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'aged-mix-2018',
+        name: '2018–2022 Prime Authority (4–8 Yrs)',
+        shortLabel: '2018-2022 (4-8 Yrs)',
+        description: 'Heavy historical footprint that bypasses captcha checks and strict anti-bot filters.',
+        unitPrice: 4.50,
+        inStock: 1250,
+        badge: '🔥 Prime Authority',
+        specs: {
+          carrier: 'Historical Physical SIM',
+          ipOrigin: 'Tier 1 Clean Residential',
+          age: '4–8 Years Aged',
+          trustScore: '98.8%',
+          deliverability: '99.4% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'aged-mix-2013',
+        name: '2013–2017 Golden Vintage (9–13 Yrs)',
+        shortLabel: '2013-2017 (9-13 Yrs)',
+        description: 'Over a decade old. Extreme algorithmic reputation for high-volume cold outreach and scraping.',
+        unitPrice: 8.00,
+        inStock: 820,
+        badge: '🏆 Golden Vintage',
+        specs: {
+          carrier: 'Historical Carrier Verified',
+          ipOrigin: 'Established ISP Footprint',
+          age: '9–13 Years Aged',
+          trustScore: '99.5%',
+          deliverability: '99.8% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'aged-mix-2008',
+        name: '2008–2012 Ultra-Vintage Archive (14–18 Yrs)',
+        shortLabel: '2008-2012 (14-18 Yrs)',
+        description: 'Pinnacle vintage from Gmail early foundational years. Rare collector and agency grade.',
+        unitPrice: 16.00,
+        inStock: 480,
+        badge: '💎 Ultra Vintage',
+        specs: {
+          carrier: 'Legacy Verified Archive',
+          ipOrigin: 'Deep Residential Archive',
+          age: '14–18 Years Aged',
+          trustScore: '99.9%',
+          deliverability: '99.9% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'aged-duo',
@@ -637,6 +920,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['AdsPower', 'Dolphin{anty}', 'Octo Browser', 'Bright Data Residential', 'IPRoyal Proxies'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com : LocalGuideLevel : CityGeo : Cookies_JSON',
+    variants: [
+      {
+        id: 'reviews-standard-aged',
+        name: 'Standard Aged Local Reviewer (2020–2024)',
+        shortLabel: 'Standard Reviewer',
+        description: 'Aged account with organic Google Maps navigation and location history for local reviews.',
+        unitPrice: 3.00,
+        inStock: 950,
+        badge: '⭐ 92%+ Stick',
+        specs: {
+          carrier: 'Residential Phone Verified',
+          ipOrigin: 'Geo-Targeted Residential',
+          age: '2020–2024 Vintage',
+          trustScore: '97.2%',
+          deliverability: '92%+ Review Retention',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'reviews-local-guide',
+        name: 'Local Guide Level 3–5 Profile (High Stick)',
+        shortLabel: 'Local Guide Lvl 3-5',
+        description: 'Active Google Local Guide badge with historical photo contributions and 95%+ stick rate.',
+        unitPrice: 4.50,
+        inStock: 680,
+        badge: '🔥 95%+ Stick Rate',
+        isPopular: true,
+        specs: {
+          carrier: 'Physical Carrier Verified',
+          ipOrigin: 'Dedicated US/UK Local IP',
+          age: '3–6 Years Local History',
+          trustScore: '99.1%',
+          deliverability: '95%+ Permanent Stick Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'reviews-usa-master',
+        name: 'USA Geo-Targeted Review Master Profile',
+        shortLabel: 'USA Review Master',
+        description: 'Pre-configured for specific US metro areas (NY, LA, Chicago, Miami, Houston) with 98% stick rate.',
+        unitPrice: 6.00,
+        inStock: 420,
+        badge: '🏆 98% Ultra Stick',
+        specs: {
+          carrier: 'Real US Physical SIM',
+          ipOrigin: 'Specific US Metro Residential ISP',
+          age: '5–10 Years Aged Local History',
+          trustScore: '99.6%',
+          deliverability: '98%+ Guaranteed Stick Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'reviews-duo',
@@ -768,6 +1108,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['AdsPower', 'Dolphin{anty}', 'Multilogin', 'Octo Browser', 'Google Ads Editor'],
     sampleFormat: 'username@gmail.com : Password123 : recovery@mail.com : 2FA_SECRET : RegDate : Cookies_JSON',
+    variants: [
+      {
+        id: 'ads-billing-tested',
+        name: '2020–2023 Ads Ready (Billing Tested)',
+        shortLabel: '2020-2023 Ads Ready',
+        description: 'Seasoned YouTube and search cookies. Passes initial billing setup without suspicious payment flags.',
+        unitPrice: 5.00,
+        inStock: 580,
+        badge: '🎯 Ads Ready',
+        isPopular: true,
+        specs: {
+          carrier: 'US Carrier SIM Verified',
+          ipOrigin: 'Clean US Residential ISP',
+          age: '2–5 Years Seasoned',
+          trustScore: '98.2%',
+          deliverability: 'Anti-Suspension Tested',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'ads-high-spend',
+        name: '2016–2019 High Spend Authority Profile',
+        shortLabel: '2016-2019 High Spend',
+        description: 'Higher billing threshold compatibility, established Google Play and Google Pay historical telemetry.',
+        unitPrice: 8.00,
+        inStock: 340,
+        badge: '🔥 High Threshold',
+        specs: {
+          carrier: 'Physical Carrier Verified',
+          ipOrigin: 'Pure Residential IP Footprint',
+          age: '6–9 Years Heavy Aged',
+          trustScore: '99.3%',
+          deliverability: 'High Budget Scalable',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'ads-agency-elite',
+        name: '2010–2015 Agency Elite Tier (Max Shield)',
+        shortLabel: '2010-2015 Agency Elite',
+        description: 'A decade of clean Google activity. Maximum algorithmic trust against circumventing systems flags.',
+        unitPrice: 12.00,
+        inStock: 200,
+        badge: '💎 Max Shield Elite',
+        specs: {
+          carrier: 'Legacy US Carrier Verified',
+          ipOrigin: 'Historical US ISP Allocation',
+          age: '10–15 Years Vintage',
+          trustScore: '99.8%',
+          deliverability: 'PPC Enterprise Grade',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'ads-single',
@@ -897,6 +1294,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['Smartlead.ai', 'Instantly.ai', 'Lemlist', 'Woodpecker', 'Mailwizz', 'ActiveCampaign'],
     sampleFormat: 'smtp.mailgun.org : 587 : postmaster@domain.com : Password123 : API-KEY-xxxxxxxx : Verified-Domain',
+    variants: [
+      {
+        id: 'mailgun-50k-variant',
+        name: '50k Emails/Month (Mailgun Verified)',
+        shortLabel: '50k Emails/Mo',
+        description: 'Pre-activated Mailgun account with verified DNS records (SPF, DKIM, DMARC) and clean IP.',
+        unitPrice: 150.00,
+        inStock: 24,
+        badge: 'Starter Plan',
+        specs: {
+          sendingLimit: '50,000 Emails / Month',
+          ipOrigin: 'Shared Warm IP Pool',
+          age: 'Pre-warmed Reputation',
+          trustScore: '99.2%',
+          deliverability: '>99.2% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'mailgun-100k-variant',
+        name: '100k Emails/Month (Dedicated Warm IP)',
+        shortLabel: '100k Emails/Mo',
+        description: 'Dedicated clean sending IP with Smartlead/Instantly optimization and automated bounce handling.',
+        unitPrice: 190.00,
+        inStock: 16,
+        badge: '🔥 Most Popular',
+        isPopular: true,
+        specs: {
+          sendingLimit: '100,000 Emails / Month',
+          ipOrigin: 'Dedicated Clean Warm IP',
+          age: 'High Reputation Sender',
+          trustScore: '99.6%',
+          deliverability: '>99.5% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'mailgun-200k-variant',
+        name: '200k Emails/Month (Enterprise High-Vol)',
+        shortLabel: '200k Emails/Mo',
+        description: 'Enterprise sending throughput for large agency client campaigns with priority throughput.',
+        unitPrice: 320.00,
+        inStock: 8,
+        badge: '⚡ Enterprise Scale',
+        specs: {
+          sendingLimit: '200,000 Emails / Month',
+          ipOrigin: 'Enterprise Dedicated IP Pool',
+          age: 'Established Domain Pool',
+          trustScore: '99.9%',
+          deliverability: '>99.8% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'mailgun-50k',
@@ -997,6 +1451,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['Smartlead.ai', 'Instantly.ai', 'Mailwizz', 'Lemlist', 'HubSpot', 'WordPress SMTP'],
     sampleFormat: 'smtp-relay.brevo.com : 587 : account@brevo.com : MasterKey123 : API-v3-xxxxxxxx : VerifiedDomain',
+    variants: [
+      {
+        id: 'brevo-50k-variant',
+        name: '50k Emails/Month (Brevo Relay)',
+        shortLabel: '50k Emails/Mo',
+        description: 'Pre-activated Brevo SMTP relay with authenticated domain credentials and clean sender score.',
+        unitPrice: 150.00,
+        inStock: 20,
+        badge: 'Starter Plan',
+        specs: {
+          sendingLimit: '50,000 Emails / Month',
+          ipOrigin: 'Brevo High-Rep Relay',
+          age: 'Pre-activated & Warmed',
+          trustScore: '99.1%',
+          deliverability: '>99.1% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'brevo-100k-variant',
+        name: '100k Emails/Month (Enterprise Sender)',
+        shortLabel: '100k Emails/Mo',
+        description: 'Higher sending limits, high throughput Port 587/465 access, and full API webhook integration.',
+        unitPrice: 190.00,
+        inStock: 14,
+        badge: '🔥 Best Seller',
+        isPopular: true,
+        specs: {
+          sendingLimit: '100,000 Emails / Month',
+          ipOrigin: 'Dedicated Brevo IP Routing',
+          age: 'High-Throughput Pool',
+          trustScore: '99.5%',
+          deliverability: '>99.5% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'brevo-200k-variant',
+        name: '200k Emails/Month (High-Volume Scale)',
+        shortLabel: '200k Emails/Mo',
+        description: 'Maximum sending tier for cold email outreach agencies and transactional SaaS notifications.',
+        unitPrice: 320.00,
+        inStock: 6,
+        badge: '⚡ High Volume',
+        specs: {
+          sendingLimit: '200,000 Emails / Month',
+          ipOrigin: 'Multi-IP Relay Routing',
+          age: 'Premium Sender Tier',
+          trustScore: '99.8%',
+          deliverability: '>99.7% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'brevo-50k',
@@ -1096,6 +1607,63 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     bestTools: ['Instantly.ai', 'Smartlead.ai', 'Mailwizz', 'Mumara', 'Woodpecker', 'Custom MTAs'],
     sampleFormat: 'relay.buypvagmail.com : 587 : relay_user_xxxx : SecurePass123 : Dedicated-IP: 198.51.100.24 : PTR-Configured',
+    variants: [
+      {
+        id: 'relay-50k-variant',
+        name: 'Starter Relay (50k/mo, 1 Dedicated IP)',
+        shortLabel: '50k/mo • 1 IP',
+        description: 'Dedicated clean IP with custom rDNS, authenticated SPF, DKIM & DMARC records.',
+        unitPrice: 190.00,
+        inStock: 15,
+        badge: 'Starter Relay',
+        specs: {
+          sendingLimit: '50,000 Emails / Month',
+          ipOrigin: '1 Dedicated Clean /24 IP',
+          age: 'Custom rDNS Configured',
+          trustScore: '99.3%',
+          deliverability: '>99.4% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'relay-100k-variant',
+        name: 'Pro Relay (100k/mo, 2 Dedicated IPs)',
+        shortLabel: '100k/mo • 2 IPs',
+        description: 'Dual-IP rotation with automatic IP fallback, high throughput SMTP port 25/587/465.',
+        unitPrice: 240.00,
+        inStock: 10,
+        badge: '🔥 Pro Dual-IP',
+        isPopular: true,
+        specs: {
+          sendingLimit: '100,000 Emails / Month',
+          ipOrigin: '2 Dedicated IPs in Rotation',
+          age: 'Warm Sender Pool',
+          trustScore: '99.7%',
+          deliverability: '>99.6% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      },
+      {
+        id: 'relay-200k-variant',
+        name: 'Enterprise Relay (200k/mo, 4 Dedicated IPs)',
+        shortLabel: '200k/mo • 4 IPs',
+        description: 'Enterprise 4-IP cluster with load balancing, dedicated subnet, and unrestricted email throughput.',
+        unitPrice: 350.00,
+        inStock: 5,
+        badge: '⚡ Enterprise 4-IP',
+        specs: {
+          sendingLimit: '200,000 Emails / Month',
+          ipOrigin: '4 Dedicated Clean IP Cluster',
+          age: 'Zero Blacklist / Clean /24',
+          trustScore: '99.9%',
+          deliverability: '>99.9% Inbox Rate',
+          recoveryMail: true,
+          twoFA: true
+        }
+      }
+    ],
     packages: [
       {
         id: 'relay-50k',
@@ -1198,6 +1766,63 @@ export const getServiceById = (id: string): DetailedServiceInfo | undefined => {
         ],
         bestTools: ['AdsPower', 'Dolphin{anty}', 'Smartlead.ai', 'Instantly.ai', 'Multilogin'],
         sampleFormat: `user${year}@gmail.com : Password123 : recovery@mail.com : 2FA_SECRET : ${year}`,
+        variants: [
+          {
+            id: `aged-${year}-standard`,
+            name: `${year} Standard Vintage PVA`,
+            shortLabel: `${year} Standard`,
+            description: `Original ${year} vintage account with ${ageYears}+ years of organic algorithmic history.`,
+            unitPrice: basePrice,
+            inStock: Math.floor(400 + (year - 2008) * 60),
+            badge: `${ageYears}+ Yrs Aged`,
+            isPopular: true,
+            specs: {
+              carrier: 'Carrier Verified Registration',
+              ipOrigin: 'Clean Residential ISP (USA / UK / CA)',
+              age: `${year} Vintage (${ageYears} Years Aged)`,
+              trustScore: '99.2%',
+              deliverability: '99.5% Inbox Rate',
+              recoveryMail: true,
+              twoFA: true
+            }
+          },
+          {
+            id: `aged-${year}-carrier-sim`,
+            name: `${year} US Physical Carrier SIM Verified`,
+            shortLabel: `${year} US SIM PVA`,
+            description: `Seasoned ${year} account registered with non-VoIP US carrier SIM and static residential ISP.`,
+            unitPrice: +(basePrice * 1.25).toFixed(2),
+            inStock: Math.floor(250 + (year - 2008) * 40),
+            badge: '🇺🇸 US SIM Verified',
+            specs: {
+              carrier: 'Physical US Carrier SIM (Non-VoIP)',
+              ipOrigin: 'USA Residential (Comcast/Spectrum)',
+              age: `${year} Vintage (${ageYears} Years Aged)`,
+              trustScore: '99.7%',
+              deliverability: '99.8% Inbox Rate',
+              recoveryMail: true,
+              twoFA: true
+            }
+          },
+          {
+            id: `aged-${year}-high-authority`,
+            name: `${year} High-Activity Authority Profile`,
+            shortLabel: `${year} Authority Elite`,
+            description: `Deep organic search, YouTube, and Google Maps history for zero-suspension operations.`,
+            unitPrice: +(basePrice * 1.5).toFixed(2),
+            inStock: Math.floor(150 + (year - 2008) * 20),
+            badge: '🏆 High Authority',
+            specs: {
+              carrier: 'Carrier SIM + 2FA Secret Key',
+              ipOrigin: 'Tier 1 Clean Residential Subnet',
+              age: `${year} Vintage (${ageYears} Years Aged)`,
+              trustScore: '99.9%',
+              deliverability: '99.9% Inbox Authority',
+              recoveryMail: true,
+              twoFA: true
+            }
+          }
+        ],
         packages: [
           {
             id: `aged-${year}-starter`,

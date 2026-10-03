@@ -1,3 +1,24 @@
+export interface ProductVariant {
+  id: string;
+  name: string;
+  shortLabel: string;
+  description: string;
+  unitPrice: number;
+  inStock: number;
+  isPopular?: boolean;
+  badge?: string;
+  specs?: {
+    carrier?: string;
+    ipOrigin?: string;
+    age?: string;
+    trustScore?: string;
+    deliverability?: string;
+    sendingLimit?: string;
+    recoveryMail?: boolean;
+    twoFA?: boolean;
+  };
+}
+
 export interface ServiceProduct {
   id: string;
   name: string;
@@ -19,6 +40,7 @@ export interface ServiceProduct {
   rating: number;
   reviewsCount: number;
   features: string[];
+  variants?: ProductVariant[];
   specs: {
     phoneType: string;
     recoveryMail: boolean;
@@ -37,6 +59,8 @@ export interface CartItem {
   totalPrice: number;
   packageName?: string;
   packageId?: string;
+  selectedVariant?: string;
+  variantId?: string;
 }
 
 export interface BlogGuide {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, 
   Sparkles, 
@@ -24,10 +24,12 @@ import {
   Terminal,
   ExternalLink,
   Tag,
-  Search
+  Search,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo, ServicePackage, getServiceById } from '../../data/servicesData';
-import { ServiceProduct } from '../../types';
+import { ServiceProduct, ProductVariant } from '../../types';
 import { ServiceSeoSection } from '../ServiceSeoSection';
 import { handleLinkClick } from '../../utils/navigation';
 import { getProductPath, getProductFullUrl } from '../../utils/urlHelpers';
@@ -50,7 +52,21 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   onNavigateHome
 }) => {
   const service = getServiceById(serviceId) || detailedServicesData[0];
+  const variants = service.variants && service.variants.length > 0 ? service.variants : [];
+  const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id || '');
   const [customQty, setCustomQty] = useState<number>(service.baseQuantity);
+
+  // Sync selected variant when service changes
+  useEffect(() => {
+    if (variants.length > 0) {
+      setSelectedVariantId(variants[0].id);
+    }
+    setCustomQty(service.baseQuantity);
+  }, [service.id]);
+
+  const activeVariant = variants.find((v) => v.id === selectedVariantId) || variants[0];
+  const effectiveBaseUnitRate = activeVariant ? activeVariant.unitPrice : service.unitPrice;
+  const isSmtp = service.category === 'smtp';
 
   const [copiedFormat, setCopiedFormat] = useState(false);
   const [copiedPageLink, setCopiedPageLink] = useState(false);
@@ -62,8 +78,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     setTimeout(() => setCopiedTag(null), 1800);
   };
 
-  // Calculate dynamic bulk discount for custom calculator
+  // Calculate dynamic bulk discount for custom calculator and card
   const calculateDiscount = (qty: number) => {
+    if (isSmtp) {
+      if (qty >= 10) return 0.20;
+      if (qty >= 5) return 0.10;
+      if (qty >= 2) return 0.05;
+      return 0;
+    }
     if (qty >= 500) return 0.30;
     if (qty >= 100) return 0.20;
     if (qty >= 50) return 0.15;
@@ -73,8 +95,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   };
 
   const currentDiscount = calculateDiscount(customQty);
-  const discountedUnitPrice = service.unitPrice * (1 - currentDiscount);
-  const calculatedTotalPrice = discountedUnitPrice * customQty;
+  const discountedUnitPrice = +(effectiveBaseUnitRate * (1 - currentDiscount)).toFixed(2);
+  const calculatedTotalPrice = +(discountedUnitPrice * customQty).toFixed(2);
 
   const handleCopyFormat = () => {
     navigator.clipboard.writeText(service.sampleFormat);
@@ -172,7 +194,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-white to-slate-50 border-b border-slate-200 pt-10 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8">
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-black border border-red-200 uppercase tracking-wider">
@@ -256,51 +278,292 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               </div>
             </div>
 
-            {/* Quick Specs Card */}
-            <div className="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-lg">
-              <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-                <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center">
-                  <IconComp className="w-6 h-6 stroke-[2.2]" />
+            {/* Interactive Product Variants & Order Card */}
+            <div className="lg:col-span-4 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/90 shadow-xl lg:sticky lg:top-20">
+              {/* Header / Selected Rate Display */}
+              <div className="flex items-start justify-between gap-3 pb-4 border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
+                    <IconComp className="w-6 h-6 stroke-[2.2]" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold block uppercase tracking-wider">
+                      {activeVariant ? 'Selected Variant Rate' : 'Starting Rate'}
+                    </span>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                        ${discountedUnitPrice.toFixed(2)}
+                      </span>
+                      <span className="text-xs text-slate-500 font-medium">
+                        / {isSmtp ? 'mo' : 'account'}
+                      </span>
+                      {currentDiscount > 0 && (
+                        <span className="line-through text-xs text-slate-400">
+                          ${effectiveBaseUnitRate.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold block uppercase tracking-wider">Starting Rate</span>
-                  <span className="text-2xl font-black text-slate-900">
-                    ${service.unitPrice.toFixed(2)}
+                <div className="text-right shrink-0">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>{(activeVariant ? activeVariant.inStock : service.inStock).toLocaleString()} In Stock</span>
                   </span>
-                  <span className="text-xs text-slate-500 font-medium ml-1">/ account</span>
                 </div>
               </div>
 
-              <div className="space-y-3 py-4 text-xs font-medium text-slate-700">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Phone SIM Carrier:</span>
-                  <span className="font-bold text-slate-900">{service.specs.phoneType}</span>
+              {/* Product Variants Selector */}
+              {variants.length > 0 && (
+                <div className="py-4 border-b border-slate-100">
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <Layers className="w-3.5 h-3.5 text-blue-600" />
+                      <span>Choose Variant ({variants.length} options)</span>
+                    </span>
+                    <span className="text-[11px] text-blue-600 font-bold truncate max-w-[140px] text-right">
+                      {activeVariant?.shortLabel || 'Select Option'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {variants.map((v) => {
+                      const isSelected = v.id === selectedVariantId;
+                      return (
+                        <button
+                          key={v.id}
+                          type="button"
+                          onClick={() => setSelectedVariantId(v.id)}
+                          className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer relative ${
+                            isSelected
+                              ? 'border-blue-600 bg-blue-50/70 shadow-xs ring-2 ring-blue-500/20'
+                              : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/70'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-start gap-2.5">
+                              <div className={`w-4 h-4 rounded-full mt-0.5 flex items-center justify-center shrink-0 border transition-all ${
+                                isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-300 bg-white'
+                              }`}>
+                                {isSelected && <Check className="w-2.5 h-2.5 text-white stroke-[3]" />}
+                              </div>
+                              <div>
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span className={`text-xs font-bold ${isSelected ? 'text-blue-950 font-black' : 'text-slate-800'}`}>
+                                    {v.name}
+                                  </span>
+                                  {v.badge && (
+                                    <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${
+                                      v.isPopular
+                                        ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                        : 'bg-blue-100 text-blue-800 border border-blue-200'
+                                    }`}>
+                                      {v.badge}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug line-clamp-1">
+                                  {v.description}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <span className={`text-xs font-black block ${isSelected ? 'text-blue-700' : 'text-slate-900'}`}>
+                                ${v.unitPrice.toFixed(2)}
+                              </span>
+                              <span className="text-[10px] text-slate-400 block">/ {isSmtp ? 'mo' : 'ea'}</span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">IP Origin:</span>
-                  <span className="font-bold text-slate-900">{service.specs.ipOrigin}</span>
+              )}
+
+              {/* Quantity Selection */}
+              <div className="py-4 border-b border-slate-100">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-800">
+                    Order Quantity ({isSmtp ? 'Accounts' : 'Pcs'}):
+                  </span>
+                  {currentDiscount > 0 && (
+                    <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                      🎉 Save {Math.round(currentDiscount * 100)}% Applied
+                    </span>
+                  )}
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Recovery Configured:</span>
-                  <span className="font-bold text-emerald-600">Yes (Full Access)</span>
+
+                {/* Quick Presets */}
+                <div className="grid grid-cols-4 gap-1.5 mb-3">
+                  {(isSmtp ? [1, 2, 5, 10] : [2, 10, 25, 50]).map((qty) => (
+                    <button
+                      key={qty}
+                      type="button"
+                      onClick={() => setCustomQty(qty)}
+                      className={`py-1.5 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer text-center ${
+                        customQty === qty
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-2xs'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      {qty} {isSmtp ? 'Acct' : 'Pcs'}
+                    </button>
+                  ))}
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Delivery Speed:</span>
-                  <span className="font-bold text-blue-600">&lt; 60 Seconds</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Payment Accepted:</span>
-                  <span className="font-bold text-slate-900">Crypto (USDT/BTC/LTC)</span>
+
+                {/* Custom Quantity Stepper */}
+                <div className="flex items-center justify-between bg-slate-50 rounded-2xl border border-slate-200 p-1.5">
+                  <span className="text-xs text-slate-500 font-medium pl-2.5">
+                    Custom Amount:
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setCustomQty((q) => Math.max(isSmtp ? 1 : 2, q - (isSmtp ? 1 : 2)))}
+                      disabled={customQty <= (isSmtp ? 1 : 2)}
+                      className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer shadow-2xs"
+                      title="Decrease quantity"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <input
+                      type="number"
+                      min={isSmtp ? 1 : 2}
+                      value={customQty}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        if (!isNaN(val)) setCustomQty(Math.max(isSmtp ? 1 : 2, val));
+                      }}
+                      className="w-14 text-center font-black text-sm bg-white border border-slate-200 rounded-xl py-1 text-slate-900 shadow-2xs focus:outline-hidden focus:border-blue-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setCustomQty((q) => q + (isSmtp ? 1 : 2))}
+                      className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-colors cursor-pointer shadow-2xs"
+                      title="Increase quantity"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              <button
-                onClick={() => onQuickBuy(service, service.baseQuantity)}
-                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-sm font-bold shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
-              >
-                <Zap className="w-4 h-4 fill-current text-amber-300" />
-                <span>Instant Order Now (${service.basePrice})</span>
-              </button>
+              {/* Dynamic Specs for Selected Variant */}
+              <div className="py-3.5 space-y-2 text-xs font-medium text-slate-700 border-b border-slate-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Carrier / Verification:</span>
+                  <span className="font-bold text-slate-900 text-right">
+                    {activeVariant?.specs?.carrier || service.specs.phoneType}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">IP Origin / Network:</span>
+                  <span className="font-bold text-slate-900 text-right">
+                    {activeVariant?.specs?.ipOrigin || service.specs.ipOrigin}
+                  </span>
+                </div>
+                {activeVariant?.specs?.trustScore && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-500">Trust &amp; Deliverability:</span>
+                    <span className="font-bold text-emerald-600">
+                      {activeVariant.specs.trustScore} • {activeVariant.specs.deliverability || 'Top Tier'}
+                    </span>
+                  </div>
+                )}
+                {activeVariant?.specs?.sendingLimit && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-500">Sending Throughput:</span>
+                    <span className="font-bold text-blue-600">
+                      {activeVariant.specs.sendingLimit}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Security Credentials:</span>
+                  <span className="font-bold text-emerald-600">Recovery Email &amp; 2FA Included</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Auto Delivery:</span>
+                  <span className="font-bold text-blue-600">&lt; 60 Seconds Instant</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Guarantee:</span>
+                  <span className="font-bold text-emerald-600">7-Day Free Replacement</span>
+                </div>
+              </div>
+
+              {/* Total Summary & Action Buttons */}
+              <div className="pt-4 space-y-3">
+                <div className="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Total Due</span>
+                    <span className="text-xs text-slate-500">{customQty}x {activeVariant?.shortLabel || 'Account'}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-slate-900 block leading-tight">
+                      ${calculatedTotalPrice.toFixed(2)}
+                    </span>
+                    {currentDiscount > 0 && (
+                      <span className="text-[11px] font-bold text-emerald-600">
+                        Includes {Math.round(currentDiscount * 100)}% Discount
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <button
+                    onClick={() => {
+                      const variantProduct: ServiceProduct = {
+                        ...service,
+                        unitPrice: effectiveBaseUnitRate,
+                        basePrice: +(effectiveBaseUnitRate * service.baseQuantity).toFixed(2)
+                      };
+                      onQuickBuy(variantProduct, customQty);
+                    }}
+                    className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl text-sm font-bold shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
+                  >
+                    <Zap className="w-4 h-4 fill-current text-amber-300" />
+                    <span>Instant Order Now (${calculatedTotalPrice.toFixed(2)})</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const variantProduct: ServiceProduct = {
+                        ...service,
+                        unitPrice: effectiveBaseUnitRate,
+                        basePrice: +(effectiveBaseUnitRate * service.baseQuantity).toFixed(2)
+                      };
+                      const variantName = activeVariant 
+                        ? `${service.name} (${activeVariant.shortLabel || activeVariant.name})`
+                        : undefined;
+                      onAddToCart(variantProduct, customQty, activeVariant?.id, variantName);
+                    }}
+                    className="w-full py-3 bg-white hover:bg-slate-50 text-slate-800 hover:text-blue-600 rounded-2xl text-sm font-bold border border-slate-200 hover:border-blue-300 shadow-2xs flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
+                  >
+                    <ShoppingCart className="w-4 h-4 text-blue-600" />
+                    <span>Add to Cart</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center gap-3 pt-1 text-[11px] font-medium text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <Lock className="w-3 h-3 text-slate-400" />
+                    <span>256-Bit SSL</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                    <span>7-Day Warranty</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-amber-500" />
+                    <span>Auto-Dispatch</span>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

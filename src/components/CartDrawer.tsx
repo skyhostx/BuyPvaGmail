@@ -222,15 +222,23 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <h4 className="text-sm font-black text-slate-900 leading-snug">
                             {item.product.name}
                           </h4>
-                          <div className="flex items-center gap-2 mt-1 flex-wrap">
+                          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                             {isSmtp ? (
                               <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200">
                                 {item.packageName || 'Dedicated SMTP Plan'}
                               </span>
                             ) : (
-                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
-                                {item.product.age || 'PVA Verified'}
-                              </span>
+                              <>
+                                {item.packageName ? (
+                                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                    Variant: {item.packageName.replace(item.product.name, '').replace(/^\s*[-–(]\s*/, '').replace(/\)\s*$/, '') || item.packageName}
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                                    {item.product.age || 'PVA Verified'}
+                                  </span>
+                                )}
+                              </>
                             )}
                             
                             {!isSmtp && (

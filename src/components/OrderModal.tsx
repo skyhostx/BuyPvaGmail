@@ -406,8 +406,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       } else {
         setCheckoutMode('single');
       }
+      if (initialProduct?.id) {
+        setSelectedServiceId(initialProduct.id);
+      }
+      if (initialQuantity && initialQuantity > 0) {
+        setSelectedQuantity(initialQuantity);
+      }
     }
-  }, [isOpen, isCartCheckout, cartItems.length]);
+  }, [isOpen, isCartCheckout, cartItems.length, initialProduct, initialQuantity]);
 
   // Step navigation (1: Package, 2: Contact, 3: Payment, 4: Verify)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
