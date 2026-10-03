@@ -718,6 +718,26 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }, 1500);
   };
 
+  const getTelegramDeliveryUrl = () => {
+    if (!completedOrder) return 'https://t.me/BuyPvaGmail';
+
+    const itemsSummary = completedOrder.items && completedOrder.items.length > 0
+      ? completedOrder.items.map((item) => `- ${item.quantity}x ${item.product?.name || 'Account'}`).join('\n')
+      : `- ${selectedQuantity}x ${activeProduct.name}`;
+
+    const message = `Hello, I completed order ${completedOrder.orderId}.
+
+Ordered Items & Quantities:
+${itemsSummary}
+
+Total Paid: $${completedOrder.totalAmount} USD
+Delivery Email: ${completedOrder.email}
+
+Please provide delivery.`;
+
+    return `https://t.me/BuyPvaGmail?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-3xl w-full my-4 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[92vh]">
@@ -2550,7 +2570,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               {/* Order Actions */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a
-                  href={`https://t.me/BuyPvaGmail${completedOrder?.orderId ? `?text=${encodeURIComponent(`Hello, I completed order ${completedOrder.orderId}. Please provide delivery.`)}` : ''}`}
+                  href={getTelegramDeliveryUrl()}
                   target="_blank"
                   rel="noreferrer"
                   className="flex-1 bg-[#229ED9] hover:bg-[#1b8ec5] text-white font-extrabold py-3.5 px-5 rounded-xl text-sm shadow-lg shadow-[#229ED9]/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
