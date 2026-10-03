@@ -5,17 +5,14 @@ import {
   Package, 
   CheckCircle2, 
   Clock, 
-  Download, 
-  Copy, 
-  Check, 
   ShieldCheck, 
   ExternalLink, 
   RefreshCw, 
   AlertCircle,
-  FileText,
   KeyRound,
   Mail,
-  Coins
+  Coins,
+  Send
 } from 'lucide-react';
 import { OrderDetails } from '../types';
 import { GmailLogo } from './GmailLogo';
@@ -50,7 +47,6 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [searchedOrder, setSearchedOrder] = useState<TrackedOrderResult | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [copiedAccounts, setCopiedAccounts] = useState(false);
 
   if (!isOpen) return null;
 
@@ -118,35 +114,6 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
     }, 600);
   };
 
-  const handleDownloadTxt = () => {
-    if (!searchedOrder) return;
-    const lines = [
-      '# BuyPvaGmail Order Dispatch',
-      `# Order ID: ${searchedOrder.orderId}`,
-      `# Package: ${searchedOrder.packageTitle}`,
-      `# Quantity: ${searchedOrder.quantity} Accounts`,
-      `# Date: ${searchedOrder.date}`,
-      `# 7-Day Warranty Active Until: ${searchedOrder.warrantyValidUntil}`,
-      '# Format: email:password:recovery_email:2FA_secret:user_agent:cookies_json',
-      '---------------------------------------------------------------------------------',
-      ...searchedOrder.accounts
-    ];
-    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${searchedOrder.orderId}-Accounts.txt`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleCopyAccounts = () => {
-    if (!searchedOrder) return;
-    navigator.clipboard?.writeText(searchedOrder.accounts.join('\n'));
-    setCopiedAccounts(true);
-    setTimeout(() => setCopiedAccounts(false), 2000);
-  };
-
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-2xl w-full my-6 p-5 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200">
@@ -162,7 +129,7 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
                 Order Tracking &amp; Live Status
               </h3>
               <p className="text-xs text-slate-500">
-                Check delivery progress, download credentials, or verify replacement warranty
+                Check delivery progress, dispatch status, or verify replacement warranty
               </p>
             </div>
           </div>
@@ -340,55 +307,24 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
               </div>
             </div>
 
-            {/* Sample Credentials Preview Box */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  Account Credentials Preview:
-                </span>
-                <button
-                  onClick={handleCopyAccounts}
-                  className="text-blue-600 hover:text-blue-700 text-xs font-bold flex items-center gap-1 cursor-pointer"
-                >
-                  {copiedAccounts ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedAccounts ? 'Copied' : 'Copy All'}</span>
-                </button>
-              </div>
-
-              <div className="bg-slate-950 text-slate-300 font-mono text-[11px] p-3 rounded-xl border border-slate-800 space-y-1 overflow-x-auto max-h-36">
-                {searchedOrder.accounts.map((acc, idx) => (
-                  <div key={idx} className="whitespace-nowrap text-slate-300 select-all hover:text-white">
-                    {acc}
-                  </div>
-                ))}
-              </div>
-              <span className="text-[10px] text-slate-400 block">
-                Format: <code>email:password:recovery_email:2FA_secret:user_agent:cookies_json</code>
-              </span>
-            </div>
-
-            {/* Action Buttons */}
+            {/* Delivery Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={handleDownloadTxt}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+              <a
+                href={`https://t.me/BuyPvaGmail?text=${encodeURIComponent(`Hello, I am tracking order ${searchedOrder.orderId}.\n\nPackage: ${searchedOrder.quantity}x ${searchedOrder.packageTitle}\nTotal Paid: $${searchedOrder.totalUSD.toFixed(2)} USD\nDelivery Email: ${searchedOrder.deliveryEmail}\n\nPlease provide delivery.`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 bg-[#229ED9] hover:bg-[#1b8ec5] text-white font-extrabold py-3 px-5 rounded-xl text-xs sm:text-sm shadow-md shadow-[#229ED9]/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98"
               >
-                <Download className="w-4 h-4" />
-                <span>Download Credentials (.TXT)</span>
-              </button>
+                <Send className="w-4 h-4 fill-current rotate-[-10deg]" />
+                <span>Contact Telegram for Delivery</span>
+              </a>
 
-              {onOpenChecker && (
-                <button
-                  onClick={() => {
-                    onClose();
-                    onOpenChecker();
-                  }}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-slate-500" />
-                  <span>Verify in 2FA Inspector</span>
-                </button>
-              )}
+              <button
+                onClick={onClose}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-6 rounded-xl text-xs sm:text-sm cursor-pointer transition-colors"
+              >
+                Close &amp; Return
+              </button>
             </div>
 
           </div>

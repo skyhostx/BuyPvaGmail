@@ -117,12 +117,6 @@ export const SiteIdentityLogo: React.FC<SiteIdentityLogoProps> = ({
     lg: 'text-2xl sm:text-3xl'
   };
 
-  const badgeSizes = {
-    sm: 'text-[9px] px-1.5 py-0.5',
-    md: 'text-[10px] px-2 py-0.5',
-    lg: 'text-xs px-2.5 py-1'
-  };
-
   return (
     <div className={`flex items-center gap-3 select-none group ${className}`}>
       {/* Gmail Icon Container with Glass Sheen & Verification Pin */}
@@ -144,7 +138,7 @@ export const SiteIdentityLogo: React.FC<SiteIdentityLogoProps> = ({
         </span>
       </div>
 
-      {/* Brand Typography & Tag */}
+      {/* Brand Typography */}
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
           <span 
@@ -153,14 +147,6 @@ export const SiteIdentityLogo: React.FC<SiteIdentityLogoProps> = ({
             }`}
           >
             BuyPva<span className="text-red-600">Gmail</span>
-          </span>
-          <span className={`font-black uppercase tracking-wider rounded-md inline-flex items-center gap-1 ${badgeSizes[size]} ${
-            isDark 
-              ? 'bg-blue-500/20 text-blue-400 border border-blue-500/40 shadow-xs' 
-              : 'bg-blue-50 text-blue-700 border border-blue-200 shadow-xs'
-          }`}>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            PVA
           </span>
         </div>
 

@@ -6,7 +6,6 @@ import {
   X, 
   Zap, 
   MessageSquare, 
-  Search, 
   CheckCircle2,
   Lock,
   ArrowRight,
@@ -31,7 +30,7 @@ interface HeaderProps {
   onOpenCart: () => void;
   onOpenOrderModal: (productId?: string) => void;
   onOpenCheckerModal: () => void;
-  onOpenTrackingModal: () => void;
+  onOpenTrackingModal?: () => void;
   onOpenSeoAnalytics?: () => void;
   activeSection: string;
   setActiveSection: (section: string) => void;
@@ -291,26 +290,16 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-300">
-            <button 
-              onClick={onOpenTrackingModal}
-              className="flex items-center gap-1 hover:text-amber-300 transition-colors text-xs font-medium cursor-pointer"
-            >
-              <Search className="w-3.5 h-3.5 text-amber-400" />
-              <span>Track Order</span>
-            </button>
+          <div className="flex items-center gap-2 text-slate-400 text-xs">
+            <Headphones className="w-3.5 h-3.5 text-blue-400" />
+            <span>24/7 Live Support: </span>
+            <a href="https://t.me/BuyPvaGmail" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold flex items-center gap-1">
+              @BuyPvaGmail
+            </a>
             <span className="text-slate-600">|</span>
-            <div className="flex items-center gap-2 text-slate-400 text-xs">
-              <Headphones className="w-3.5 h-3.5 text-blue-400" />
-              <span>24/7 Live Support: </span>
-              <a href="https://t.me/BuyPvaGmail" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold flex items-center gap-1">
-                @BuyPvaGmail
-              </a>
-              <span className="text-slate-600">|</span>
-              <a href="https://wa.me/12534080049" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
-                +1 (253) 408-0049
-              </a>
-            </div>
+            <a href="https://wa.me/12534080049" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
+              +1 (253) 408-0049
+            </a>
           </div>
         </div>
       </div>
