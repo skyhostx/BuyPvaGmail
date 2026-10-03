@@ -26,11 +26,13 @@ import {
   Tag,
   Search,
   Plus,
-  Minus
+  Minus,
+  Mail
 } from 'lucide-react';
 import { detailedServicesData, DetailedServiceInfo, ServicePackage, getServiceById } from '../../data/servicesData';
 import { ServiceProduct, ProductVariant } from '../../types';
 import { ServiceSeoSection } from '../ServiceSeoSection';
+import { ProductRelatedContent } from '../ProductRelatedContent';
 import { handleLinkClick } from '../../utils/navigation';
 import { getProductPath, getProductFullUrl } from '../../utils/urlHelpers';
 
@@ -275,6 +277,45 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 </div>
                 <span className="text-sm font-black text-slate-900">{service.rating} / 5.0</span>
                 <span className="text-xs text-slate-500">Based on {service.reviewsCount} verified customer orders</span>
+              </div>
+
+              {/* Product Key Specifications & Trust Highlights Bar */}
+              <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-100/90">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="text-xs font-black uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-blue-600" />
+                    <span>Included With Every Account in This Order</span>
+                  </span>
+                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
+                    100% Guaranteed
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs text-slate-700 font-medium">
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Smartphone className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                    <span className="truncate">Real SIM (Non-VoIP)</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Globe className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                    <span className="truncate">Clean Residential IP</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Lock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span className="truncate">2FA Secret Key</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Mail className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                    <span className="truncate">Recovery Email Config</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span className="truncate">App Password Ready</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-blue-100/60 shadow-2xs">
+                    <Shield className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                    <span className="truncate">7-Day Free Warranty</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -860,7 +901,31 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
         </div>
 
-        {/* 5. 1,200+ Word 100% Unique SEO & Technical Authority Guide */}
+        {/* 5. Product Related More Content: Variants Comparison, Credentials Decoder, Anti-Ban Pillars, Warmup Protocol, Compatibility & Reviews */}
+        <ProductRelatedContent
+          service={service}
+          selectedVariantId={selectedVariantId}
+          onSelectVariant={(variantId) => setSelectedVariantId(variantId)}
+          onQuickBuyVariant={(variant, qty) => {
+            const variantProduct: ServiceProduct = {
+              ...service,
+              unitPrice: variant.unitPrice,
+              basePrice: +(variant.unitPrice * service.baseQuantity).toFixed(2)
+            };
+            onQuickBuy(variantProduct, qty);
+          }}
+          onAddToCartVariant={(variant, qty) => {
+            const variantProduct: ServiceProduct = {
+              ...service,
+              unitPrice: variant.unitPrice,
+              basePrice: +(variant.unitPrice * service.baseQuantity).toFixed(2)
+            };
+            const variantName = `${service.name} (${variant.shortLabel || variant.name})`;
+            onAddToCart(variantProduct, qty, variant.id, variantName);
+          }}
+        />
+
+        {/* 6. 1,200+ Word 100% Unique SEO & Technical Authority Guide */}
         <ServiceSeoSection serviceId={service.id} />
 
         {/* 6. Related Services Navigation */}
