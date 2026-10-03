@@ -56,14 +56,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const service = getServiceById(serviceId) || detailedServicesData[0];
   const variants = service.variants && service.variants.length > 0 ? service.variants : [];
   const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id || '');
-  const [customQty, setCustomQty] = useState<number>(service.baseQuantity);
+  const [customQty, setCustomQty] = useState<number>(2);
 
   // Sync selected variant when service changes
   useEffect(() => {
     if (variants.length > 0) {
       setSelectedVariantId(variants[0].id);
     }
-    setCustomQty(service.baseQuantity);
+    setCustomQty(2);
   }, [service.id]);
 
   const activeVariant = variants.find((v) => v.id === selectedVariantId) || variants[0];
@@ -461,8 +461,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => setCustomQty((q) => Math.max(isSmtp ? 1 : 2, q - (isSmtp ? 1 : 2)))}
-                      disabled={customQty <= (isSmtp ? 1 : 2)}
+                      onClick={() => setCustomQty((q) => Math.max(1, q - 1))}
+                      disabled={customQty <= 1}
                       className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer shadow-2xs"
                       title="Decrease quantity"
                     >
@@ -470,17 +470,17 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                     </button>
                     <input
                       type="number"
-                      min={isSmtp ? 1 : 2}
+                      min={1}
                       value={customQty}
                       onChange={(e) => {
                         const val = parseInt(e.target.value, 10);
-                        if (!isNaN(val)) setCustomQty(Math.max(isSmtp ? 1 : 2, val));
+                        if (!isNaN(val)) setCustomQty(Math.max(1, val));
                       }}
                       className="w-14 text-center font-black text-sm bg-white border border-slate-200 rounded-xl py-1 text-slate-900 shadow-2xs focus:outline-hidden focus:border-blue-500"
                     />
                     <button
                       type="button"
-                      onClick={() => setCustomQty((q) => q + (isSmtp ? 1 : 2))}
+                      onClick={() => setCustomQty((q) => q + 1)}
                       className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-colors cursor-pointer shadow-2xs"
                       title="Increase quantity"
                     >
