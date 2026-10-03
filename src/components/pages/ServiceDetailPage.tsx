@@ -56,14 +56,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const service = getServiceById(serviceId) || detailedServicesData[0];
   const variants = service.variants && service.variants.length > 0 ? service.variants : [];
   const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id || '');
-  const [customQty, setCustomQty] = useState<number>(2);
+  const [customQty, setCustomQty] = useState<number>(1);
 
   // Sync selected variant when service changes
   useEffect(() => {
     if (variants.length > 0) {
       setSelectedVariantId(variants[0].id);
     }
-    setCustomQty(2);
+    setCustomQty(1);
   }, [service.id]);
 
   const activeVariant = variants.find((v) => v.id === selectedVariantId) || variants[0];
@@ -437,7 +437,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                 {/* Quick Presets */}
                 <div className="grid grid-cols-4 gap-1.5 mb-3">
-                  {(isSmtp ? [1, 2, 5, 10] : [2, 10, 25, 50]).map((qty) => (
+                  {(isSmtp ? [1, 2, 5, 10] : [1, 5, 10, 25]).map((qty) => (
                     <button
                       key={qty}
                       type="button"
@@ -448,7 +448,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      {qty} {isSmtp ? 'Acct' : 'Pcs'}
+                      {qty} {isSmtp ? (qty === 1 ? 'Acct' : 'Accts') : (qty === 1 ? 'Pc' : 'Pcs')}
                     </button>
                   ))}
                 </div>
@@ -716,31 +716,31 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 Need a Specific Quantity?
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-2 font-normal">
-                Choose any custom quantity between 2 and 5,000 accounts. Bulk discounts apply automatically.
+                Choose any custom quantity between 1 and 5,000 accounts. Bulk discounts apply automatically.
               </p>
 
               {/* Slider & Quick Buttons */}
               <div className="mt-6 space-y-4">
                 <div>
                   <div className="flex justify-between text-xs font-bold text-slate-300 mb-2">
-                    <span>Quantity: {customQty} Accounts</span>
+                    <span>Quantity: {customQty} {customQty === 1 ? 'Account' : 'Accounts'}</span>
                     <span className="text-amber-400 font-extrabold">
                       {currentDiscount > 0 ? `${(currentDiscount * 100).toFixed(0)}% Bulk Discount Applied` : 'Standard Rate'}
                     </span>
                   </div>
                   <input
                     type="range"
-                    min="2"
+                    min="1"
                     max="500"
                     step="1"
                     value={customQty}
-                    onChange={(e) => setCustomQty(parseInt(e.target.value) || 2)}
+                    onChange={(e) => setCustomQty(parseInt(e.target.value) || 1)}
                     className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
                   />
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {[2, 5, 10, 25, 50, 100, 250, 500].map((num) => (
+                  {[1, 5, 10, 25, 50, 100, 250, 500].map((num) => (
                     <button
                       key={num}
                       onClick={() => setCustomQty(num)}
@@ -750,7 +750,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                           : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                       }`}
                     >
-                      {num} accounts
+                      {num} {num === 1 ? 'account' : 'accounts'}
                     </button>
                   ))}
                 </div>

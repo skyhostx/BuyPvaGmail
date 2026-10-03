@@ -246,7 +246,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                         <span className="text-xs font-medium text-slate-500">{product.category === 'smtp' ? 'Starting Plan: ' : 'Base Pack: '}</span>
                         <span className="text-lg font-black text-slate-900">${product.basePrice}</span>
                         <span className="text-xs text-slate-600 font-semibold"> 
-                          {product.category === 'smtp' ? ' (50k / mo)' : ` (${product.baseQuantity} pcs)`}
+                          {product.category === 'smtp' ? ' (50k / mo)' : ` (${product.baseQuantity} ${product.baseQuantity === 1 ? 'pc' : 'pcs'})`}
                         </span>
                       </div>
                       <div className="text-right">
@@ -263,7 +263,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
                       <span>{product.category === 'smtp' ? 'Select Email Volume / Month:' : 'Select Quantity:'}</span>
                       <span className="text-blue-600 font-semibold">
-                        {product.category === 'smtp' ? `${currentQty}k Emails / Month` : `${currentQty} Accounts`}
+                        {product.category === 'smtp' ? `${currentQty}k Emails / Month` : `${currentQty} ${currentQty === 1 ? 'Account' : 'Accounts'}`}
                       </span>
                     </div>
 
@@ -296,7 +296,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                       <>
                         {/* Quick Preset Buttons */}
                         <div className="grid grid-cols-4 gap-1.5 mb-3">
-                          {[product.baseQuantity, 10, 25, 50, 100, 250, 500].slice(0, 4).map((qty) => (
+                          {[1, 5, 10, 25].map((qty) => (
                             <button
                               key={qty}
                               type="button"
@@ -307,7 +307,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                                   : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                               }`}
                             >
-                              {qty} pcs
+                              {qty} {qty === 1 ? 'pc' : 'pcs'}
                             </button>
                           ))}
                         </div>
@@ -316,22 +316,23 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => handleQuantityChange(product.id, Math.max(product.baseQuantity, currentQty - (currentQty > 20 ? 10 : 2)))}
-                            className="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-base flex items-center justify-center cursor-pointer"
+                            onClick={() => handleQuantityChange(product.id, Math.max(1, currentQty - (currentQty > 20 ? 10 : 1)))}
+                            disabled={currentQty <= 1}
+                            className="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 font-bold text-base flex items-center justify-center cursor-pointer"
                           >
                             -
                           </button>
                           <input
                             type="number"
-                            min={product.baseQuantity}
+                            min={1}
                             max={5000}
                             value={currentQty}
-                            onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value) || product.baseQuantity)}
+                            onChange={(e) => handleQuantityChange(product.id, Math.max(1, parseInt(e.target.value) || 1))}
                             className="w-full text-center py-1.5 font-bold text-sm bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                           />
                           <button
                             type="button"
-                            onClick={() => handleQuantityChange(product.id, currentQty + (currentQty >= 20 ? 10 : 2))}
+                            onClick={() => handleQuantityChange(product.id, currentQty + (currentQty >= 20 ? 10 : 1))}
                             className="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-base flex items-center justify-center cursor-pointer"
                           >
                             +

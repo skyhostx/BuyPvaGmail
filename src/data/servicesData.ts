@@ -71,8 +71,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: '100% Genuine USA Residential IP Created with Physical US Carrier SIMs (2008 - 2025 Vintage)',
     longDescription: 'Our USA Gmail accounts represent the pinnacle of email marketing reliability, spanning all creation years from 2008 to 2025. Each account is registered exclusively using clean, dedicated USA residential ISP connections (Comcast, AT&T, Spectrum) and verified with non-VoIP physical SIM cards from major US carriers. They come pre-configured with recovery emails, 2FA backup codes, and full security protocols, ensuring maximum inbox deliverability for cold email campaigns and US-targeted business operations.',
-    basePrice: 6,
-    baseQuantity: 2,
+    basePrice: 3,
+    baseQuantity: 1,
     unitPrice: 3.0,
     popular: true,
     age: '2008 - 2025 Aged (All Years Available)',
@@ -192,13 +192,13 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     packages: [
       {
         id: 'usa-starter',
-        name: 'Starter Test Pack',
-        quantity: 2,
-        price: 6.00,
+        name: 'Single Starter Pack',
+        quantity: 1,
+        price: 3.00,
         unitPrice: 3.00,
         discountPercent: 0,
         badge: 'Trial Pack',
-        features: ['2 USA Aged Accounts', 'Physical US SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
+        features: ['1 USA Aged Account', 'Physical US SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
       },
       {
         id: 'usa-cold-outreach',
@@ -280,8 +280,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: '100% Real SIM SMS Verified Gmail Accounts for Bulletproof Security (2008 - 2025)',
     longDescription: 'PVA (Phone Verified Account) Gmails are the golden standard for marketers, developers, and businesses requiring hardened accounts that pass Google automated verification challenges. Every PVA account is verified with a real physical SIM card, preventing sudden verification lockouts. Available in all creation years from 2008 vintage up to 2025 fresh batches.',
-    basePrice: 6,
-    baseQuantity: 2,
+    basePrice: 3,
+    baseQuantity: 1,
     unitPrice: 3.0,
     popular: false,
     bestValue: true,
@@ -401,13 +401,13 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     packages: [
       {
         id: 'pva-starter',
-        name: 'Duo Verification Pack',
-        quantity: 2,
-        price: 6.00,
+        name: 'Single Verification Pack',
+        quantity: 1,
+        price: 3.00,
         unitPrice: 3.00,
         discountPercent: 0,
         badge: 'Starter',
-        features: ['2 PVA SIM Verified Accounts (2008-2025)', 'Recovery Email Included', 'Password Changeable', 'Instant Delivery']
+        features: ['1 PVA SIM Verified Account (2008-2025)', 'Recovery Email Included', 'Password Changeable', 'Instant Delivery']
       },
       {
         id: 'pva-bundle',
@@ -486,8 +486,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'Fresh 2025 100% Phone Verified PVA Accounts at Wholesale Pricing',
     longDescription: 'When your project requires sheer volume without the premium cost of vintage aging, our 2025 New Gmail Accounts provide the optimal solution. Created with clean residential IPs and real carrier numbers, each account includes complete email, password, and recovery details for immediate high-volume deployments.',
-    basePrice: 3,
-    baseQuantity: 2,
+    basePrice: 1.5,
+    baseQuantity: 1,
     unitPrice: 1.5,
     popular: false,
     age: '2025 Fresh (1-3 Months Old)',
@@ -586,14 +586,14 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     packages: [
       {
-        id: 'new-duo',
-        name: 'Budget Duo Pack',
-        quantity: 2,
-        price: 3.00,
+        id: 'new-starter-single',
+        name: 'Single Fresh Starter',
+        quantity: 1,
+        price: 1.50,
         unitPrice: 1.50,
         discountPercent: 0,
         badge: 'Trial',
-        features: ['2 Fresh 2025 PVA Accounts', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
+        features: ['1 Fresh 2025 PVA Account', 'SIM Verified', 'Recovery Mail Included', 'Instant Delivery']
       },
       {
         id: 'new-starter',
@@ -673,8 +673,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'High-Trust Vintage Gmails Aged 1 to 18 Years (2008–2025) with Organic Activity Footprint',
     longDescription: 'Age is the #1 metric Google algorithms utilize to calculate trust score. Our Aged Mix Country Gmail accounts were created between 2008 and 2025 across Tier-1 regions (United Kingdom, Canada, Australia, Germany, France). Having seasoned cookies, historical telemetry, and zero suspension flags, these accounts easily bypass captcha barriers and strict anti-bot systems.',
-    basePrice: 5,
-    baseQuantity: 2,
+    basePrice: 2.5,
+    baseQuantity: 1,
     unitPrice: 2.5,
     popular: false,
     age: '2008 - 2025 (Vintage 1 to 18 Years)',
@@ -791,14 +791,14 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     packages: [
       {
-        id: 'aged-duo',
-        name: 'Vintage Duo Pack',
-        quantity: 2,
-        price: 5.00,
+        id: 'aged-starter-single',
+        name: 'Single Vintage Starter',
+        quantity: 1,
+        price: 2.50,
         unitPrice: 2.50,
         discountPercent: 0,
         badge: 'Starter',
-        features: ['2 Aged Accounts (2008-2025 Vintage)', 'Organic History', 'Recovery Mail Included', 'Instant Delivery']
+        features: ['1 Aged Account (2008-2025 Vintage)', 'Organic History', 'Recovery Mail Included', 'Instant Delivery']
       },
       {
         id: 'aged-explorer',
@@ -877,8 +877,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'High Local Guide Trust Score Accounts Formulated for Google Maps & Reviews (2008 - 2025)',
     longDescription: 'Google utilizes advanced AI algorithms to filter out fake or suspicious business reviews. Our Aged Review Gmail Accounts span vintage years from 2008 through 2025, seasoned with real location check-ins, Google Maps navigation history, and Local Guides trust badges. When you post reviews using these accounts, they stick permanently and build organic reputation for your clients.',
-    basePrice: 6,
-    baseQuantity: 2,
+    basePrice: 3,
+    baseQuantity: 1,
     unitPrice: 3.0,
     popular: true,
     age: '2008 - 2025 Aged (High Stick Rate)',
@@ -979,14 +979,14 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     packages: [
       {
-        id: 'reviews-duo',
-        name: 'Local Guide Duo',
-        quantity: 2,
-        price: 6.00,
+        id: 'reviews-single',
+        name: 'Local Guide Single Starter',
+        quantity: 1,
+        price: 3.00,
         unitPrice: 3.00,
         discountPercent: 0,
         badge: 'Trial',
-        features: ['2 Review Ready Accounts (2008-2025)', 'Local Guide Trust History', 'Posting SOP Guide Included', 'Instant Delivery']
+        features: ['1 Review Ready Account (2008-2025)', 'Local Guide Trust History', 'Posting SOP Guide Included', 'Instant Delivery']
       },
       {
         id: 'reviews-boost',
@@ -1252,8 +1252,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'High-Deliverability Mailgun SMTP Accounts with Custom SPF, DKIM & DMARC (50k - 200k/mo)',
     longDescription: 'Our Mailgun SMTP accounts provide maximum email deliverability for cold outreach, marketing agencies, SaaS platforms, and transactional notifications. Each account comes pre-configured with dedicated DNS authentication (SPF, DKIM, DMARC), clean IP pool allocation, and full API/SMTP credentials compatible with Smartlead, Instantly, Lemlist, Woodpecker, and custom mail servers.',
-    basePrice: 300,
-    baseQuantity: 2,
+    basePrice: 150,
+    baseQuantity: 1,
     unitPrice: 150.0,
     popular: true,
     age: 'Pre-Warmed High Reputation IP',
@@ -1408,9 +1408,9 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'Enterprise Brevo SMTP Accounts with Clean IP Reputation & Authenticated Domains',
     longDescription: 'Brevo SMTP accounts offer exceptional deliverability to major email providers including Gmail, Google Workspace, Outlook, and Yahoo. Each account includes verified domain records, dedicated IP warmup, automated bounce handling, and complete SMTP/API connection parameters for immediate deployment in your cold email sequence software.',
-    basePrice: 300,
-    baseQuantity: 2,
-    unitPrice: 150.0,
+    basePrice: 160,
+    baseQuantity: 1,
+    unitPrice: 160.0,
     popular: false,
     bestValue: true,
     age: 'Clean High-Deliverability Pool',
@@ -1565,8 +1565,8 @@ export const detailedServicesData: DetailedServiceInfo[] = [
     ],
     heroTagline: 'High-Performance Dedicated SMTP Relay Infrastructure (50k - 200k/mo)',
     longDescription: 'Our SMTP Relay Service provides an enterprise-class dedicated mail transfer agent (MTA) architecture designed specifically for cold outbound outreach, bulk email marketing, and mission-critical transactional emails. Featuring dedicated clean IPs, reverse DNS (rDNS/PTR), SPF, DKIM, and DMARC alignment, our relay accounts bypass strict spam filters on Gmail, Outlook, and corporate Exchange servers.',
-    basePrice: 380,
-    baseQuantity: 2,
+    basePrice: 190,
+    baseQuantity: 1,
     unitPrice: 190.0,
     popular: true,
     age: 'Clean Dedicated MTA Node',
@@ -1724,8 +1724,8 @@ export const getServiceById = (id: string): DetailedServiceInfo | undefined => {
         tags: [`Buy ${year} Aged Gmail Accounts`, `${year} Vintage Gmail`, `${ageYears}+ Years Aged`, 'Organic History', 'Clean Residential ISP', '2FA Secret Keys', 'Cold Email Outreach', 'High Deliverability', '7-Day Warranty'],
         heroTagline: `Genuine ${year} Vintage Accounts (${ageYears}+ Years Aged) with Established Google Trust History`,
         longDescription: `Our ${year} Aged Vintage Gmail accounts were created in ${year} and maintained with natural activity patterns across residential IP ranges. Spanning ${ageYears}+ years of historical telemetry, these accounts possess exceptional domain authority and algorithmic trust, making them ideal for high-stakes cold outreach, ad account management, and bypassing aggressive verification challenges.`,
-        basePrice: basePrice * 2,
-        baseQuantity: 2,
+        basePrice: basePrice,
+        baseQuantity: 1,
         unitPrice: unitPrice,
         popular: year <= 2015,
         age: `${year} Vintage (${ageYears} Years Aged)`,
@@ -1826,13 +1826,13 @@ export const getServiceById = (id: string): DetailedServiceInfo | undefined => {
         packages: [
           {
             id: `aged-${year}-starter`,
-            name: `${year} Duo Starter`,
-            quantity: 2,
-            price: basePrice * 2,
+            name: `${year} Single Starter`,
+            quantity: 1,
+            price: basePrice,
             unitPrice: basePrice,
             discountPercent: 0,
             badge: 'Trial Pack',
-            features: [`2 Accounts from ${year}`, `${ageYears}+ Yrs Aged`, 'Recovery Mail Included', 'Instant Delivery']
+            features: [`1 Account from ${year}`, `${ageYears}+ Yrs Aged`, 'Recovery Mail Included', 'Instant Delivery']
           },
           {
             id: `aged-${year}-growth`,

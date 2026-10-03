@@ -720,50 +720,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }, 1500);
   };
 
-  // Download Credentials
-  const handleDownloadCredentials = () => {
-    let paymentDesc = completedOrder?.cryptoCurrency;
-    if (completedOrder?.paymentMethod === 'bank') {
-      paymentDesc = `Bank Transfer - ${completedOrder.bankTransferType || 'Direct Wire'} (Ref: ${completedOrder.txHash})`;
-    } else if (completedOrder?.paymentMethod === 'skrill') {
-      paymentDesc = `Skrill E-Wallet (Sent to ${SKRILL_CONFIG.email})`;
-    }
-
-    const packageSummary = isCartMode
-      ? cartItems.map((item) => `${item.quantity}x ${item.product.name} ($${(item.totalPrice || 0).toFixed(2)} USD)`).join('\nService Package    : ')
-      : `${selectedQuantity}x ${activeProduct.name}`;
-
-    const lines = [
-      '=================================================================================',
-      ' BUYPVAGMAIL.COM - OFFICIAL CREDENTIALS DISPATCH MANIFEST',
-      '=================================================================================',
-      `Order Reference ID : ${completedOrder?.orderId}`,
-      `Service Package    : ${packageSummary}`,
-      `Delivery Email     : ${completedOrder?.email}`,
-      `Payment Method     : ${paymentDesc}`,
-      `Transaction Ref/ID : ${completedOrder?.txHash}`,
-      `Total Paid         : $${completedOrder?.totalAmount} USD`,
-      `Timestamp          : ${new Date().toISOString()}`,
-      `Warranty Period    : 7 Days (100% Free Instant Replacement)`,
-      '---------------------------------------------------------------------------------',
-      'FORMAT: Email : Password : Recovery_Email : 2FA_Secret : UserAgent_Profile : Cookies_JSON',
-      '=================================================================================',
-      'us.outreach.prime2021@gmail.com:SecurePass#982:backup.rec01@outlook.com:JBSWY3DPEHPK3PXP:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9281","HSID":"HS-9821"}',
-      'us.agency.scale2022@gmail.com:K98!vxM920@:backup.rec02@outlook.com:HXDMVJ5W4GZ7QPYE:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9282","HSID":"HS-9822"}',
-      'us.enterprise.boost2023@gmail.com:V82!plx992#:backup.rec03@outlook.com:NXEMVJ5W4GZ7QPYE:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9283","HSID":"HS-9823"}',
-      '---------------------------------------------------------------------------------',
-      'Note: For multi-account operation, use AdsPower or Dolphin{anty} with US Residential Proxies.',
-      'Support Telegram: @BuyPvaGmail | WhatsApp: +1 (253) 408-0049 | 24/7 Priority Live Dispatch'
-    ];
-    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${completedOrder?.orderId || 'BuyPvaGmail-Accounts'}.txt`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-3xl w-full my-4 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200 overflow-hidden flex flex-col max-h-[92vh]">
@@ -2633,19 +2589,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </div>
               </div>
 
-              {/* Download Buttons & Repeat Order Actions */}
+              {/* Order Actions */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
-                  onClick={handleDownloadCredentials}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-extrabold py-3.5 px-5 rounded-xl text-sm shadow-lg shadow-red-600/25 flex items-center justify-center gap-2 cursor-pointer transition-colors"
-                >
-                  <Download className="w-4 h-4 stroke-[2.5]" />
-                  <span>Download Accounts (.TXT &amp; .CSV)</span>
-                </button>
-
-                <button
                   onClick={handleResetOrder}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-6 rounded-xl text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-6 rounded-xl text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-colors"
                 >
                   <RefreshCw className="w-4 h-4 stroke-[2.5]" />
                   <span>Order More Accounts</span>
@@ -2653,7 +2601,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
                 <button
                   onClick={handleCloseModal}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3.5 px-5 rounded-xl text-sm cursor-pointer transition-colors"
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3.5 px-6 rounded-xl text-sm cursor-pointer transition-colors"
                 >
                   Close &amp; Return
                 </button>
