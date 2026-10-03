@@ -35,7 +35,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
-import { detailedServicesData, VINTAGE_YEARS, VINTAGE_YEAR_TIERS } from '../data/servicesData';
+import { detailedServicesData } from '../data/servicesData';
 import { calculateProductPricing } from '../utils/pricing';
 import { GmailLogo } from './GmailLogo';
 
@@ -430,9 +430,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [fullName, setFullName] = useState('');
   const [deliveryEmail, setDeliveryEmail] = useState('');
   const [telegramUsername, setTelegramUsername] = useState('');
-  const [whatsappNumber, setWhatsappNumber] = useState('');
   const [country, setCountry] = useState('United States');
-  const [selectedVintage, setSelectedVintage] = useState('Any Vintage (2008 - 2025)');
   const [orderNotes, setOrderNotes] = useState('');
   const [contactError, setContactError] = useState('');
 
@@ -691,7 +689,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         orderId,
         items: orderItems,
         email: deliveryEmail,
-        telegramOrSkype: telegramUsername || whatsappNumber || fullName,
+        telegramOrSkype: telegramUsername || fullName,
         paymentMethod: paymentMode,
         bankAccountTitle: paymentMode === 'bank' ? activeBank.accountTitle : undefined,
         bankTransferType: paymentMode === 'bank' ? `${activeBank.name} (${activeBank.currency})` : undefined,
@@ -1278,20 +1276,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   />
                 </div>
 
-                {/* WhatsApp Number */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    WHATSAPP NUMBER (OPTIONAL)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="+1 555 123 4567"
-                    value={whatsappNumber}
-                    onChange={(e) => setWhatsappNumber(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium"
-                  />
-                </div>
-
                 {/* Country / Jurisdiction */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
@@ -1305,32 +1289,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     {COUNTRIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
-                  </select>
-                </div>
-
-                {/* Preferred Account Vintage Year */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    ACCOUNT VINTAGE (2008 - 2025)
-                  </label>
-                  <select
-                    value={selectedVintage}
-                    onChange={(e) => setSelectedVintage(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium cursor-pointer"
-                  >
-                    <option value="Any Vintage (2008 - 2025)">Any Vintage (2008 - 2025 Mixed)</option>
-                    {VINTAGE_YEAR_TIERS.map((tier) => (
-                      <option key={tier.era} value={tier.era}>
-                        {tier.era} — {tier.badge} (Trust: {tier.trustScore})
-                      </option>
-                    ))}
-                    <optgroup label="Specific Creation Year">
-                      {VINTAGE_YEARS.map((yr) => (
-                        <option key={yr} value={`Specific Year: ${yr}`}>
-                          {yr} Creation Year ({2026 - yr} Years Aged)
-                        </option>
-                      ))}
-                    </optgroup>
                   </select>
                 </div>
 
@@ -2591,9 +2549,19 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
               {/* Order Actions */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <a
+                  href={`https://t.me/BuyPvaGmail${completedOrder?.orderId ? `?text=${encodeURIComponent(`Hello, I completed order ${completedOrder.orderId}. Please provide delivery.`)}` : ''}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 bg-[#229ED9] hover:bg-[#1b8ec5] text-white font-extrabold py-3.5 px-5 rounded-xl text-sm shadow-lg shadow-[#229ED9]/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
+                >
+                  <Send className="w-4 h-4 fill-current rotate-[-10deg]" />
+                  <span>Contact Telegram for Delivery</span>
+                </a>
+
                 <button
                   onClick={handleResetOrder}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-6 rounded-xl text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-6 rounded-xl text-sm shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer transition-colors"
                 >
                   <RefreshCw className="w-4 h-4 stroke-[2.5]" />
                   <span>Order More Accounts</span>
