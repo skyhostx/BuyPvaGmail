@@ -135,6 +135,22 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     fromPrice: 'From $190',
     icon: ShieldCheck,
     iconColor: 'text-amber-500'
+  },
+  {
+    id: 'buy-google-reviews',
+    name: 'Buy Google Reviews',
+    subtitle: '⭐ 05 Reviews $35 • 03 Local Guide $27',
+    fromPrice: 'From $27',
+    icon: Star,
+    iconColor: 'text-amber-500'
+  },
+  {
+    id: 'buy-truatpilot-reviews',
+    name: 'Buy Truatpilot Reviews',
+    subtitle: '🛡️ 05 Reviews $45 • 03 Verified $39',
+    fromPrice: 'From $39',
+    icon: ShieldCheck,
+    iconColor: 'text-emerald-500'
   }
 ];
 
@@ -1080,7 +1096,16 @@ Please provide delivery.`;
                       <button
                         key={cat.id}
                         type="button"
-                        onClick={() => setSelectedServiceId(cat.id)}
+                        onClick={() => {
+                          setSelectedServiceId(cat.id);
+                          if (cat.id === 'buy-google-reviews' || cat.id === 'buy-truatpilot-reviews') {
+                            setSelectedQuantity(3);
+                          } else if (cat.id.startsWith('smtp-')) {
+                            setSelectedQuantity(50);
+                          } else {
+                            setSelectedQuantity(2);
+                          }
+                        }}
                         className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
                           isSelected
                             ? 'bg-white border-red-500 shadow-md ring-2 ring-red-500/20'

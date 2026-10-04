@@ -33,6 +33,7 @@ import { SitemapPage } from './components/pages/SitemapPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { InstantIndexingPage } from './components/pages/InstantIndexingPage';
 import { SmtpCategoryPage } from './components/pages/SmtpCategoryPage';
+import { ReviewCategoryPage } from './components/pages/ReviewCategoryPage';
 import { SeoAnalyticsModal } from './components/SeoAnalyticsModal';
 import { initGoogleAnalytics, trackPageView, trackAddToCart, trackRemoveFromCart, trackPurchase } from './utils/analytics';
 
@@ -40,7 +41,7 @@ import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
 import { blogGuides } from './data/blogData';
 import { calculateProductPricing, sanitizeCart } from './utils/pricing';
-import { isSmtpProduct, getServiceIdFromSlugOrId, getServiceSlug, getProductPath, getProductFullUrl } from './utils/urlHelpers';
+import { isSmtpProduct, isReviewProduct, getServiceIdFromSlugOrId, getServiceSlug, getProductPath, getProductFullUrl } from './utils/urlHelpers';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -48,6 +49,7 @@ export type AppView =
   | 'services-catalog' 
   | 'service-detail' 
   | 'smtp'
+  | 'review'
   | 'pricing' 
   | 'about' 
   | 'blog' 
@@ -108,6 +110,21 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
       }
     }
 
+    // Check direct /review/:slug or /reviews/:slug (e.g. /review/buy-google-reviews/)
+    if (effectivePath.startsWith('/review/') || effectivePath.startsWith('/reviews/')) {
+      const parts = effectivePath.split('/').filter(Boolean);
+      if (parts[1]) {
+        const rawSlug = decodeURIComponent(parts[1]);
+        const matchedId = getServiceIdFromSlugOrId(rawSlug);
+        const matched = detailedServicesData.find((s) => s.id === matchedId || s.id === rawSlug);
+        if (matched) {
+          return { view: 'service-detail', serviceId: matched.id };
+        } else {
+          return { view: 'not-found', serviceId: 'buy-google-reviews', invalidPath: effectivePath };
+        }
+      }
+    }
+
     // Check /gmail/:slug, /services/:slug, or /service/:slug
     if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
       const parts = effectivePath.split('/').filter(Boolean);
@@ -162,6 +179,19 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
       rawHash === 'smtp-services'
     ) {
       return { view: 'smtp', serviceId: 'smtp-mailgun-accounts' };
+    }
+    if (
+      effectivePath === '/review' ||
+      effectivePath === '/reviews' ||
+      effectivePath === '/review-services' ||
+      effectivePath === '/category/review' ||
+      effectivePath === '/category/reviews' ||
+      viewParam === 'review' ||
+      viewParam === 'reviews' ||
+      rawHash === 'review' ||
+      rawHash === 'reviews'
+    ) {
+      return { view: 'review', serviceId: 'buy-google-reviews' };
     }
     if (
       effectivePath === '/gmail' ||
@@ -694,6 +724,29 @@ export default function App() {
           }
         }
 
+        // Match service detail: /review/:slug (e.g. /review/buy-google-reviews/)
+        if (effectivePath.startsWith('/review/') || effectivePath.startsWith('/reviews/')) {
+          const parts = effectivePath.split('/').filter(Boolean);
+          if (parts[1]) {
+            const rawSlug = decodeURIComponent(parts[1]);
+            const matchedId = getServiceIdFromSlugOrId(rawSlug);
+            const matchedService = getServiceById(matchedId) || detailedServicesData.find((s) => s.id === rawSlug);
+            if (matchedService) {
+              setSelectedServiceId(matchedService.id);
+              setCurrentView('service-detail');
+              setActiveSection('review');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            } else {
+              setCurrentView('not-found');
+              setActiveSection('not-found');
+              setInvalidPath(effectivePath);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              return;
+            }
+          }
+        }
+
         // Match service detail: /gmail/:slug, /services/:slug, or /service/:slug
         let targetServiceId: string | null = null;
         if (effectivePath.startsWith('/gmail/') || effectivePath.startsWith('/services/') || effectivePath.startsWith('/service/')) {
@@ -751,6 +804,24 @@ export default function App() {
         ) {
           setCurrentView('smtp');
           setActiveSection('smtp');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        // Review Category Page
+        if (
+          effectivePath === '/review' ||
+          effectivePath === '/reviews' ||
+          effectivePath === '/review-services' ||
+          effectivePath === '/category/review' ||
+          effectivePath === '/category/reviews' ||
+          viewParam === 'review' ||
+          viewParam === 'reviews' ||
+          rawHash === 'review' ||
+          rawHash === 'reviews'
+        ) {
+          setCurrentView('review');
+          setActiveSection('review');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
@@ -977,7 +1048,7 @@ export default function App() {
       const targetService = detailedServicesData.find((s) => s.id === validId) || detailedServicesData[0];
       setSelectedServiceId(targetService.id);
       setCurrentView('service-detail');
-      setActiveSection(isSmtpProduct(targetService) ? 'smtp' : 'services');
+      setActiveSection(isSmtpProduct(targetService) ? 'smtp' : isReviewProduct(targetService) ? 'review' : 'services');
       targetUrl = getProductPath(targetService);
     } else if (view === 'services-catalog') {
       setCurrentView('services-catalog');
@@ -987,6 +1058,10 @@ export default function App() {
       setCurrentView('smtp');
       setActiveSection('smtp');
       targetUrl = '/smtp';
+    } else if (view === 'review') {
+      setCurrentView('review');
+      setActiveSection('review');
+      targetUrl = '/review';
     } else if (view === 'pricing') {
       setCurrentView('pricing');
       setActiveSection('pricing');
@@ -1223,6 +1298,17 @@ export default function App() {
 
         {currentView === 'smtp' && (
           <SmtpCategoryPage
+            onSelectServicePage={(id) => navigateToPage('service-detail', id)}
+            onQuickBuy={handleQuickBuy}
+            onAddToCart={handleAddToCart}
+            onNavigateHome={() => navigateToPage('home')}
+            onNavigateToPricing={() => navigateToPage('pricing')}
+            onNavigateToContact={() => navigateToPage('contact')}
+          />
+        )}
+
+        {currentView === 'review' && (
+          <ReviewCategoryPage
             onSelectServicePage={(id) => navigateToPage('service-detail', id)}
             onQuickBuy={handleQuickBuy}
             onAddToCart={handleAddToCart}

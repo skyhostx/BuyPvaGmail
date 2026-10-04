@@ -33,7 +33,7 @@ export interface ServiceProduct {
   popular?: boolean;
   bestValue?: boolean;
   age: string;
-  category: 'usa' | 'pva' | 'aged' | 'reviews' | 'google-ads' | 'new' | 'smtp';
+  category: 'usa' | 'pva' | 'aged' | 'reviews' | 'google-ads' | 'new' | 'smtp' | 'review';
   country: string;
   countryCode: string;
   inStock: number;

@@ -54,10 +54,14 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [smtpDropdownOpen, setSmtpDropdownOpen] = useState(false);
   const [mobileSmtpOpen, setMobileSmtpOpen] = useState(false);
+  const [reviewDropdownOpen, setReviewDropdownOpen] = useState(false);
+  const [mobileReviewOpen, setMobileReviewOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const smtpDropdownRef = useRef<HTMLDivElement>(null);
   const smtpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reviewDropdownRef = useRef<HTMLDivElement>(null);
+  const reviewTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleDropdownMouseEnter = () => {
     if (hoverTimeoutRef.current) {
@@ -93,6 +97,23 @@ export const Header: React.FC<HeaderProps> = ({
     }, 180);
   };
 
+  const handleReviewMouseEnter = () => {
+    if (reviewTimeoutRef.current) {
+      clearTimeout(reviewTimeoutRef.current);
+      reviewTimeoutRef.current = null;
+    }
+    setReviewDropdownOpen(true);
+  };
+
+  const handleReviewMouseLeave = () => {
+    if (reviewTimeoutRef.current) {
+      clearTimeout(reviewTimeoutRef.current);
+    }
+    reviewTimeoutRef.current = setTimeout(() => {
+      setReviewDropdownOpen(false);
+    }, 180);
+  };
+
   const totalCartItems = cart.length;
 
   useEffect(() => {
@@ -111,6 +132,9 @@ export const Header: React.FC<HeaderProps> = ({
       if (smtpDropdownRef.current && !smtpDropdownRef.current.contains(event.target as Node)) {
         setSmtpDropdownOpen(false);
       }
+      if (reviewDropdownRef.current && !reviewDropdownRef.current.contains(event.target as Node)) {
+        setReviewDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -120,6 +144,9 @@ export const Header: React.FC<HeaderProps> = ({
       }
       if (smtpTimeoutRef.current) {
         clearTimeout(smtpTimeoutRef.current);
+      }
+      if (reviewTimeoutRef.current) {
+        clearTimeout(reviewTimeoutRef.current);
       }
     };
   }, []);
@@ -211,10 +238,32 @@ export const Header: React.FC<HeaderProps> = ({
     }
   ];
 
+  const reviewSubmenuItems = [
+    {
+      id: 'buy-google-reviews',
+      title: 'Buy Google Reviews',
+      price: 'From $27',
+      subtitle: '⭐ 05 Reviews $35 • 03 Local Guide $27',
+      icon: Star,
+      iconBg: 'bg-amber-50 text-amber-600',
+      priceBg: 'bg-amber-50 text-amber-600 border border-amber-100'
+    },
+    {
+      id: 'buy-truatpilot-reviews',
+      title: 'Buy Truatpilot Reviews',
+      price: 'From $39',
+      subtitle: '🛡️ 05 Reviews $45 • 03 Verified $39',
+      icon: CheckCircle2,
+      iconBg: 'bg-emerald-50 text-emerald-600',
+      priceBg: 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+    }
+  ];
+
   const navItems: { label: string; id: string; badge?: string }[] = [
     { label: 'Home', id: 'home' },
     { label: 'Gmail', id: 'services' },
     { label: 'Smtp', id: 'smtp' },
+    { label: 'Review', id: 'review', badge: 'NEW' },
     { label: 'Pricing', id: 'pricing' },
     { label: 'About Us', id: 'about' },
     { label: 'Blog', id: 'blog' },
@@ -227,12 +276,15 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
     setSmtpDropdownOpen(false);
+    setReviewDropdownOpen(false);
 
     if (onNavigateToPage) {
       if (id === 'services') {
         onNavigateToPage('services-catalog');
       } else if (id === 'smtp') {
         onNavigateToPage('smtp');
+      } else if (id === 'review') {
+        onNavigateToPage('review');
       } else if (id === 'pricing') {
         onNavigateToPage('pricing');
       } else if (id === 'about') {
@@ -537,13 +589,121 @@ export const Header: React.FC<HeaderProps> = ({
                   );
                 }
 
+                if (item.id === 'review') {
+                  return (
+                    <div 
+                      key="review" 
+                      className="relative"
+                      ref={reviewDropdownRef}
+                      onMouseEnter={handleReviewMouseEnter}
+                      onMouseLeave={handleReviewMouseLeave}
+                    >
+                      <a
+                        href="/review"
+                        onClick={(e) => {
+                          handleLinkClick(e, () => {
+                            handleNavClick('review');
+                            setReviewDropdownOpen(false);
+                          });
+                        }}
+                        className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-150 relative flex items-center gap-1.5 cursor-pointer select-none ${
+                          reviewDropdownOpen || activeSection === 'review'
+                            ? 'text-amber-600 bg-amber-50/90 shadow-xs' 
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>Review</span>
+                        {item.badge && (
+                          <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase tracking-wider shadow-xs">
+                            {item.badge}
+                          </span>
+                        )}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ease-out ${reviewDropdownOpen ? 'rotate-180 text-amber-600' : 'text-slate-400'}`} />
+                      </a>
+
+                      {/* Review Dropdown Menu */}
+                      <div 
+                        className={`absolute top-full left-0 pt-2 w-[390px] z-50 transition-all duration-200 ease-out origin-top-left transform ${
+                          reviewDropdownOpen 
+                            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto visible' 
+                            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none invisible'
+                        }`}
+                      >
+                        <div className="bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 backdrop-blur-md">
+                          {/* Header label */}
+                          <div className="px-3 py-1.5 text-[10px] font-extrabold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+                            <span>REVIEWS &amp; REPUTATION MANAGEMENT</span>
+                            <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                              Sticky &amp; Non-Drop
+                            </span>
+                          </div>
+
+                          {/* Submenu Items */}
+                          <div className="space-y-1 mt-1">
+                            {reviewSubmenuItems.map((subItem) => {
+                              const IconComponent = subItem.icon;
+                              return (
+                                <a
+                                  key={subItem.id}
+                                  href={getProductPath(subItem.id)}
+                                  onClick={(e) => {
+                                    handleLinkClick(e, () => handleSubmenuServiceClick(subItem.id));
+                                  }}
+                                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 active:bg-slate-100 transition-all duration-150 cursor-pointer group"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className={`w-9 h-9 rounded-xl ${subItem.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-150 shadow-xs`}>
+                                      <IconComponent className="w-4 h-4 stroke-[2.2]" />
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                                      <span className="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-1">
+                                        {subItem.title}
+                                      </span>
+                                      <span className="text-[11px] text-slate-500 font-medium line-clamp-1">
+                                        {subItem.subtitle}
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <span className={`text-[11px] font-black px-2 py-0.5 rounded-md ${subItem.priceBg} shrink-0 ml-2 group-hover:scale-105 transition-transform duration-150`}>
+                                    {subItem.price}
+                                  </span>
+                                </a>
+                              );
+                            })}
+                          </div>
+
+                          {/* View All CTA */}
+                          <div className="pt-2 mt-1.5 border-t border-slate-100">
+                            <a
+                              href="/review"
+                              onClick={(e) => {
+                                handleLinkClick(e, () => {
+                                  setReviewDropdownOpen(false);
+                                  handleNavClick('review');
+                                });
+                              }}
+                              className="w-full py-2.5 text-center text-xs font-bold text-amber-600 hover:text-amber-700 hover:bg-amber-50/70 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                              <span>Explore All Reviews Packages</span>
+                              <span className="text-sm font-black transition-transform group-hover:translate-x-0.5">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 const targetHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
                     ? '/gmail' 
                     : item.id === 'smtp'
                       ? '/smtp'
-                      : `/${encodeURIComponent(item.id)}`;
+                      : item.id === 'review'
+                        ? '/review'
+                        : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a
@@ -753,13 +913,84 @@ export const Header: React.FC<HeaderProps> = ({
                   );
                 }
 
+                if (item.id === 'review') {
+                  return (
+                    <div key="mobile-review" className="space-y-1">
+                      <button
+                        onClick={() => setMobileReviewOpen(!mobileReviewOpen)}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                          activeSection === 'review' || mobileReviewOpen
+                            ? 'bg-amber-50 text-amber-600' 
+                            : 'text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span>Review</span>
+                          <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">
+                            2 Products
+                          </span>
+                        </div>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileReviewOpen ? 'rotate-180 text-amber-600' : 'text-slate-400'}`} />
+                      </button>
+
+                      {mobileReviewOpen && (
+                        <div className="pl-2 pr-1 py-1 space-y-1 bg-amber-50/40 rounded-xl border border-amber-100">
+                          {reviewSubmenuItems.map((subItem) => {
+                            const IconComponent = subItem.icon;
+                            return (
+                              <a
+                                key={`m-${subItem.id}`}
+                                href={getProductPath(subItem.id)}
+                                onClick={(e) => {
+                                  handleLinkClick(e, () => {
+                                    handleSubmenuServiceClick(subItem.id);
+                                    setMobileMenuOpen(false);
+                                  });
+                                }}
+                                className="flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors cursor-pointer"
+                              >
+                                <div className="flex items-center gap-2.5">
+                                  <div className={`w-7 h-7 rounded-lg ${subItem.iconBg} flex items-center justify-center shrink-0`}>
+                                    <IconComponent className="w-3.5 h-3.5" />
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-slate-800 line-clamp-1">{subItem.title}</span>
+                                    <span className="text-[10px] text-slate-500">{subItem.subtitle}</span>
+                                  </div>
+                                </div>
+                                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${subItem.priceBg}`}>
+                                  {subItem.price}
+                                </span>
+                              </a>
+                            );
+                          })}
+                          <a
+                            href="/review"
+                            onClick={(e) => {
+                              handleLinkClick(e, () => {
+                                handleNavClick('review');
+                                setMobileMenuOpen(false);
+                              });
+                            }}
+                            className="block w-full text-center py-2 text-xs font-bold text-amber-600 hover:underline"
+                          >
+                            View All Review Packages →
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 const targetMobileHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
                     ? '/gmail' 
                     : item.id === 'smtp'
                       ? '/smtp'
-                      : `/${encodeURIComponent(item.id)}`;
+                      : item.id === 'review'
+                        ? '/review'
+                        : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a

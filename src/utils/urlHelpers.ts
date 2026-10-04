@@ -19,6 +19,11 @@ export const SMTP_IDS = {
   RELAY: 'smtp-relay-services-account',
 } as const;
 
+export const REVIEW_SLUGS = {
+  GOOGLE: 'buy-google-reviews',
+  TRUATPILOT: 'buy-truatpilot-reviews',
+} as const;
+
 const SLUG_TO_ID_MAP: Record<string, string> = {
   'buy-usa-gmail-accounts': 'usa-gmail-accounts',
   'usa-gmail-accounts': 'usa-gmail-accounts',
@@ -38,6 +43,9 @@ const SLUG_TO_ID_MAP: Record<string, string> = {
   'smtp-brevo-accounts': 'smtp-brevo-accounts',
   'buy-smtp-relay-services-account': 'smtp-relay-services-account',
   'smtp-relay-services-account': 'smtp-relay-services-account',
+  'buy-google-reviews': 'buy-google-reviews',
+  'buy-truatpilot-reviews': 'buy-truatpilot-reviews',
+  'buy-trustpilot-reviews': 'buy-truatpilot-reviews',
 };
 
 const ID_TO_SLUG_MAP: Record<string, string> = {
@@ -50,7 +58,21 @@ const ID_TO_SLUG_MAP: Record<string, string> = {
   'smtp-mailgun-accounts': 'buy-smtp-mailgun-accounts',
   'smtp-brevo-accounts': 'buy-smtp-brevo-accounts',
   'smtp-relay-services-account': 'buy-smtp-relay-services-account',
+  'buy-google-reviews': 'buy-google-reviews',
+  'buy-truatpilot-reviews': 'buy-truatpilot-reviews',
 };
+
+export function isReviewProduct(idOrProduct: string | { id: string; category?: string }): boolean {
+  if (!idOrProduct) return false;
+  const id = typeof idOrProduct === 'string' ? idOrProduct : idOrProduct.id;
+  const category = typeof idOrProduct === 'object' ? idOrProduct.category : undefined;
+  return (
+    category === 'review' ||
+    id === 'buy-google-reviews' ||
+    id === 'buy-truatpilot-reviews' ||
+    id === 'buy-trustpilot-reviews'
+  );
+}
 
 export function isSmtpProduct(idOrProduct: string | { id: string; category?: string }): boolean {
   if (!idOrProduct) return false;
@@ -84,6 +106,9 @@ export function getServiceSlug(idOrProduct: string | { id: string; category?: st
 export function getProductPath(idOrProduct: string | { id: string; category?: string }): string {
   const id = typeof idOrProduct === 'string' ? idOrProduct : idOrProduct.id;
   const slug = getServiceSlug(id);
+  if (isReviewProduct(idOrProduct)) {
+    return `/review/${slug}/`;
+  }
   if (isSmtpProduct(idOrProduct)) {
     return `/smtp/${slug}/`;
   }

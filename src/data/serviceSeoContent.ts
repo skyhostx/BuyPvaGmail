@@ -772,5 +772,103 @@ export const servicesSeoDatabase: Record<string, ServiceSeoData> = {
         answer: 'Yes, there is no limit on the number of verified sender domains you can authenticate and route through the relay.'
       }
     ]
+  },
+  'buy-google-reviews': {
+    serviceId: 'buy-google-reviews',
+    title: 'Buy Google Reviews — Real Local Guides & Sticky 5-Star Ratings',
+    metaTitle: 'Buy Google Reviews | 05 Reviews $35 & 03 Local Guide $27 | BuyPvaGmail',
+    metaDescription: 'Buy Google Reviews from verified Google Local Guides and aged active profiles. 05 Google Review $35, 03 Local Guide Google Review $27. Real residential IPs with 30-day warranty.',
+    readTime: '6 min read',
+    wordCount: '1,150+ words',
+    highSearchValueTags: [
+      'buy google reviews',
+      'buy google business reviews',
+      'buy google maps reviews',
+      'local guide google reviews',
+      'sticky google reviews',
+      'google review 5 star',
+      '05 google review 35 dollars',
+      '03 local guide google review 27 dollars'
+    ],
+    categoryTags: ['Local Guide Verified', 'Geo-Targeted Residential', '100% Sticky Non-Drop', '30-Day Free Replacement'],
+    quickStats: [
+      { label: 'Starter Package', value: '03 Local Guide $27', desc: 'Real Local Guide badge reviewers' },
+      { label: 'Popular Package', value: '05 Google Review $35', desc: 'Organic 5-star customer feedback' },
+      { label: 'IP Footprint', value: 'Residential USA/UK', desc: 'Clean geo-matched location checks' },
+      { label: 'Replacement SLA', value: '30 Days Free', desc: 'Immediate automated swap warranty' }
+    ],
+    sections: [
+      {
+        heading: 'Dominate Local SEO with Authentic Google Reviews',
+        subheading: 'Engineered to Stick Permanently and Bypass Google Spam Filters',
+        paragraphs: [
+          'Google Maps and Google Business Profile algorithms actively scan for fake reviews based on IP velocity, account age, and browser cookies. Our Google Review services utilize real, seasoned Google user profiles and active Google Local Guides (Level 4 through Level 8) with organic search histories.',
+          'Choose between our popular 05 Google Review pack for $35 or our premium 03 Local Guide Google Review pack for $27. Reviews are drip-fed naturally to reflect genuine customer behavior and include full text copywriting and photo upload support.'
+        ]
+      }
+    ],
+    faqItems: [
+      {
+        question: 'What is the price of Google Reviews?',
+        answer: 'We offer two official packages: 05 Google Review for $35 ($7/review) and 03 Local Guide Google Review for $27 ($9/review).'
+      },
+      {
+        question: 'Will these Google Reviews stick permanently?',
+        answer: 'Yes. All reviews are posted from real residential IP addresses matching your city or region using aged Google accounts and Local Guides with established check-in histories, yielding a 98%+ permanent stick rate.'
+      },
+      {
+        question: 'Is there a replacement guarantee?',
+        answer: 'Yes, every order includes our 30-Day Free Replacement Guarantee. If any review drops, we replace it free of charge.'
+      }
+    ]
+  },
+  'buy-truatpilot-reviews': {
+    serviceId: 'buy-truatpilot-reviews',
+    title: 'Buy Truatpilot Reviews — Verified 5-Star Brand Reputation Boost',
+    metaTitle: 'Buy Truatpilot Reviews | 05 Reviews $45 & 03 Verified $39 | BuyPvaGmail',
+    metaDescription: 'Buy Truatpilot Reviews for instant brand trust and high TrustScore. 05 Truatpilot Review $45, 03 Verified Truatpilot Review $39. Safe, sticky, with 30-day warranty.',
+    readTime: '6 min read',
+    wordCount: '1,100+ words',
+    highSearchValueTags: [
+      'buy truatpilot reviews',
+      'buy trustpilot reviews',
+      'buy verified truatpilot reviews',
+      'truatpilot 5 star reviews',
+      'trustscore improvement',
+      'sticky truatpilot reviews',
+      '05 truatpilot review 45 dollars',
+      '03 verified truatpilot review 39 dollars'
+    ],
+    categoryTags: ['Verified Order Tag', 'Clean Residential IPs', 'High TrustScore', '30-Day Free Replacement'],
+    quickStats: [
+      { label: 'Verified Pack', value: '03 Verified $39', desc: 'Includes verified order badge' },
+      { label: 'Popular Pack', value: '05 Reviews $45', desc: 'Fast TrustScore enhancement' },
+      { label: 'Delivery Pace', value: 'Drip-fed Natural', desc: '1-2 reviews per day pace' },
+      { label: 'Guarantee', value: '30 Days Free', desc: 'Non-drop live replacement' }
+    ],
+    sections: [
+      {
+        heading: 'Accelerate Consumer Trust with Verified Truatpilot Reviews',
+        subheading: 'High-Converting Social Proof for E-Commerce, SaaS, and Agencies',
+        paragraphs: [
+          'Consumer buying decisions rely heavily on Truatpilot ratings. A single negative review can slash your checkout conversion rates. Our Truatpilot Review service helps you maintain an immaculate 4.8★ to 5.0★ rating with genuine-looking, filter-resistant reviews.',
+          'Choose our 03 Verified Truatpilot Review package for $39 (featuring verified customer badges) or our 05 Truatpilot Review package for $45. Each review is submitted from an isolated browser footprint and residential proxy to ensure permanent stickiness.'
+        ]
+      }
+    ],
+    faqItems: [
+      {
+        question: 'What are the pricing options for Truatpilot Reviews?',
+        answer: 'We offer 05 Truatpilot Review for $45 and 03 Verified Truatpilot Review for $39.'
+      },
+      {
+        question: 'Can I provide my own review text?',
+        answer: 'Yes! You can specify custom review texts, bullet points, or customer names during checkout, or our team will craft realistic, industry-specific reviews for you.'
+      },
+      {
+        question: 'What is the delivery timeline?',
+        answer: 'Delivery starts within 2 to 6 hours after payment confirmation and is drip-fed naturally over 3 to 6 days to maintain a realistic review velocity.'
+      }
+    ]
   }
 };

@@ -291,7 +291,9 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                       <span className="text-2xl font-black text-slate-900">
                         ${service.unitPrice.toFixed(2)}
                       </span>
-                      <span className="text-xs text-slate-500 ml-1">/ account</span>
+                      <span className="text-xs text-slate-500 ml-1">
+                        {service.category === 'smtp' ? '/ month' : service.category === 'review' ? '/ review' : '/ account'}
+                      </span>
                     </div>
                     <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                       Up to 30% OFF

@@ -48,7 +48,8 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const filterCategories = [
-    { id: 'all', label: `All Gmail (${detailedServicesData.length})` },
+    { id: 'all', label: `All Services (${detailedServicesData.length})` },
+    { id: 'review', label: '⭐ Review (2)' },
     { id: 'smtp', label: '🚀 Smtp Sending (3)' },
     { id: 'usa', label: 'USA Residential' },
     { id: 'pva', label: 'Phone Verified (PVA)' },
@@ -68,6 +69,8 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
   const getServiceIcon = (id: string) => {
     switch (id) {
+      case 'buy-google-reviews': return Star;
+      case 'buy-truatpilot-reviews': return CheckCircle2;
       case 'smtp-mailgun-accounts': return Send;
       case 'smtp-brevo-accounts': return Mail;
       case 'smtp-relay-services-account': return Server;
@@ -83,6 +86,8 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
   const getServiceColor = (id: string) => {
     switch (id) {
+      case 'buy-google-reviews': return { bg: 'bg-amber-50 text-amber-600 border-amber-200', tag: 'bg-amber-100 text-amber-700' };
+      case 'buy-truatpilot-reviews': return { bg: 'bg-emerald-50 text-emerald-600 border-emerald-200', tag: 'bg-emerald-100 text-emerald-700' };
       case 'smtp-mailgun-accounts': return { bg: 'bg-rose-50 text-rose-600 border-rose-200', tag: 'bg-rose-100 text-rose-700' };
       case 'smtp-brevo-accounts': return { bg: 'bg-blue-50 text-blue-600 border-blue-200', tag: 'bg-blue-100 text-blue-700' };
       case 'smtp-relay-services-account': return { bg: 'bg-indigo-50 text-indigo-600 border-indigo-200', tag: 'bg-indigo-100 text-indigo-700' };
@@ -131,7 +136,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-medium">
-            Explore our 6 dedicated account categories. 100% verified with physical SIM cards, clean residential IPs, and covered by our 7-day instant replacement policy.
+            Explore our verified Gmail, SMTP sending, and Review account categories. 100% verified with physical SIM cards, clean residential IPs, and covered by our instant replacement policy.
           </p>
 
           {/* Quick Metrics Bar */}
@@ -212,6 +217,34 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
             </button>
           ))}
         </div>
+
+        {/* Dedicated Review Page Link Banner */}
+        {selectedFilter === 'review' && (
+          <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 border border-amber-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Star className="w-5 h-5 fill-current" />
+              </div>
+              <div>
+                <h4 className="text-sm font-black text-slate-900">Dedicated Review Services Portal Available</h4>
+                <p className="text-xs text-slate-600">Buy Google Reviews (05 Reviews $35 / 03 Local Guide $27) &amp; Buy Truatpilot Reviews (05 Reviews $45 / 03 Verified $39) with 100% sticky non-drop guarantee.</p>
+              </div>
+            </div>
+            <a
+              href="/review"
+              onClick={(e) => {
+                handleLinkClick(e, () => {
+                  window.location.hash = 'review';
+                  window.dispatchEvent(new HashChangeEvent('hashchange'));
+                });
+              }}
+              className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shrink-0 transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Explore Review Portal</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
 
         {/* Dedicated SMTP Page Link Banner */}
         {selectedFilter === 'smtp' && onNavigateToSmtp && (
@@ -332,7 +365,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                         ${service.unitPrice.toFixed(2)}
                       </span>
                       <span className="text-xs text-slate-500 font-medium ml-1">
-                        {service.category === 'smtp' ? '/ month' : '/ account'}
+                        {service.category === 'smtp' ? '/ month' : service.category === 'review' ? '/ review' : '/ account'}
                       </span>
                     </div>
                     <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">

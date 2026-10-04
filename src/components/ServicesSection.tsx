@@ -39,13 +39,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
   });
 
   const categories = [
-    { id: 'all', label: `All Gmail (${servicesData.length})` },
+    { id: 'all', label: `All Services (${servicesData.length})` },
+    { id: 'review', label: '⭐ Review (2)' },
     { id: 'smtp', label: '🚀 Smtp Sending (3)' },
     { id: 'usa', label: '🇺🇸 USA Residential' },
     { id: 'pva', label: '📱 PVA SIM Verified' },
     { id: 'new', label: '⚡ Fresh PVA' },
     { id: 'aged', label: '⏳ Aged 2016-2022' },
-    { id: 'reviews', label: '⭐ Google Reviews' },
+    { id: 'reviews', label: '⭐ Aged Review Accounts' },
     { id: 'google-ads', label: '🎯 Google Ads Ready' }
   ];
 
@@ -61,6 +62,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
   };
 
   const calculatePrice = (product: ServiceProduct, qty: number) => {
+    if (product.category === 'review' || product.id === 'buy-google-reviews' || product.id === 'buy-truatpilot-reviews') {
+      if (product.id === 'buy-google-reviews') {
+        const total = qty === 5 ? 35 : 27;
+        const unit = total / (qty || 1);
+        return {
+          total: total.toFixed(2),
+          unit: unit.toFixed(2),
+          discountPercent: qty === 5 ? 22 : 0
+        };
+      }
+      if (product.id === 'buy-truatpilot-reviews') {
+        const total = qty === 5 ? 45 : 39;
+        const unit = total / (qty || 1);
+        return {
+          total: total.toFixed(2),
+          unit: unit.toFixed(2),
+          discountPercent: qty === 5 ? 31 : 0
+        };
+      }
+    }
+
     if (product.category === 'smtp') {
       let total = 150;
       if (product.id === 'smtp-relay-services-account') {
@@ -243,16 +265,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                   <div className="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                     <div className="flex items-baseline justify-between">
                       <div>
-                        <span className="text-xs font-medium text-slate-500">{product.category === 'smtp' ? 'Starting Plan: ' : 'Base Pack: '}</span>
+                        <span className="text-xs font-medium text-slate-500">
+                          {product.category === 'smtp' ? 'Starting Plan: ' : product.category === 'review' ? 'Starting From: ' : 'Base Pack: '}
+                        </span>
                         <span className="text-lg font-black text-slate-900">${product.basePrice}</span>
                         <span className="text-xs text-slate-600 font-semibold"> 
-                          {product.category === 'smtp' ? ' (50k / mo)' : ` (${product.baseQuantity} ${product.baseQuantity === 1 ? 'pc' : 'pcs'})`}
+                          {product.category === 'smtp' ? ' (50k / mo)' : product.category === 'review' ? (product.id === 'buy-google-reviews' ? ' (03 Local Guide)' : ' (03 Verified)') : ` (${product.baseQuantity} ${product.baseQuantity === 1 ? 'pc' : 'pcs'})`}
                         </span>
                       </div>
                       <div className="text-right">
-                        <span className="text-[11px] text-slate-500 block">{product.category === 'smtp' ? 'Monthly Plan' : 'Unit Rate:'}</span>
+                        <span className="text-[11px] text-slate-500 block">
+                          {product.category === 'smtp' ? 'Monthly Plan' : product.category === 'review' ? 'Package Options' : 'Unit Rate:'}
+                        </span>
                         <span className="text-xs font-bold text-blue-600">
-                          {product.category === 'smtp' ? 'Verified Sending' : `$${product.unitPrice.toFixed(2)}/each`}
+                          {product.category === 'smtp' ? 'Verified Sending' : product.category === 'review' ? '03 or 05 Reviews' : `$${product.unitPrice.toFixed(2)}/each`}
                         </span>
                       </div>
                     </div>
@@ -261,9 +287,21 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                   {/* Interactive Quantity / Plan Selector */}
                   <div className="mt-5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
-                      <span>{product.category === 'smtp' ? 'Select Email Volume / Month:' : 'Select Quantity:'}</span>
+                      <span>
+                        {product.category === 'smtp' 
+                          ? 'Select Email Volume / Month:' 
+                          : product.category === 'review'
+                          ? 'Select Review Package:'
+                          : 'Select Quantity:'}
+                      </span>
                       <span className="text-blue-600 font-semibold">
-                        {product.category === 'smtp' ? `${currentQty}k Emails / Month` : `${currentQty} ${currentQty === 1 ? 'Account' : 'Accounts'}`}
+                        {product.category === 'smtp' 
+                          ? `${currentQty}k Emails / Month` 
+                          : product.category === 'review'
+                          ? (product.id === 'buy-google-reviews'
+                              ? (currentQty === 5 ? '05 Google Review ($35)' : '03 Local Guide ($27)')
+                              : (currentQty === 5 ? '05 Truatpilot Review ($45)' : '03 Verified Review ($39)'))
+                          : `${currentQty} ${currentQty === 1 ? 'Account' : 'Accounts'}`}
                       </span>
                     </div>
 
@@ -291,6 +329,73 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                             </span>
                           </button>
                         ))}
+                      </div>
+                    ) : product.category === 'review' ? (
+                      /* Review Category Options */
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        {product.id === 'buy-google-reviews' ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, 3)}
+                              className={`py-2.5 px-2 text-center rounded-xl border transition-all cursor-pointer flex flex-col items-center justify-center ${
+                                currentQty === 3
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                              }`}
+                            >
+                              <span className="text-[11px] font-black">03 Local Guide</span>
+                              <span className={`text-[10px] font-bold ${currentQty === 3 ? 'text-blue-100' : 'text-emerald-600'}`}>
+                                $27 ($9/ea)
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, 5)}
+                              className={`py-2.5 px-2 text-center rounded-xl border transition-all cursor-pointer flex flex-col items-center justify-center ${
+                                currentQty === 5
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                              }`}
+                            >
+                              <span className="text-[11px] font-black">05 Google Review</span>
+                              <span className={`text-[10px] font-bold ${currentQty === 5 ? 'text-blue-100' : 'text-emerald-600'}`}>
+                                $35 ($7/ea)
+                              </span>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, 3)}
+                              className={`py-2.5 px-2 text-center rounded-xl border transition-all cursor-pointer flex flex-col items-center justify-center ${
+                                currentQty === 3
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                              }`}
+                            >
+                              <span className="text-[11px] font-black">03 Verified Review</span>
+                              <span className={`text-[10px] font-bold ${currentQty === 3 ? 'text-blue-100' : 'text-emerald-600'}`}>
+                                $39 ($13/ea)
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, 5)}
+                              className={`py-2.5 px-2 text-center rounded-xl border transition-all cursor-pointer flex flex-col items-center justify-center ${
+                                currentQty === 5
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                              }`}
+                            >
+                              <span className="text-[11px] font-black">05 Truatpilot Review</span>
+                              <span className={`text-[10px] font-bold ${currentQty === 5 ? 'text-blue-100' : 'text-emerald-600'}`}>
+                                $45 ($9/ea)
+                              </span>
+                            </button>
+                          </>
+                        )}
                       </div>
                     ) : (
                       <>
@@ -346,13 +451,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                   <div className="mt-4 p-3 bg-blue-50/70 border border-blue-100 rounded-xl flex items-center justify-between">
                     <div>
                       <span className="text-[11px] text-blue-900/70 font-semibold block">
-                        {product.category === 'smtp' ? 'Monthly Plan Total:' : 'Total Price:'}
+                        {product.category === 'smtp' ? 'Monthly Plan Total:' : product.category === 'review' ? 'Package Total:' : 'Total Price:'}
                       </span>
                       <span className="text-2xl font-black text-blue-950">${priceInfo.total}</span>
                     </div>
                     {product.category === 'smtp' ? (
                       <span className="bg-emerald-600 text-white text-[11px] font-black px-2 py-1 rounded-md shadow-xs">
-                        INSTANT SMTP & API
+                        INSTANT SMTP &amp; API
+                      </span>
+                    ) : product.category === 'review' ? (
+                      <span className="bg-blue-600 text-white text-[11px] font-black px-2 py-1 rounded-md shadow-xs">
+                        STICKY &amp; NON-DROP
                       </span>
                     ) : priceInfo.discountPercent > 0 ? (
                       <span className="bg-emerald-600 text-white text-[11px] font-black px-2 py-1 rounded-md shadow-xs animate-pulse">
@@ -387,7 +496,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                       }}
                       className="w-full text-center text-xs font-bold text-blue-600 hover:text-blue-800 hover:bg-blue-50 py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer mb-0.5"
                     >
-                      <span>View Packages & Specifications</span>
+                      <span>View Packages &amp; Specifications</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   )}
@@ -408,6 +517,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                         const pkgName = `${currentQty}k Email Per Month`;
                         const pkgId = `${product.id}-${currentQty}k`;
                         onAddToCart(product, currentQty, pkgId, pkgName);
+                      } else if (product.category === 'review') {
+                        let pkgName = '';
+                        let pkgId = '';
+                        if (product.id === 'buy-google-reviews') {
+                          pkgName = currentQty === 5 ? '05 Google Review' : '03 Local Guide Google Review';
+                          pkgId = currentQty === 5 ? 'google-review-5-standard' : 'google-review-3-local-guide';
+                        } else {
+                          pkgName = currentQty === 5 ? '05 Truatpilot Review' : '03 Verified Truatpilot Review';
+                          pkgId = currentQty === 5 ? 'truatpilot-review-5-standard' : 'truatpilot-review-3-verified';
+                        }
+                        onAddToCart(product, currentQty, pkgId, pkgName);
                       } else {
                         onAddToCart(product, currentQty);
                       }
@@ -415,7 +535,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                     className="w-full bg-white hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-slate-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <ShoppingCart className="w-3.5 h-3.5 text-slate-500" />
-                    <span>{product.category === 'smtp' ? `Add ${currentQty}k Plan to Cart` : `Add to Cart (${currentQty} pcs)`}</span>
+                    <span>
+                      {product.category === 'smtp' 
+                        ? `Add ${currentQty}k Plan to Cart` 
+                        : product.category === 'review'
+                        ? `Add to Cart (${currentQty} Reviews)`
+                        : `Add to Cart (${currentQty} pcs)`}
+                    </span>
                   </button>
                 </div>
 

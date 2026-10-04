@@ -87,6 +87,65 @@ export function calculateProductPricing(
     };
   }
 
+  // Review Category Products pricing handling
+  if (product.category === 'review' || product.id === 'buy-google-reviews' || product.id === 'buy-truatpilot-reviews') {
+    if (product.id === 'buy-google-reviews') {
+      if (safeQty === 5 || packageId === 'google-review-5-standard' || packageId?.includes('5')) {
+        return {
+          totalPrice: 35.0,
+          unitPrice: 7.0,
+          discountPercent: 22,
+          packageName: '05 Google Review',
+          packageId: 'google-review-5-standard',
+          variantName: variantName || '05 Google Review',
+          variantId: packageId || 'google-review-5-standard',
+          isSmtp: false,
+          quantityLabel: '05 Google Reviews'
+        };
+      }
+      // Default to 03 Local Guide Google Review ($27)
+      return {
+        totalPrice: 27.0,
+        unitPrice: 9.0,
+        discountPercent: 0,
+        packageName: '03 Local Guide Google Review',
+        packageId: 'google-review-3-local-guide',
+        variantName: variantName || '03 Local Guide Google Review',
+        variantId: packageId || 'google-review-3-local-guide',
+        isSmtp: false,
+        quantityLabel: '03 Local Guide Google Reviews'
+      };
+    }
+
+    if (product.id === 'buy-truatpilot-reviews') {
+      if (safeQty === 5 || packageId === 'truatpilot-review-5-standard' || packageId?.includes('5')) {
+        return {
+          totalPrice: 45.0,
+          unitPrice: 9.0,
+          discountPercent: 31,
+          packageName: '05 Truatpilot Review',
+          packageId: 'truatpilot-review-5-standard',
+          variantName: variantName || '05 Truatpilot Review',
+          variantId: packageId || 'truatpilot-review-5-standard',
+          isSmtp: false,
+          quantityLabel: '05 Truatpilot Reviews'
+        };
+      }
+      // Default to 03 Verified Truatpilot Review ($39)
+      return {
+        totalPrice: 39.0,
+        unitPrice: 13.0,
+        discountPercent: 0,
+        packageName: '03 Verified Truatpilot Review',
+        packageId: 'truatpilot-review-3-verified',
+        variantName: variantName || '03 Verified Truatpilot Review',
+        variantId: packageId || 'truatpilot-review-3-verified',
+        isSmtp: false,
+        quantityLabel: '03 Verified Truatpilot Reviews'
+      };
+    }
+  }
+
   // Check if there is an exact package defined in detailedServicesData (only if no custom variant unit price was passed)
   if (!variantUnitPrice) {
     const detailed = detailedServicesData.find((s) => s.id === product.id);

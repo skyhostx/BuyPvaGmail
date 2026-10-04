@@ -1697,6 +1697,271 @@ export const detailedServicesData: DetailedServiceInfo[] = [
         features: ['200k Email Per Month Only $350', 'Dedicated High-Throughput MTA', 'Real-Time Telemetry & Bounce Logs', 'VIP Account Manager', '7-Day Free Replacement']
       }
     ]
+  },
+  {
+    id: 'buy-google-reviews',
+    name: 'Buy Google Reviews',
+    shortDesc: 'Authentic, sticky Google Business Profile (GBP) & Google Maps 5-star reviews from real Local Guides and aged active profiles.',
+    shortDescription: 'Authentic, sticky Google Business Profile (GBP) & Google Maps 5-star reviews from real Local Guides and aged active profiles with custom review text and non-drop warranty.',
+    description: 'Boost your local search visibility, Google Maps rankings, and customer trust with authentic, non-drop Google Reviews. Sourced from aged, geo-targeted Google accounts and verified Local Guides, each review is drip-fed naturally using unique residential IPs to ensure 100% compliance with Google review filter guidelines. Includes 30-day replacement guarantee.',
+    heroTagline: 'Permanent, Sticky 5-Star Google Reviews from Verified Local Guides & Aged USA Profiles',
+    longDescription: 'Google utilizes sophisticated behavioral algorithms to detect and remove artificial reviews. Our Google Review service delivers organic, sticky 5-star ratings from verified Google Local Guides and aged active profiles with realistic search history, location check-ins, and geo-targeted residential IP addresses. Every order is drip-fed at a natural pace, matching your business hours and location, with optional custom review text and photo attachments. Backed by our 30-day sticky non-drop replacement guarantee.',
+    focusKeyword: 'buy google reviews',
+    tags: [
+      'buy google reviews',
+      'google maps reviews',
+      'local guide reviews',
+      'google business profile reviews',
+      'gbp reviews',
+      'sticky google reviews',
+      '5 star google reviews'
+    ],
+    basePrice: 27,
+    baseQuantity: 3,
+    unitPrice: 9.0,
+    popular: true,
+    bestValue: true,
+    age: 'Local Guide & Aged Profiles',
+    category: 'review',
+    country: 'USA / UK / CA / AU / Global',
+    countryCode: 'US',
+    inStock: 450,
+    rating: 4.99,
+    reviewsCount: 860,
+    features: [
+      '03 Local Guide Google Review ($27) & 05 Google Review ($35)',
+      '100% Sticky & Non-Drop (Algorithm Compliant)',
+      'Real Active Google Local Guides (Level 4–8)',
+      'Geo-Targeted Residential IPs (City & State Specific)',
+      'Custom Text Copywriting & Photo Upload Support',
+      'Natural Drip-Feed Delivery (1–2 Reviews / Day)',
+      '30-Day Free Replacement & Retention Guarantee'
+    ],
+    specs: {
+      phoneType: 'Physical SIM Verified Profiles',
+      recoveryMail: true,
+      twoFA: true,
+      ipOrigin: 'Geo-Targeted Residential IPs',
+      deliveryTime: 'Starts within 2-6 hrs (Drip-fed)',
+      warranty: '30-Day Free Replacement Guarantee'
+    },
+    useCases: [
+      'Google Business Profile (GBP) 5-Star Rating Boost',
+      'Google Maps Local Pack (3-Pack) SEO Ranking',
+      'Overcoming Negative or Unfair Competitor Reviews',
+      'Increasing Customer Conversion Rates & Inbound Calls',
+      'Agency Client Local SEO Reputation Management'
+    ],
+    loginInstructions: [
+      'Provide your Google Business Profile URL or Google Maps link.',
+      'Specify target location / city or provide custom review texts (optional).',
+      'Our team initiates drip-feed delivery within 2 to 6 hours.',
+      'Track real-time progress via Telegram delivery confirmation.'
+    ],
+    bestTools: ['Google Maps App', 'Google Business Profile Manager', 'BrightLocal', 'Whitespark', 'Local Viking'],
+    sampleFormat: 'GBP URL : Custom Review Text : Geo Target : Drip Schedule : 5-Star Rating',
+    packages: [
+      {
+        id: 'google-review-3-local-guide',
+        name: '03 Local Guide Google Review',
+        quantity: 3,
+        price: 27,
+        unitPrice: 9.0,
+        discountPercent: 0,
+        badge: 'Local Guide Authority',
+        features: [
+          '3 Local Guide Google Reviews',
+          'High Authority Local Guide Profiles',
+          'Geo-Targeted Local Residential IPs',
+          'Sticky Non-Drop Retention Guarantee',
+          'Natural Drip-feed Pacing',
+          '30-Day Free Replacement'
+        ]
+      },
+      {
+        id: 'google-review-5-standard',
+        name: '05 Google Review',
+        quantity: 5,
+        price: 35,
+        unitPrice: 7.0,
+        discountPercent: 22,
+        badge: '🔥 Best Seller',
+        isPopular: true,
+        features: [
+          '5 Google Reviews',
+          'Aged & Active Google User Profiles',
+          '100% Real Consumer Behavior',
+          'Custom Review Text / Keywords',
+          'Drip-fed Over 3-5 Days',
+          '30-Day Free Replacement'
+        ]
+      }
+    ],
+    variants: [
+      {
+        id: 'google-review-3-local-guide',
+        name: '03 Local Guide Google Review ($27)',
+        shortLabel: '03 Local Guide',
+        description: '3 High-trust Google Local Guide 5-star reviews with permanent stick rate.',
+        unitPrice: 9.00,
+        inStock: 250,
+        badge: 'Local Guide',
+        specs: {
+          trustScore: '99.8%',
+          deliverability: '100% Sticky',
+          age: 'Level 4-8 Local Guides',
+          ipOrigin: 'Geo-Targeted Residential'
+        }
+      },
+      {
+        id: 'google-review-5-standard',
+        name: '05 Google Review ($35)',
+        shortLabel: '05 Google Reviews',
+        description: '5 Organic 5-star Google Business Profile reviews with natural drip-feed delivery.',
+        unitPrice: 7.00,
+        inStock: 200,
+        badge: '🔥 Most Popular',
+        isPopular: true,
+        specs: {
+          trustScore: '99.5%',
+          deliverability: '98%+ Sticky',
+          age: 'Aged Active Profiles',
+          ipOrigin: 'USA / UK / Global IPs'
+        }
+      }
+    ]
+  },
+  {
+    id: 'buy-truatpilot-reviews',
+    name: 'Buy Truatpilot Reviews',
+    shortDesc: 'Authentic, verified Truatpilot / Trustpilot reviews from real user profiles. Non-drop, sticky, and algorithm-safe.',
+    shortDescription: 'Authentic, verified Truatpilot reviews from aged user profiles with verified order indicators, organic browser history, and 30-day replacement warranty.',
+    description: 'Elevate your brand reputation and consumer trust with authentic Truatpilot / Trustpilot reviews. Each review is written by a unique profile with real browser sessions, residential IP proxies, and natural spacing. Sourced to withstand automated sentiment filters, with options for verified order labels. Backed by a full 30-day replacement guarantee.',
+    heroTagline: 'High-Trust Sticky Truatpilot Reviews to Dominate Brand Reputation & Conversions',
+    longDescription: 'Truatpilot is one of the most influential consumer review platforms in the world. Building a high TrustScore requires genuine-looking, filter-resistant reviews from aged profiles with diverse reviewing history. Our Truatpilot reviews are posted organically across real residential devices with custom text, optional reference/order IDs, and natural drip timing. Protect your brand rating, outshine competitors, and boost checkout conversion rates.',
+    focusKeyword: 'buy truatpilot reviews',
+    tags: [
+      'buy truatpilot reviews',
+      'buy trustpilot reviews',
+      'verified truatpilot reviews',
+      'truatpilot 5 star reviews',
+      'trustscore boost',
+      'sticky truatpilot reviews'
+    ],
+    basePrice: 39,
+    baseQuantity: 3,
+    unitPrice: 13.0,
+    popular: true,
+    bestValue: false,
+    age: 'Verified & Aged Profiles',
+    category: 'review',
+    country: 'USA / UK / CA / EU / Global',
+    countryCode: 'US',
+    inStock: 380,
+    rating: 4.97,
+    reviewsCount: 640,
+    features: [
+      '03 Verified Truatpilot Review ($39) & 05 Truatpilot Review ($45)',
+      'Verified Order & Invitation Compatible',
+      'Unique Residential IPs & Browser Fingerprints',
+      'Filter-Resistant Sticky Review Delivery',
+      'Custom Text & Niche-Relevant Copywriting',
+      'Natural Delivery Pace (Drip-fed)',
+      '30-Day Free Replacement Guarantee'
+    ],
+    specs: {
+      phoneType: 'Verified Consumer Profiles',
+      recoveryMail: true,
+      twoFA: true,
+      ipOrigin: 'Clean Residential Proxies',
+      deliveryTime: 'Starts within 2-6 hrs (Drip-fed)',
+      warranty: '30-Day Free Replacement Guarantee'
+    },
+    useCases: [
+      'Increasing Truatpilot / Trustpilot TrustScore (4.5★ - 5.0★)',
+      'E-commerce & SaaS Checkout Conversion Optimization',
+      'Brand Protection & Mitigating Unfair Negative Reviews',
+      'Investor Due Diligence & Public Credibility',
+      'Affiliate & Paid Ad Funnel Social Proof'
+    ],
+    loginInstructions: [
+      'Provide your company profile URL on Truatpilot.',
+      'Provide custom review copy or bullet points (optional).',
+      'Our system schedules review drip-feed delivery within 2-6 hours.',
+      'Live order confirmation sent directly to your Telegram or Email.'
+    ],
+    bestTools: ['Truatpilot Business Portal', 'AdsPower Antidetect', 'Residential Proxies', 'Trustpilot Dashboard'],
+    sampleFormat: 'Company URL : Review Title : Review Text : Verified Tag : Star Rating',
+    packages: [
+      {
+        id: 'truatpilot-review-3-verified',
+        name: '03 Verified Truatpilot Review',
+        quantity: 3,
+        price: 39,
+        unitPrice: 13.0,
+        discountPercent: 0,
+        badge: 'Verified Tag',
+        features: [
+          '3 Verified Truatpilot Reviews',
+          'Verified Order / Purchase Tag',
+          '100% Unique Residential IPs',
+          'Filter-Resistant Sticky Delivery',
+          'Natural Drip-feed Pacing',
+          '30-Day Free Replacement'
+        ]
+      },
+      {
+        id: 'truatpilot-review-5-standard',
+        name: '05 Truatpilot Review',
+        quantity: 5,
+        price: 45,
+        unitPrice: 9.0,
+        discountPercent: 31,
+        badge: '🔥 Most Popular',
+        isPopular: true,
+        features: [
+          '5 Truatpilot Reviews',
+          'High-Trust Consumer Accounts',
+          'Custom Review Text & Titles',
+          'Drip-fed Over 3-6 Days',
+          'Boosts Overall TrustScore',
+          '30-Day Free Replacement'
+        ]
+      }
+    ],
+    variants: [
+      {
+        id: 'truatpilot-review-3-verified',
+        name: '03 Verified Truatpilot Review ($39)',
+        shortLabel: '03 Verified',
+        description: '3 Verified order Truatpilot reviews with verified customer badge and stick guarantee.',
+        unitPrice: 13.00,
+        inStock: 180,
+        badge: 'Verified Tag',
+        specs: {
+          trustScore: '99.9%',
+          deliverability: '100% Sticky',
+          age: 'Verified Consumer Profiles',
+          ipOrigin: 'Residential Proxies'
+        }
+      },
+      {
+        id: 'truatpilot-review-5-standard',
+        name: '05 Truatpilot Review ($45)',
+        shortLabel: '05 Truatpilot',
+        description: '5 Organic 5-star Truatpilot reviews with natural drip-feed delivery.',
+        unitPrice: 9.00,
+        inStock: 200,
+        badge: '🔥 Most Popular',
+        isPopular: true,
+        specs: {
+          trustScore: '99.4%',
+          deliverability: '98%+ Sticky',
+          age: 'Aged Active Reviewers',
+          ipOrigin: 'USA / UK / Global IPs'
+        }
+      }
+    ]
   }
 ];
 
