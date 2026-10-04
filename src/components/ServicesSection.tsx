@@ -24,7 +24,7 @@ import { getProductPath } from '../utils/urlHelpers';
 
 interface ServicesSectionProps {
   onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onExploreServicePage?: (serviceId: string) => void;
 }
 
@@ -503,7 +503,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
 
                   <button
                     id={`buy-now-${product.id}`}
-                    onClick={() => onQuickBuy(product, currentQty)}
+                    onClick={() => {
+                      const matchedPkg = product.packages?.find((p) => p.quantity === currentQty);
+                      onQuickBuy(product, currentQty, matchedPkg?.id);
+                    }}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/35 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                   >
                     <Zap className="w-4 h-4 fill-current text-amber-300" />

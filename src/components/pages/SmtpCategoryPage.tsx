@@ -35,7 +35,7 @@ import { getProductPath } from '../../utils/urlHelpers';
 
 interface SmtpCategoryPageProps {
   onSelectServicePage: (serviceId: string) => void;
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
   onNavigateHome?: () => void;
   onNavigateToPricing?: () => void;
@@ -58,8 +58,8 @@ export const SmtpCategoryPage: React.FC<SmtpCategoryPageProps> = ({
   
   // Selected package per product card (default to 50k or popular package)
   const [selectedPackages, setSelectedPackages] = useState<Record<string, string>>({
-    'smtp-mailgun-accounts': 'mailgun-100k',
-    'smtp-brevo-accounts': 'brevo-100k',
+    'smtp-mailgun-services-account': 'mailgun-100k',
+    'smtp-brevo-services-account': 'brevo-100k',
     'smtp-relay-services-account': 'relay-100k'
   });
 
@@ -537,7 +537,7 @@ export const SmtpCategoryPage: React.FC<SmtpCategoryPageProps> = ({
                 {/* Action CTA Buttons */}
                 <div className="p-6 pt-0 space-y-2">
                   <button
-                    onClick={() => onQuickBuy(service, currentQty)}
+                    onClick={() => onQuickBuy(service, currentQty, activePkg?.id)}
                     className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-extrabold py-3 px-4 rounded-xl text-xs transition-all shadow-md shadow-rose-600/25 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Zap className="w-4 h-4 text-amber-300 fill-current" />

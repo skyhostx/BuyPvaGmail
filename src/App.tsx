@@ -290,7 +290,8 @@ export default function App() {
 
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderModalProduct, setOrderModalProduct] = useState<ServiceProduct>(servicesData[0]);
-  const [orderModalQuantity, setOrderModalQuantity] = useState<number>(2);
+  const [orderModalQuantity, setOrderModalQuantity] = useState<number>(1);
+  const [orderModalPackageId, setOrderModalPackageId] = useState<string | undefined>(undefined);
   const [isCartCheckout, setIsCartCheckout] = useState(false);
   const [cartDiscountPercent, setCartDiscountPercent] = useState(0);
   const [cartCouponCode, setCartCouponCode] = useState('');
@@ -1190,10 +1191,11 @@ export default function App() {
     });
   };
 
-  const handleQuickBuy = (product: ServiceProduct, quantity: number) => {
+  const handleQuickBuy = (product: ServiceProduct, quantity: number, packageId?: string) => {
     setIsCartCheckout(false);
     setOrderModalProduct(product);
     setOrderModalQuantity(quantity);
+    setOrderModalPackageId(packageId);
     setIsOrderModalOpen(true);
 
     // GA4 Enhanced E-commerce track intent
@@ -1255,7 +1257,11 @@ export default function App() {
       if (found) {
         setOrderModalProduct(found);
         setOrderModalQuantity(found.baseQuantity);
+        setOrderModalPackageId(found.packages?.[0]?.id);
       }
+    } else {
+      setOrderModalQuantity(orderModalProduct.baseQuantity || 1);
+      setOrderModalPackageId(orderModalProduct.packages?.[0]?.id);
     }
     setIsOrderModalOpen(true);
   };
@@ -1444,9 +1450,9 @@ export default function App() {
             {/* Transparent Tiered Agency Rates */}
             <TieredPricing
               onOrderBatch={(product, qty) => {
-                setOrderModalProduct(product);
-                setOrderModalQuantity(qty);
-                setIsOrderModalOpen(true);
+                const detailed = detailedServicesData.find((p) => p.id === product.id) || product;
+                const matched = detailed.packages?.find((p) => p.quantity === qty);
+                handleQuickBuy(product, qty, matched?.id);
               }}
             />
 
@@ -1502,6 +1508,7 @@ export default function App() {
         }}
         initialProduct={orderModalProduct}
         initialQuantity={orderModalQuantity}
+        initialPackageId={orderModalPackageId}
         cartItems={cart.length > 0 ? cart : []}
         isCartCheckout={isCartCheckout}
         cartDiscountPercent={cartDiscountPercent}

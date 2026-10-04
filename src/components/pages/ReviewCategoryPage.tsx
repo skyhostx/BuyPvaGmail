@@ -23,7 +23,7 @@ import { getProductPath } from '../../utils/urlHelpers';
 
 interface ReviewCategoryPageProps {
   onSelectServicePage: (serviceId: string) => void;
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
   onNavigateHome?: () => void;
   onNavigateToPricing?: () => void;
@@ -324,7 +324,7 @@ export const ReviewCategoryPage: React.FC<ReviewCategoryPageProps> = ({
                 {/* Card Actions */}
                 <div className="p-6 bg-slate-900/60 border-t border-slate-800 flex flex-col gap-2.5">
                   <button
-                    onClick={() => onQuickBuy(product, currentSelected.qty)}
+                    onClick={() => onQuickBuy(product, currentSelected.qty, currentSelected.pkgId)}
                     className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black py-3.5 px-4 rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:shadow-amber-500/35 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                   >
                     <Zap className="w-4 h-4 fill-current text-slate-950" />

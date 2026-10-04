@@ -23,9 +23,10 @@ import { detailedServicesData, DetailedServiceInfo, quantityTiers } from '../../
 import { ServiceProduct } from '../../types';
 import { handleLinkClick } from '../../utils/navigation';
 import { getProductPath } from '../../utils/urlHelpers';
+import { calculateProductPricing } from '../../utils/pricing';
 
 interface PricingPageProps {
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onAddToCart: (product: ServiceProduct, quantity: number) => void;
   onSelectServicePage: (serviceId: string) => void;
   onNavigateHome?: () => void;
@@ -41,19 +42,25 @@ export const PricingPage: React.FC<PricingPageProps> = ({
   const [calculatorQty, setCalculatorQty] = useState<number>(25);
 
   const activeService = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
+  const isReview = activeService.category === 'review' || activeService.id.includes('review');
+  const isSmtp = activeService.category === 'smtp' || activeService.id.startsWith('smtp-');
 
-  const calculateDiscount = (qty: number) => {
-    if (qty >= 500) return 0.30;
-    if (qty >= 100) return 0.20;
-    if (qty >= 50) return 0.15;
-    if (qty >= 25) return 0.10;
-    if (qty >= 10) return 0.05;
-    return 0;
+  const handleSelectService = (id: string) => {
+    setSelectedServiceId(id);
+    const svc = detailedServicesData.find((s) => s.id === id);
+    if (svc?.category === 'review' || id.includes('review')) {
+      setCalculatorQty(3);
+    } else if (svc?.category === 'smtp' || id.startsWith('smtp-')) {
+      setCalculatorQty(50);
+    } else if (calculatorQty > 500 || calculatorQty < 1) {
+      setCalculatorQty(25);
+    }
   };
 
-  const discount = calculateDiscount(calculatorQty);
-  const unitPrice = activeService.unitPrice * (1 - discount);
-  const totalPrice = unitPrice * calculatorQty;
+  const pricingInfo = calculateProductPricing(activeService, calculatorQty);
+  const totalPrice = pricingInfo.totalPrice;
+  const unitPrice = pricingInfo.unitPrice;
+  const discountPercent = pricingInfo.discountPercent;
 
   return (
     <div className="bg-slate-50 min-h-screen pb-24">
@@ -122,7 +129,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                   {detailedServicesData.map((svc) => (
                     <button
                       key={svc.id}
-                      onClick={() => setSelectedServiceId(svc.id)}
+                      onClick={() => handleSelectService(svc.id)}
                       className={`p-2.5 rounded-xl text-xs font-bold text-left transition-all cursor-pointer border ${
                         selectedServiceId === svc.id
                           ? 'bg-blue-600 text-white border-blue-400 shadow-md'
@@ -138,26 +145,31 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                 </div>
               </div>
 
-              {/* Quantity Slider */}
+              {/* Quantity Selector / Slider */}
               <div>
                 <div className="flex justify-between text-xs font-bold text-slate-300 mb-2">
-                  <span>2. Select Volume: {calculatorQty} Accounts</span>
+                  <span>
+                    2. Select Volume: {calculatorQty} {isReview ? 'Reviews' : isSmtp ? 'k Emails/mo' : 'Accounts'}
+                  </span>
                   <span className="text-amber-400 font-extrabold">
-                    {discount > 0 ? `${(discount * 100).toFixed(0)}% Bulk Discount Applied` : 'Standard Unit Rate'}
+                    {discountPercent > 0 ? `${discountPercent}% Discount Applied` : 'Standard Rate'}
                   </span>
                 </div>
-                <input
-                  type="range"
-                  min="2"
-                  max="500"
-                  step="1"
-                  value={calculatorQty}
-                  onChange={(e) => setCalculatorQty(parseInt(e.target.value) || 2)}
-                  className="w-full h-2.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                />
+
+                {!isReview && !isSmtp && (
+                  <input
+                    type="range"
+                    min="1"
+                    max="500"
+                    step="1"
+                    value={calculatorQty}
+                    onChange={(e) => setCalculatorQty(parseInt(e.target.value) || 1)}
+                    className="w-full h-2.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                )}
 
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {[2, 10, 25, 50, 100, 250, 500].map((num) => (
+                  {(isReview ? [3, 5] : isSmtp ? [50, 100, 200] : [1, 10, 25, 50, 100, 250, 500]).map((num) => (
                     <button
                       key={num}
                       onClick={() => setCalculatorQty(num)}
@@ -167,7 +179,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                           : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
                       }`}
                     >
-                      {num} pcs
+                      {num} {isReview ? 'Reviews' : isSmtp ? 'k / mo' : 'pcs'}
                     </button>
                   ))}
                 </div>
@@ -178,7 +190,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
             <div className="lg:col-span-5 bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
               <div>
                 <span className="text-xs text-slate-400 font-semibold block uppercase tracking-wider">
-                  Estimated Total ({calculatorQty} {activeService.name})
+                  Estimated Total ({calculatorQty} {isReview ? 'Reviews' : isSmtp ? 'Sending Plan' : activeService.name})
                 </span>
                 
                 <div className="flex items-baseline gap-2 mt-2">
@@ -190,9 +202,9 @@ export const PricingPage: React.FC<PricingPageProps> = ({
 
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-xs font-bold text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded">
-                    ${unitPrice.toFixed(2)} per account
+                    ${unitPrice.toFixed(2)} per {isSmtp ? 'month' : isReview ? 'review' : 'account'}
                   </span>
-                  {discount > 0 && (
+                  {discountPercent > 0 && (
                     <span className="text-xs text-slate-400 line-through">
                       ${activeService.unitPrice.toFixed(2)}
                     </span>
@@ -217,11 +229,11 @@ export const PricingPage: React.FC<PricingPageProps> = ({
 
               <div className="mt-8 space-y-2">
                 <button
-                  onClick={() => onQuickBuy(activeService, calculatorQty)}
+                  onClick={() => onQuickBuy(activeService, calculatorQty, pricingInfo.packageId)}
                   className="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 cursor-pointer active:scale-95"
                 >
                   <Zap className="w-4 h-4 fill-current text-amber-300" />
-                  <span>Order {calculatorQty} Accounts Now</span>
+                  <span>Order {calculatorQty} {isReview ? 'Reviews' : isSmtp ? 'Plan' : 'Accounts'} (${totalPrice.toFixed(2)})</span>
                 </button>
 
                 <button

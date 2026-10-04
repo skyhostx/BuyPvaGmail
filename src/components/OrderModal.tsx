@@ -44,6 +44,7 @@ interface OrderModalProps {
   onClose: () => void;
   initialProduct?: ServiceProduct;
   initialQuantity?: number;
+  initialPackageId?: string;
   cartItems?: CartItem[];
   isCartCheckout?: boolean;
   cartDiscountPercent?: number;
@@ -68,7 +69,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     id: 'usa-gmail-accounts',
     name: 'USA Gmail Accounts',
     subtitle: '🔥 Best Seller • USA IP',
-    fromPrice: 'From $6',
+    fromPrice: 'From $3',
     icon: Flame,
     iconColor: 'text-red-500'
   },
@@ -76,7 +77,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     id: 'pva-gmail-accounts',
     name: 'PVA Gmail Accounts',
     subtitle: '🛡️ 100% Phone Verified',
-    fromPrice: 'From $6',
+    fromPrice: 'From $3',
     icon: Smartphone,
     iconColor: 'text-blue-500'
   },
@@ -84,7 +85,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     id: 'new-gmail-accounts',
     name: 'New Gmail Accounts',
     subtitle: '⚡ Lowest Price • High Volume',
-    fromPrice: 'From $3',
+    fromPrice: 'From $1.50',
     icon: Zap,
     iconColor: 'text-amber-500'
   },
@@ -92,7 +93,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     id: 'aged-mix-country-gmail',
     name: 'Aged Mix Country Gmail Accounts',
     subtitle: '🌍 Global Diversity • Best Value',
-    fromPrice: 'From $5',
+    fromPrice: 'From $2.50',
     icon: Globe,
     iconColor: 'text-emerald-500'
   },
@@ -100,7 +101,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     id: 'aged-gmail-for-reviews',
     name: 'Aged Gmail Accounts For Reviews',
     subtitle: '⭐ 95%+ Stick Rate',
-    fromPrice: 'From $6',
+    fromPrice: 'From $3',
     icon: Star,
     iconColor: 'text-amber-500'
   },
@@ -113,7 +114,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     iconColor: 'text-purple-500'
   },
   {
-    id: 'smtp-mailgun-accounts',
+    id: 'smtp-mailgun-services-account',
     name: 'SMTP Mailgun Accounts',
     subtitle: '🚀 High Volume • 50k-200k/mo',
     fromPrice: 'From $150',
@@ -121,7 +122,7 @@ const SERVICE_CATEGORIES: ServiceCategoryConfig[] = [
     iconColor: 'text-rose-500'
   },
   {
-    id: 'smtp-brevo-accounts',
+    id: 'smtp-brevo-services-account',
     name: 'SMTP Brevo Accounts',
     subtitle: '⚡ Smartlead Ready • 50k-200k/mo',
     fromPrice: 'From $150',
@@ -403,7 +404,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   isOpen,
   onClose,
   initialProduct,
-  initialQuantity = 20,
+  initialQuantity,
+  initialPackageId,
   cartItems = [],
   isCartCheckout = false,
   cartDiscountPercent = 0,
@@ -415,31 +417,18 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   // Checkout mode: 'cart' vs 'single'
   const [checkoutMode, setCheckoutMode] = useState<'cart' | 'single'>('single');
 
-  useEffect(() => {
-    if (isOpen) {
-      if (isCartCheckout && cartItems && cartItems.length > 0) {
-        setCheckoutMode('cart');
-      } else {
-        setCheckoutMode('single');
-      }
-      if (initialProduct?.id) {
-        setSelectedServiceId(initialProduct.id);
-      }
-      if (initialQuantity && initialQuantity > 0) {
-        setSelectedQuantity(initialQuantity);
-      }
-    }
-  }, [isOpen, isCartCheckout, cartItems.length, initialProduct, initialQuantity]);
-
   // Step navigation (1: Package, 2: Contact, 3: Payment, 4: Verify)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
 
-  // Step 1 State: Service & Quantity
+  // Step 1 State: Service & Quantity & Package
   const [selectedServiceId, setSelectedServiceId] = useState<string>(
     initialProduct?.id || 'usa-gmail-accounts'
   );
+  const [selectedPackageId, setSelectedPackageId] = useState<string | undefined>(
+    initialPackageId
+  );
   const [selectedQuantity, setSelectedQuantity] = useState<number>(
-    initialQuantity || 20
+    initialQuantity || (initialProduct?.baseQuantity ?? 1)
   );
 
   // Step 2 State: Contact Details
@@ -496,23 +485,45 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   // Sync initial product and reset session on open
   useEffect(() => {
     if (isOpen) {
-      setCompletedOrder(null);
-      setCurrentStep(1);
-      setTxHash('');
-      setScreenshotFile(null);
-      setScreenshotPreview(null);
-      setContactError('');
-      setVerifyError('');
-      setIsSubmitting(false);
+      handleResetOrder();
 
-      if (initialProduct?.id) {
-        setSelectedServiceId(initialProduct.id);
+      if (isCartCheckout && cartItems && cartItems.length > 0) {
+        setCheckoutMode('cart');
+      } else {
+        setCheckoutMode('single');
       }
-      if (initialQuantity) {
-        setSelectedQuantity(initialQuantity);
+
+      const prod = initialProduct || detailedServicesData[0];
+      const targetServiceId = prod.id || 'usa-gmail-accounts';
+      setSelectedServiceId(targetServiceId);
+
+      const detailedProd = detailedServicesData.find((s) => s.id === targetServiceId) || prod;
+      const isReviewProd = targetServiceId === 'buy-google-reviews' || targetServiceId === 'buy-truatpilot-reviews' || detailedProd.category === 'review';
+      const isSmtpProd = targetServiceId.startsWith('smtp-') || detailedProd.category === 'smtp';
+
+      if (isReviewProd) {
+        const qty = initialQuantity === 5 ? 5 : 3;
+        setSelectedQuantity(qty);
+        const matchedPkg = detailedProd.packages?.find((p) => (initialPackageId && p.id === initialPackageId) || p.quantity === qty);
+        setSelectedPackageId(matchedPkg?.id || (qty === 5 ? `${targetServiceId}-5` : `${targetServiceId}-3`));
+      } else if (isSmtpProd) {
+        const qty = (initialQuantity && initialQuantity >= 50) ? initialQuantity : 50;
+        setSelectedQuantity(qty);
+        const matchedPkg = detailedProd.packages?.find((p) => (initialPackageId && p.id === initialPackageId) || p.quantity === qty) || detailedProd.packages?.[0];
+        setSelectedPackageId(matchedPkg?.id);
+      } else {
+        if (initialQuantity && initialQuantity > 0) {
+          setSelectedQuantity(initialQuantity);
+          const matchedPkg = detailedProd.packages?.find((p) => (initialPackageId && p.id === initialPackageId) || p.quantity === initialQuantity);
+          setSelectedPackageId(matchedPkg?.id);
+        } else {
+          const defaultQty = detailedProd.baseQuantity || 1;
+          setSelectedQuantity(defaultQty);
+          setSelectedPackageId(detailedProd.packages?.[0]?.id);
+        }
       }
     }
-  }, [isOpen, initialProduct?.id, initialQuantity]);
+  }, [isOpen, isCartCheckout, cartItems.length, initialProduct, initialQuantity, initialPackageId]);
 
   // Generate real original QR code for the active crypto deposit address
   useEffect(() => {
@@ -541,17 +552,23 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   // Active product details
   const activeProduct = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
 
-  // Calculate pricing based on selected service and quantity tier
+  // Calculate pricing based on selected service, quantity, and packageId
   const calculatePrice = (serviceId: string, count: number, packageId?: string) => {
-    const product = detailedServicesData.find((s) => s.id === serviceId) || detailedServicesData[0];
-    const pricing = calculateProductPricing(product, count, packageId);
+    const baseProduct = detailedServicesData.find((s) => s.id === serviceId) || detailedServicesData[0];
+    const isCustomVariant = initialProduct && initialProduct.id === serviceId && initialProduct.unitPrice !== baseProduct.unitPrice;
+    const product = isCustomVariant ? initialProduct : baseProduct;
+    const variantUnitPrice = isCustomVariant ? initialProduct.unitPrice : undefined;
+    const pricing = calculateProductPricing(product, count, packageId, variantUnitPrice);
     return {
       totalPrice: pricing.totalPrice,
-      unitPrice: pricing.unitPrice
+      unitPrice: pricing.unitPrice,
+      packageName: pricing.packageName,
+      discountPercent: pricing.discountPercent,
+      isSmtp: pricing.isSmtp
     };
   };
 
-  const currentPricing = calculatePrice(selectedServiceId, selectedQuantity);
+  const currentPricing = calculatePrice(selectedServiceId, selectedQuantity, selectedPackageId);
 
   // Cart pricing calculations
   const cartSubtotal = cartItems.reduce((sum, item) => {
@@ -697,7 +714,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             {
               product: activeProduct,
               quantity: selectedQuantity,
-              totalPrice: currentPricing.totalPrice
+              totalPrice: currentPricing.totalPrice,
+              packageName: currentPricing.packageName,
+              packageId: selectedPackageId
             }
           ];
 
@@ -738,8 +757,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     if (!completedOrder) return 'https://t.me/BuyPvaGmail';
 
     const itemsSummary = completedOrder.items && completedOrder.items.length > 0
-      ? completedOrder.items.map((item) => `- ${item.quantity}x ${item.product?.name || 'Account'}`).join('\n')
-      : `- ${selectedQuantity}x ${activeProduct.name}`;
+      ? completedOrder.items.map((item) => `- ${item.packageName || `${item.quantity}x ${item.product?.name || 'Account'}`} ($${item.totalPrice} USD)`).join('\n')
+      : `- ${currentPricing.packageName || `${selectedQuantity}x ${activeProduct.name}`} ($${effectiveTotal} USD)`;
 
     const message = `Hello, I completed order ${completedOrder.orderId}.
 
@@ -1098,12 +1117,17 @@ Please provide delivery.`;
                         type="button"
                         onClick={() => {
                           setSelectedServiceId(cat.id);
+                          const targetProduct = detailedServicesData.find((s) => s.id === cat.id);
                           if (cat.id === 'buy-google-reviews' || cat.id === 'buy-truatpilot-reviews') {
                             setSelectedQuantity(3);
+                            setSelectedPackageId(targetProduct?.packages?.[0]?.id);
                           } else if (cat.id.startsWith('smtp-')) {
                             setSelectedQuantity(50);
+                            setSelectedPackageId(targetProduct?.packages?.[0]?.id);
                           } else {
-                            setSelectedQuantity(2);
+                            const defaultQty = targetProduct?.baseQuantity || 1;
+                            setSelectedQuantity(defaultQty);
+                            setSelectedPackageId(targetProduct?.packages?.[0]?.id);
                           }
                         }}
                         className={`p-3.5 rounded-2xl text-left transition-all duration-150 cursor-pointer flex items-center justify-between border ${
@@ -1147,7 +1171,7 @@ Please provide delivery.`;
                 <div className={`grid gap-2 sm:gap-2.5 ${activeProduct.packages && activeProduct.packages.length > 0 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-5'}`}>
                   {activeProduct.packages && activeProduct.packages.length > 0 ? (
                     activeProduct.packages.map((pkg) => {
-                      const isSelected = selectedQuantity === pkg.quantity;
+                      const isSelected = selectedPackageId ? selectedPackageId === pkg.id : selectedQuantity === pkg.quantity;
                       return (
                         <div key={pkg.id} className="relative">
                           {pkg.isPopular && (
@@ -1159,7 +1183,10 @@ Please provide delivery.`;
                           )}
                           <button
                             type="button"
-                            onClick={() => setSelectedQuantity(pkg.quantity)}
+                            onClick={() => {
+                              setSelectedQuantity(pkg.quantity);
+                              setSelectedPackageId(pkg.id);
+                            }}
                             className={`w-full p-3 sm:p-3.5 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center min-h-[100px] border ${
                               isSelected
                                 ? 'bg-gradient-to-b from-blue-600 to-indigo-600 text-white border-blue-600 shadow-lg shadow-blue-500/30'
@@ -1173,7 +1200,7 @@ Please provide delivery.`;
                               ${pkg.price}
                             </span>
                             <span className={`text-[10px] font-semibold ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
-                              {pkg.badge || `${pkg.quantity} accounts`}
+                              {pkg.badge || (activeProduct.category === 'review' ? `${pkg.quantity} Reviews` : activeProduct.category === 'smtp' ? `${pkg.quantity}k Emails/mo` : `${pkg.quantity} accounts`)}
                             </span>
                           </button>
                         </div>
@@ -1195,7 +1222,10 @@ Please provide delivery.`;
                           )}
                           <button
                             type="button"
-                            onClick={() => setSelectedQuantity(tier.count)}
+                            onClick={() => {
+                              setSelectedQuantity(tier.count);
+                              setSelectedPackageId(undefined);
+                            }}
                             className={`w-full p-3 sm:p-3.5 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center min-h-[100px] border ${
                               isSelected
                                 ? 'bg-gradient-to-b from-red-500 to-red-600 text-white border-red-600 shadow-lg shadow-red-500/30'
@@ -1226,10 +1256,10 @@ Please provide delivery.`;
                 <div>
                   <span className="text-xs text-slate-500 font-semibold block">Selected Package:</span>
                   <h4 className="text-base sm:text-lg font-black text-slate-900">
-                    {activeProduct.name} ({selectedQuantity} Accounts)
+                    {currentPricing.packageName || activeProduct.name} ({selectedQuantity} {activeProduct.category === 'review' ? 'Reviews' : activeProduct.category === 'smtp' ? 'Sending Plan' : 'Accounts'})
                   </h4>
                   <span className="text-xs text-slate-500 font-medium">
-                    Estimated Unit Cost: ${currentPricing.unitPrice}/account
+                    Estimated Unit Cost: ${currentPricing.unitPrice} / {activeProduct.category === 'smtp' ? 'month' : activeProduct.category === 'review' ? 'review' : 'account'}
                   </span>
                 </div>
 

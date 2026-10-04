@@ -30,7 +30,7 @@ import { getProductPath } from '../../utils/urlHelpers';
 interface ServicesCatalogPageProps {
   initialFilter?: string;
   onSelectServicePage: (serviceId: string) => void;
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onAddToCart: (product: ServiceProduct, quantity: number) => void;
   onNavigateHome?: () => void;
   onNavigateToSmtp?: () => void;
@@ -386,7 +386,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                     </a>
 
                     <button
-                      onClick={() => onQuickBuy(service, service.baseQuantity)}
+                      onClick={() => onQuickBuy(service, service.baseQuantity, service.packages?.[0]?.id)}
                       className="w-full py-2.5 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <Zap className="w-3.5 h-3.5 text-blue-600 fill-current" />

@@ -19,6 +19,18 @@ export interface ProductVariant {
   };
 }
 
+export interface ServicePackage {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+  unitPrice: number;
+  discountPercent?: number;
+  badge?: string;
+  isPopular?: boolean;
+  features: string[];
+}
+
 export interface ServiceProduct {
   id: string;
   name: string;
@@ -41,6 +53,7 @@ export interface ServiceProduct {
   reviewsCount: number;
   features: string[];
   variants?: ProductVariant[];
+  packages?: ServicePackage[];
   specs: {
     phoneType: string;
     recoveryMail: boolean;

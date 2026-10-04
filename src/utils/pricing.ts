@@ -32,13 +32,13 @@ export function calculateProductPricing(
     let pkgId = 'smtp-50k';
     let discountPercent = 0;
 
-    if (product.id === 'smtp-relay-services-account') {
-      if (safeQty >= 200 || packageId === 'relay-200k' || packageId === 'smtp-relay-200k') {
+    if (product.id.includes('relay')) {
+      if (packageId === 'relay-200k' || packageId?.includes('200k') || (!packageId && safeQty >= 200)) {
         totalPrice = 350.0;
         packageName = '200k Email Per Month (Enterprise Relay)';
         pkgId = 'relay-200k';
         discountPercent = 38;
-      } else if (safeQty >= 100 || packageId === 'relay-100k' || packageId === 'smtp-relay-100k') {
+      } else if (packageId === 'relay-100k' || packageId?.includes('100k') || (!packageId && safeQty >= 100)) {
         totalPrice = 240.0;
         packageName = '100k Email Per Month (Pro Relay)';
         pkgId = 'relay-100k';
@@ -52,12 +52,12 @@ export function calculateProductPricing(
     } else {
       // Mailgun or Brevo
       const prefix = product.id.includes('mailgun') ? 'mailgun' : 'brevo';
-      if (safeQty >= 200 || packageId?.includes('200k')) {
+      if (packageId?.includes('200k') || (!packageId && safeQty >= 200)) {
         totalPrice = 320.0;
         packageName = '200k Email Per Month (Enterprise)';
         pkgId = `${prefix}-200k`;
         discountPercent = 47;
-      } else if (safeQty >= 100 || packageId?.includes('100k')) {
+      } else if (packageId?.includes('100k') || (!packageId && safeQty >= 100)) {
         totalPrice = 190.0;
         packageName = '100k Email Per Month (High Reputation)';
         pkgId = `${prefix}-100k`;
@@ -81,7 +81,7 @@ export function calculateProductPricing(
       packageName: variantName || packageName,
       packageId: pkgId,
       variantName,
-      variantId: packageId,
+      variantId: packageId || pkgId,
       isSmtp: true,
       quantityLabel: variantName || packageName
     };
@@ -90,7 +90,8 @@ export function calculateProductPricing(
   // Review Category Products pricing handling
   if (product.category === 'review' || product.id === 'buy-google-reviews' || product.id === 'buy-truatpilot-reviews') {
     if (product.id === 'buy-google-reviews') {
-      if (safeQty === 5 || packageId === 'google-review-5-standard' || packageId?.includes('5')) {
+      const isFivePack = packageId === 'google-review-5-standard' || (!packageId && safeQty === 5) || packageId?.includes('5') || variantName?.includes('05') || variantName?.includes('5');
+      if (isFivePack) {
         return {
           totalPrice: 35.0,
           unitPrice: 7.0,
@@ -98,7 +99,7 @@ export function calculateProductPricing(
           packageName: '05 Google Review',
           packageId: 'google-review-5-standard',
           variantName: variantName || '05 Google Review',
-          variantId: packageId || 'google-review-5-standard',
+          variantId: 'google-review-5-standard',
           isSmtp: false,
           quantityLabel: '05 Google Reviews'
         };
@@ -111,14 +112,15 @@ export function calculateProductPricing(
         packageName: '03 Local Guide Google Review',
         packageId: 'google-review-3-local-guide',
         variantName: variantName || '03 Local Guide Google Review',
-        variantId: packageId || 'google-review-3-local-guide',
+        variantId: 'google-review-3-local-guide',
         isSmtp: false,
         quantityLabel: '03 Local Guide Google Reviews'
       };
     }
 
     if (product.id === 'buy-truatpilot-reviews') {
-      if (safeQty === 5 || packageId === 'truatpilot-review-5-standard' || packageId?.includes('5')) {
+      const isFivePack = packageId === 'truatpilot-review-5-standard' || (!packageId && safeQty === 5) || packageId?.includes('5') || variantName?.includes('05') || variantName?.includes('5');
+      if (isFivePack) {
         return {
           totalPrice: 45.0,
           unitPrice: 9.0,
@@ -126,7 +128,7 @@ export function calculateProductPricing(
           packageName: '05 Truatpilot Review',
           packageId: 'truatpilot-review-5-standard',
           variantName: variantName || '05 Truatpilot Review',
-          variantId: packageId || 'truatpilot-review-5-standard',
+          variantId: 'truatpilot-review-5-standard',
           isSmtp: false,
           quantityLabel: '05 Truatpilot Reviews'
         };
@@ -139,7 +141,7 @@ export function calculateProductPricing(
         packageName: '03 Verified Truatpilot Review',
         packageId: 'truatpilot-review-3-verified',
         variantName: variantName || '03 Verified Truatpilot Review',
-        variantId: packageId || 'truatpilot-review-3-verified',
+        variantId: 'truatpilot-review-3-verified',
         isSmtp: false,
         quantityLabel: '03 Verified Truatpilot Reviews'
       };
@@ -148,8 +150,11 @@ export function calculateProductPricing(
 
   // Check if there is an exact package defined in detailedServicesData (only if no custom variant unit price was passed)
   if (!variantUnitPrice) {
-    const detailed = detailedServicesData.find((s) => s.id === product.id);
-    const exactPkg = detailed?.packages?.find((p) => p.quantity === safeQty && (!packageId || p.id === packageId));
+    const detailed = detailedServicesData.find((s) => s.id === product.id) || product;
+    const exactPkg = packageId 
+      ? detailed?.packages?.find((p) => p.id === packageId)
+      : detailed?.packages?.find((p) => p.quantity === safeQty);
+
     if (exactPkg) {
       return {
         totalPrice: exactPkg.price,
@@ -158,9 +163,9 @@ export function calculateProductPricing(
         packageName: exactPkg.name,
         packageId: exactPkg.id,
         variantName,
-        variantId: packageId,
+        variantId: exactPkg.id,
         isSmtp: false,
-        quantityLabel: `${safeQty} Accounts`
+        quantityLabel: `${exactPkg.quantity} Accounts`
       };
     }
   }

@@ -40,7 +40,7 @@ interface ServiceDetailPageProps {
   serviceId: string;
   onBackToCatalog: () => void;
   onSelectOtherService: (id: string) => void;
-  onQuickBuy: (product: ServiceProduct, quantity: number) => void;
+  onQuickBuy: (product: ServiceProduct, quantity: number, packageId?: string) => void;
   onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
   onNavigateHome?: () => void;
 }
@@ -69,6 +69,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const activeVariant = variants.find((v) => v.id === selectedVariantId) || variants[0];
   const effectiveBaseUnitRate = activeVariant ? activeVariant.unitPrice : service.unitPrice;
   const isSmtp = service.category === 'smtp';
+  const isReview = service.category === 'review' || service.id === 'buy-google-reviews' || service.id === 'buy-truatpilot-reviews';
 
   const [copiedFormat, setCopiedFormat] = useState(false);
   const [copiedPageLink, setCopiedPageLink] = useState(false);
@@ -82,6 +83,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
   // Calculate dynamic bulk discount for custom calculator and card
   const calculateDiscount = (qty: number) => {
+    if (isReview) return 0;
     if (isSmtp) {
       if (qty >= 10) return 0.20;
       if (qty >= 5) return 0.10;
@@ -329,14 +331,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   </div>
                   <div>
                     <span className="text-[11px] text-slate-400 font-bold block uppercase tracking-wider">
-                      {activeVariant ? 'Selected Variant Rate' : 'Starting Rate'}
+                      {activeVariant ? 'Selected Package Rate' : 'Starting Rate'}
                     </span>
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                         ${discountedUnitPrice.toFixed(2)}
                       </span>
                       <span className="text-xs text-slate-500 font-medium">
-                        / {isSmtp ? 'mo' : 'account'}
+                        / {isSmtp ? 'mo' : isReview ? 'pack' : 'account'}
                       </span>
                       {currentDiscount > 0 && (
                         <span className="line-through text-xs text-slate-400">
@@ -412,7 +414,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                               <span className={`text-xs font-black block ${isSelected ? 'text-blue-700' : 'text-slate-900'}`}>
                                 ${v.unitPrice.toFixed(2)}
                               </span>
-                              <span className="text-[10px] text-slate-400 block">/ {isSmtp ? 'mo' : 'ea'}</span>
+                              <span className="text-[10px] text-slate-400 block">/ {isSmtp ? 'mo' : isReview ? 'pack' : 'ea'}</span>
                             </div>
                           </div>
                         </button>
@@ -426,7 +428,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <div className="py-4 border-b border-slate-100">
                 <div className="flex items-center justify-between gap-2 mb-2.5">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-800">
-                    Order Quantity ({isSmtp ? 'Accounts' : 'Pcs'}):
+                    {isReview ? 'Order Quantity (Packs):' : `Order Quantity (${isSmtp ? 'Accounts' : 'Pcs'}):`}
                   </span>
                   {currentDiscount > 0 && (
                     <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
@@ -437,7 +439,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                 {/* Quick Presets */}
                 <div className="grid grid-cols-4 gap-1.5 mb-3">
-                  {(isSmtp ? [1, 2, 5, 10] : [1, 5, 10, 25]).map((qty) => (
+                  {(isReview ? [1, 2, 3, 5] : isSmtp ? [1, 2, 5, 10] : [1, 5, 10, 25]).map((qty) => (
                     <button
                       key={qty}
                       type="button"
@@ -448,7 +450,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      {qty} {isSmtp ? (qty === 1 ? 'Acct' : 'Accts') : (qty === 1 ? 'Pc' : 'Pcs')}
+                      {qty} {isReview ? (qty === 1 ? 'Pack' : 'Packs') : isSmtp ? (qty === 1 ? 'Acct' : 'Accts') : (qty === 1 ? 'Pc' : 'Pcs')}
                     </button>
                   ))}
                 </div>
@@ -556,12 +558,15 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 <div className="grid grid-cols-1 gap-2">
                   <button
                     onClick={() => {
+                      const reviewQty = isReview ? (activeVariant?.id.includes('5') ? 5 : 3) : customQty;
                       const variantProduct: ServiceProduct = {
                         ...service,
-                        unitPrice: effectiveBaseUnitRate,
-                        basePrice: +(effectiveBaseUnitRate * service.baseQuantity).toFixed(2)
+                        unitPrice: isReview 
+                          ? (activeVariant?.id.includes('5') ? (service.id === 'buy-google-reviews' ? 7.0 : 9.0) : (service.id === 'buy-google-reviews' ? 9.0 : 13.0)) 
+                          : effectiveBaseUnitRate,
+                        basePrice: activeVariant ? activeVariant.unitPrice : service.basePrice
                       };
-                      onQuickBuy(variantProduct, customQty);
+                      onQuickBuy(variantProduct, reviewQty, activeVariant?.id);
                     }}
                     className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl text-sm font-bold shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
                   >
@@ -571,15 +576,18 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                   <button
                     onClick={() => {
+                      const reviewQty = isReview ? (activeVariant?.id.includes('5') ? 5 : 3) : customQty;
                       const variantProduct: ServiceProduct = {
                         ...service,
-                        unitPrice: effectiveBaseUnitRate,
-                        basePrice: +(effectiveBaseUnitRate * service.baseQuantity).toFixed(2)
+                        unitPrice: isReview 
+                          ? (activeVariant?.id.includes('5') ? (service.id === 'buy-google-reviews' ? 7.0 : 9.0) : (service.id === 'buy-google-reviews' ? 9.0 : 13.0)) 
+                          : effectiveBaseUnitRate,
+                        basePrice: activeVariant ? activeVariant.unitPrice : service.basePrice
                       };
                       const variantName = activeVariant 
                         ? `${service.name} (${activeVariant.shortLabel || activeVariant.name})`
                         : undefined;
-                      onAddToCart(variantProduct, customQty, activeVariant?.id, variantName);
+                      onAddToCart(variantProduct, reviewQty, activeVariant?.id, variantName);
                     }}
                     className="w-full py-3 bg-white hover:bg-slate-50 text-slate-800 hover:text-blue-600 rounded-2xl text-sm font-bold border border-slate-200 hover:border-blue-300 shadow-2xs flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
                   >
@@ -659,13 +667,18 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                   <div className="flex items-baseline gap-2 mb-1">
                     <span className="text-3xl font-black text-slate-900">${pkg.price.toFixed(2)}</span>
-                    <span className="text-xs text-slate-400 font-semibold line-through">
-                      ${(service.unitPrice * pkg.quantity).toFixed(2)}
-                    </span>
+                    {pkg.discountPercent > 0 && (
+                      <span className="text-xs text-slate-400 font-semibold line-through">
+                        ${(Math.round(pkg.price / (1 - pkg.discountPercent / 100))).toFixed(2)}
+                      </span>
+                    )}
                   </div>
 
                   <div className="text-xs text-slate-500 font-medium mb-5">
-                    <span className="font-bold text-slate-900">{pkg.quantity} Accounts</span> (${pkg.unitPrice.toFixed(2)} / each)
+                    <span className="font-bold text-slate-900">
+                      {isReview ? `${pkg.quantity} Reviews` : isSmtp ? pkg.name : `${pkg.quantity} Accounts`}
+                    </span>{' '}
+                    (${pkg.unitPrice.toFixed(2)} / {isReview ? 'review' : isSmtp ? 'mo' : 'each'})
                   </div>
 
                   {/* Feature list */}
@@ -681,7 +694,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
                 <div className="space-y-2 pt-4 border-t border-slate-100">
                   <button
-                    onClick={() => onQuickBuy(service, pkg.quantity)}
+                    onClick={() => onQuickBuy(service, pkg.quantity, pkg.id)}
                     className={`w-full py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
                       pkg.isPopular
                         ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/25'
@@ -689,7 +702,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                     }`}
                   >
                     <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
-                    <span>{service.category === 'smtp' ? `Order ${pkg.name} Now` : `Order ${pkg.quantity} Accounts Now`}</span>
+                    <span>{isReview ? `Order ${pkg.name} Now ($${pkg.price})` : service.category === 'smtp' ? `Order ${pkg.name} Now` : `Order ${pkg.quantity} Accounts Now`}</span>
                   </button>
 
                   <button
@@ -912,7 +925,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               unitPrice: variant.unitPrice,
               basePrice: +(variant.unitPrice * service.baseQuantity).toFixed(2)
             };
-            onQuickBuy(variantProduct, qty);
+            onQuickBuy(variantProduct, qty, variant.id);
           }}
           onAddToCartVariant={(variant, qty) => {
             const variantProduct: ServiceProduct = {
