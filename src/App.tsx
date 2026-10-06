@@ -327,6 +327,14 @@ export default function App() {
         pageTitle = 'PVA & Aged Gmail Accounts Catalog (USA, Global, 2008–2025) | BuyPvaGmail';
         pageDesc = 'Explore our verified inventory of USA PVA, 2008–2025 Aged Mix, Google Maps Review, and Google Ads media buying Gmail accounts with instant delivery.';
         pageUrl = 'https://buypvagmail.com/gmail';
+      } else if (currentView === 'smtp') {
+        pageTitle = 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail';
+        pageDesc = 'Buy pre-warmed high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated Relays). 50k to 200k monthly sending limits, clean IPs, and SPF/DKIM/DMARC configured.';
+        pageUrl = 'https://buypvagmail.com/smtp';
+      } else if (currentView === 'review') {
+        pageTitle = 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail';
+        pageDesc = 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.';
+        pageUrl = 'https://buypvagmail.com/review';
       } else if (currentView === 'pricing') {
         pageTitle = 'PVA Gmail Wholesale Pricing & Tiered Volume Discounts | BuyPvaGmail';
         pageDesc = 'Wholesale pricing tiers for marketing agencies and lead generators. Up to 30% volume discount on bulk orders of verified USA & aged Gmail accounts.';
@@ -447,11 +455,12 @@ export default function App() {
       if (currentView === 'service-detail') {
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
         const isSmtp = isSmtpProduct(product);
+        const isReview = isReviewProduct(product);
         breadcrumbItems.push({
           "@type": "ListItem",
           "position": 2,
-          "name": isSmtp ? "SMTP" : "Gmail",
-          "item": isSmtp ? "https://buypvagmail.com/smtp" : "https://buypvagmail.com/gmail"
+          "name": isReview ? "Review Accounts" : isSmtp ? "SMTP Accounts" : "Gmail",
+          "item": isReview ? "https://buypvagmail.com/review" : isSmtp ? "https://buypvagmail.com/smtp" : "https://buypvagmail.com/gmail"
         });
         breadcrumbItems.push({
           "@type": "ListItem",
@@ -465,6 +474,20 @@ export default function App() {
           "position": 2,
           "name": "Gmail Catalog",
           "item": "https://buypvagmail.com/gmail"
+        });
+      } else if (currentView === 'smtp') {
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": "SMTP Accounts",
+          "item": "https://buypvagmail.com/smtp"
+        });
+      } else if (currentView === 'review') {
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Review Accounts",
+          "item": "https://buypvagmail.com/review"
         });
       } else if (currentView === 'blog') {
         breadcrumbItems.push({
@@ -525,7 +548,9 @@ export default function App() {
           'aged-gmail-for-google-ads': 'AGED-GADS-PRO',
           'smtp-mailgun-accounts': 'BPG-SMTP-MAILGUN-01',
           'smtp-brevo-accounts': 'BPG-SMTP-BREVO-02',
-          'smtp-relay-services-account': 'BPG-SMTP-RELAY-03'
+          'smtp-relay-services-account': 'BPG-SMTP-RELAY-03',
+          'buy-google-reviews': 'BPG-GOOGLE-REVIEWS-01',
+          'buy-truatpilot-reviews': 'BPG-TRUSTPILOT-REVIEWS-02'
         };
         const sku = skuMap[product.id] || `BPG-${product.id.toUpperCase()}`;
 

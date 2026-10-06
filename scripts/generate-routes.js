@@ -24,6 +24,8 @@ const baseTemplate = fs.readFileSync(templatePath, 'utf8');
 const products = [
   {
     slug: 'usa-gmail-accounts',
+    canonicalSlug: 'buy-usa-gmail-accounts',
+    category: 'gmail',
     name: 'USA PVA Gmail Accounts (Real Carrier SIM)',
     title: 'Buy USA PVA Gmail Accounts (Real US SIM Verified) | BuyPvaGmail',
     description: '100% US SIM-verified PVA Gmail accounts on clean residential IPs (Verizon, AT&T, T-Mobile). Includes 2FA secret key, recovery email, and 7-day replacement guarantee.',
@@ -37,6 +39,8 @@ const products = [
   },
   {
     slug: 'pva-gmail-accounts',
+    canonicalSlug: 'buy-pva-gmail-accounts',
+    category: 'gmail',
     name: 'PVA Gmail Accounts (Global / Mixed)',
     title: 'Buy PVA Gmail Accounts (100% Phone Verified) | BuyPvaGmail',
     description: 'Global phone-verified PVA Gmail accounts created on unique residential IPs. Compatible with cold outreach, Instantly, Smartlead, and email marketing. Instant delivery.',
@@ -50,6 +54,8 @@ const products = [
   },
   {
     slug: 'new-gmail-accounts',
+    canonicalSlug: 'buy-new-gmail-accounts',
+    category: 'gmail',
     name: 'Fresh PVA Verified Gmail Accounts',
     title: 'Buy Fresh PVA Gmail Accounts (Brand New Verified) | BuyPvaGmail',
     description: 'Affordable, newly created phone-verified Gmail accounts on clean residential IP subnets. Perfect for standard outreach, social signups, and warmup sequences.',
@@ -63,6 +69,8 @@ const products = [
   },
   {
     slug: 'aged-mix-country-gmail',
+    canonicalSlug: 'buy-aged-mix-country-gmail',
+    category: 'gmail',
     name: 'Aged 2008–2025 Mix Country Gmail',
     title: 'Buy Aged Gmail Accounts (2008–2025 Old Accounts) | BuyPvaGmail',
     description: 'High-trust aged Gmail accounts created between 2008 and 2025. Bypass security checkpoints, maximum inbox deliverability, with full 2FA key and recovery email included.',
@@ -76,6 +84,8 @@ const products = [
   },
   {
     slug: 'aged-gmail-for-reviews',
+    canonicalSlug: 'buy-aged-gmail-for-reviews',
+    category: 'gmail',
     name: 'Aged Gmail for Google Maps Reviews',
     title: 'Buy Aged Gmail for Google Maps Reviews (Local Guide) | BuyPvaGmail',
     description: 'Aged Gmail accounts optimized for Google Business Profile and Maps reviews. High stick rate, realistic user activity history, and geo-targeted residential IP setup.',
@@ -89,6 +99,8 @@ const products = [
   },
   {
     slug: 'aged-gmail-for-google-ads',
+    canonicalSlug: 'buy-aged-gmail-for-google-ads',
+    category: 'gmail',
     name: 'Aged Gmail for Google Ads & Media Buying',
     title: 'Buy Aged Gmail for Google Ads & Media Buying | BuyPvaGmail',
     description: 'High-trust aged accounts prepared for Google Ads campaigns, billing setup, and media buying. Reduces immediate suspension risk with aged historical trust score.',
@@ -102,6 +114,8 @@ const products = [
   },
   {
     slug: 'smtp-mailgun-accounts',
+    canonicalSlug: 'buy-smtp-mailgun-accounts',
+    category: 'smtp',
     name: 'Buy SMTP Mailgun Accounts (50k-200k/mo)',
     title: 'Buy SMTP Mailgun Accounts (50k-200k/mo Warmed Limit) | BuyPvaGmail',
     description: 'Fully warmed Mailgun SMTP accounts with authentic DNS configuration (SPF, DKIM, DMARC, MX). Available in 50k, 100k, and 200k monthly sending limits.',
@@ -115,6 +129,8 @@ const products = [
   },
   {
     slug: 'smtp-brevo-accounts',
+    canonicalSlug: 'buy-smtp-brevo-accounts',
+    category: 'smtp',
     name: 'Buy SMTP Brevo Accounts (50k-200k/mo)',
     title: 'Buy SMTP Brevo Accounts (50k-200k/mo Sending Limit) | BuyPvaGmail',
     description: 'Pre-activated Brevo (formerly Sendinblue) SMTP accounts ready for API and relay sending. High reputation sender score with dedicated IP routing.',
@@ -128,6 +144,8 @@ const products = [
   },
   {
     slug: 'smtp-relay-services-account',
+    canonicalSlug: 'buy-smtp-relay-services-account',
+    category: 'smtp',
     name: 'Buy Dedicated SMTP Relay Services Account',
     title: 'Buy Dedicated SMTP Relay Services Account | BuyPvaGmail',
     description: 'Enterprise-grade dedicated SMTP relay service with custom rDNS, clean /24 IP blocks, and unrestricted high-volume transaction deliverability.',
@@ -138,11 +156,104 @@ const products = [
     image: 'https://buypvagmail.com/images/products/smtp-relay-services-account.png',
     ratingValue: '4.97',
     reviewCount: '119'
+  },
+  {
+    slug: 'buy-google-reviews',
+    canonicalSlug: 'buy-google-reviews',
+    category: 'review',
+    name: 'Buy Google Reviews (Local Guide Verified)',
+    title: 'Buy Google Reviews (Local Guide Sticky Reviews) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Business reviews from aged Local Guide profiles on geo-targeted residential IPs. Non-drop guarantee, natural pacing, and 7-day replacement warranty.',
+    price: '27.00',
+    minPrice: '27.00',
+    maxPrice: '35.00',
+    sku: 'BPG-GOOGLE-REVIEWS-01',
+    image: 'https://buypvagmail.com/images/products/buy-google-reviews.png',
+    ratingValue: '4.98',
+    reviewCount: '340'
+  },
+  {
+    slug: 'buy-truatpilot-reviews',
+    canonicalSlug: 'buy-truatpilot-reviews',
+    category: 'review',
+    name: 'Buy Truatpilot Reviews (Real Verified Profiles)',
+    title: 'Buy Truatpilot Reviews (Verified Sticky Reviews) | BuyPvaGmail',
+    description: 'Buy authentic Trustpilot & Truatpilot reviews from established profiles on unique residential IPs. Guaranteed non-drop stick rate and 7-day warranty.',
+    price: '39.00',
+    minPrice: '39.00',
+    maxPrice: '45.00',
+    sku: 'BPG-TRUSTPILOT-REVIEWS-02',
+    image: 'https://buypvagmail.com/images/products/buy-truatpilot-reviews.png',
+    ratingValue: '4.96',
+    reviewCount: '285'
   }
 ];
 
 // Blog articles matching src/data/blogData.ts
 const blogArticles = [
+  {
+    slug: 'how-to-buy-usa-gmail-accounts-cold-outreach-guide',
+    title: 'How to Buy USA Gmail Accounts & Scale Cold Outreach in 2026: 99.4% Deliverability Protocol | BuyPvaGmail',
+    description: 'The authoritative agency blueprint on buying authentic USA residential ISP Gmail accounts created with physical SIMs to maintain 99.4% primary inbox deliverability in Instantly and Smartlead.',
+    category: 'Cold Outreach',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'why-buy-pva-gmail-accounts-sim-verification-guide',
+    title: 'Why You Must Buy PVA Gmail Accounts: Real Carrier SIM Verification vs Virtual VoIP Flaws | BuyPvaGmail',
+    description: 'Understand the critical difference between real carrier SIM phone verification and disposable virtual numbers for buying PVA Gmail accounts.',
+    category: 'PVA Verification',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-new-gmail-accounts-fresh-pva-bulk-guide',
+    title: 'Buy New Gmail Accounts in Bulk: High-Volume Account Provisioning & Setup Architecture | BuyPvaGmail',
+    description: 'Architecting high-volume outbound campaigns with fresh phone-verified Gmail accounts. Batch delivery formats, API integration, and automated warming.',
+    category: 'Bulk Accounts',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-aged-mix-country-gmail-vintage-authority-guide',
+    title: 'Buy Aged Mix Country Gmail Accounts (2008–2025): Algorithmic Trust & Inbox Superiority | BuyPvaGmail',
+    description: 'Deep dive into vintage Gmail trust metrics. Why 2008–2025 aged accounts bypass spam heuristics and deliver maximum primary inbox placement.',
+    category: 'Aged Accounts',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-aged-gmail-accounts-for-reviews-gmb-guide',
+    title: 'Buy Aged Gmail Accounts for Google Maps Reviews: Local Guide Stick Strategy | BuyPvaGmail',
+    description: 'How to use aged Local Guide accounts and residential proxies to post sticky, permanent Google Business Profile reviews without algorithmic drops.',
+    category: 'Google Maps Reviews',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-aged-gmail-accounts-for-google-ads-ppc-guide',
+    title: 'Buy Aged Gmail Accounts for Google Ads: High-Threshold Setup & Agency Media Buying | BuyPvaGmail',
+    description: 'Enterprise guide to scaling PPC campaigns using aged Gmail accounts with established Google billing trust and high spend limits.',
+    category: 'Google Ads & PPC',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-smtp-mailgun-accounts-cold-outreach-guide',
+    title: 'Buy SMTP Mailgun Accounts (50k–200k/mo): Pre-Warmed Infrastructure & Cold Outreach | BuyPvaGmail',
+    description: 'Deploy pre-warmed Mailgun SMTP sending accounts with verified DNS records (SPF, DKIM, DMARC) for massive cold outreach deliverability.',
+    category: 'SMTP Infrastructure',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-smtp-brevo-accounts-sending-relay-guide',
+    title: 'Buy SMTP Brevo Accounts (50k–200k/mo): Clean Relay IP Architecture & API Integration | BuyPvaGmail',
+    description: 'Scaling transactional and marketing email volume with pre-activated Brevo SMTP accounts. Dedicated clean IPs and verified sender reputation.',
+    category: 'SMTP Relays',
+    datePublished: '2026-09-28'
+  },
+  {
+    slug: 'buy-smtp-relay-services-account-dedicated-mta-guide',
+    title: 'Buy Dedicated SMTP Relay Services Account: High-Volume Enterprise Email MTA | BuyPvaGmail',
+    description: 'Dedicated enterprise SMTP relay infrastructure with custom rDNS, clean IP subnets, and unrestricted sending throughput for agencies.',
+    category: 'Dedicated Relays',
+    datePublished: '2026-09-28'
+  },
   {
     slug: 'warming-up-aged-gmail-accounts-cold-outreach',
     title: 'Aged Gmail Warmup Protocol for Cold Outreach (14-Day SOP) | BuyPvaGmail',
@@ -349,6 +460,48 @@ const staticPages = [
     description: 'Complete HTML sitemap directory of BuyPvaGmail. Easily navigate all PVA products, aged vintage tiers, technical guides, legal policies, and tools.',
     heading: 'HTML Sitemap & Directory',
     subheading: 'Full index of all public routes, products, knowledge base articles, and XML sitemaps.'
+  },
+  {
+    path: 'review',
+    title: 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.',
+    heading: 'Buy Google & Trustpilot Reviews',
+    subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
+  },
+  {
+    path: 'reviews',
+    title: 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.',
+    heading: 'Buy Google & Trustpilot Reviews',
+    subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
+  },
+  {
+    path: 'review-services',
+    title: 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.',
+    heading: 'Buy Google & Trustpilot Reviews',
+    subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
+  },
+  {
+    path: 'category/reviews',
+    title: 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.',
+    heading: 'Buy Google & Trustpilot Reviews',
+    subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
+  },
+  {
+    path: 'category/gmail',
+    title: 'Verified PVA & Aged Gmail Accounts Catalog | BuyPvaGmail',
+    description: 'Browse our complete catalog of phone-verified (PVA) and aged Gmail accounts (2008–2025). USA carrier SIM, global mixed, Google Ads, and Maps reviews profiles.',
+    heading: 'Verified PVA & Aged Gmail Accounts Catalog',
+    subheading: 'Explore our full inventory of verified carrier SIM and historical aged accounts with instant auto-dispatch and 7-day replacement warranty.'
+  },
+  {
+    path: 'category/smtp',
+    title: 'Buy SMTP Accounts (Mailgun, Brevo, Dedicated Relay) | 50k-200k/mo - BuyPvaGmail',
+    description: 'Buy verified high-deliverability SMTP accounts (Mailgun, Brevo & Dedicated SMTP Relays). 50k to 200k monthly sending limits, pre-warmed clean IPs, SPF/DKIM/DMARC configured.',
+    heading: 'Buy SMTP Accounts (Mailgun, Brevo & Dedicated Relays)',
+    subheading: 'Premium pre-warmed SMTP infrastructure with dedicated clean IPs, authenticated DNS records (SPF, DKIM, DMARC), and 50k to 200k monthly sending limits.'
   }
 ];
 
@@ -469,16 +622,12 @@ for (const page of staticPages) {
 
 // 2. Generate Product Service Pages with Compliant Product & Merchant Listings Schema
 for (const product of products) {
-  const gmailProductDir = path.join(distDir, 'gmail', product.slug);
-  fs.mkdirSync(gmailProductDir, { recursive: true });
+  const cat = product.category || (product.slug.includes('smtp') ? 'smtp' : product.slug.includes('review') ? 'review' : 'gmail');
+  const canonicalSlug = product.canonicalSlug || product.slug;
+  const canonical = `https://buypvagmail.com/${cat}/${canonicalSlug}/`;
 
-  const legacyProductDir = path.join(distDir, 'services', product.slug);
-  fs.mkdirSync(legacyProductDir, { recursive: true });
-
-  const smtpProductDir = path.join(distDir, 'smtp', product.slug);
-  fs.mkdirSync(smtpProductDir, { recursive: true });
-
-  const canonical = `https://buypvagmail.com/gmail/${product.slug}`;
+  const categoryLabel = cat === 'smtp' ? 'SMTP Accounts' : cat === 'review' ? 'Review Services' : 'Gmail Accounts';
+  const categoryPath = `https://buypvagmail.com/${cat}`;
 
   const bodyContent = `
     <div id="initial-page-loader" style="min-height:100vh;background:#020617;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;padding:24px;">
@@ -487,6 +636,8 @@ for (const product of products) {
         <nav style="display:flex;gap:16px;font-size:14px;font-weight:600;">
           <a href="https://buypvagmail.com/" style="color:#94a3b8;text-decoration:none;">Home</a>
           <a href="https://buypvagmail.com/gmail" style="color:#94a3b8;text-decoration:none;">Gmail</a>
+          <a href="https://buypvagmail.com/smtp" style="color:#94a3b8;text-decoration:none;">SMTP</a>
+          <a href="https://buypvagmail.com/review" style="color:#94a3b8;text-decoration:none;">Reviews</a>
           <a href="https://buypvagmail.com/pricing" style="color:#94a3b8;text-decoration:none;">Pricing</a>
           <a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">FAQ</a>
           <a href="https://buypvagmail.com/warranty" style="color:#94a3b8;text-decoration:none;">7-Day Warranty</a>
@@ -495,7 +646,7 @@ for (const product of products) {
       <main style="max-width:1200px;margin:0 auto;">
         <nav style="font-size:12px;color:#94a3b8;margin-bottom:16px;">
           <a href="https://buypvagmail.com/" style="color:#60a5fa;text-decoration:none;">Home</a> / 
-          <a href="https://buypvagmail.com/gmail" style="color:#60a5fa;text-decoration:none;">Gmail</a> / 
+          <a href="${categoryPath}" style="color:#60a5fa;text-decoration:none;">${categoryLabel}</a> / 
           <span>${product.name}</span>
         </nav>
         <h1 style="font-size:32px;font-weight:900;color:#ffffff;margin-bottom:12px;">${product.name}</h1>
@@ -503,10 +654,10 @@ for (const product of products) {
         <div style="background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
           <div>
             <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;">Starting Price</div>
-            <div style="font-size:28px;font-weight:900;color:#10b981;">$${product.price} <span style="font-size:14px;color:#94a3b8;font-weight:normal;">USD / account</span></div>
-            <div style="font-size:12px;color:#60a5fa;margin-top:4px;">✓ Real Carrier SIM Verified • 2FA TOTP Included • 7-Day Free Replacement</div>
+            <div style="font-size:28px;font-weight:900;color:#10b981;">$${product.price} <span style="font-size:14px;color:#94a3b8;font-weight:normal;">USD</span></div>
+            <div style="font-size:12px;color:#60a5fa;margin-top:4px;">✓ Instant Verification • Clean Residential IPs • 7-Day Free Replacement</div>
           </div>
-          <a href="https://buypvagmail.com/gmail/${product.slug}" style="display:inline-block;padding:12px 28px;background:#ef4444;color:#ffffff;border-radius:10px;text-decoration:none;font-weight:900;font-size:15px;">Configure Order &amp; Buy Now</a>
+          <a href="${canonical}" style="display:inline-block;padding:12px 28px;background:#ef4444;color:#ffffff;border-radius:10px;text-decoration:none;font-weight:900;font-size:15px;">Configure Order &amp; Buy Now</a>
         </div>
       </main>
     </div>`;
@@ -591,10 +742,27 @@ for (const product of products) {
     bodyContent
   });
 
-  fs.writeFileSync(path.join(gmailProductDir, 'index.html'), html, 'utf8');
-  fs.writeFileSync(path.join(legacyProductDir, 'index.html'), html, 'utf8');
-  fs.writeFileSync(path.join(smtpProductDir, 'index.html'), html, 'utf8');
-  generatedCount += 3;
+  // Collect target directories to output
+  const targetDirs = new Set();
+  targetDirs.add(path.join(distDir, cat, canonicalSlug));
+  targetDirs.add(path.join(distDir, cat, product.slug));
+  targetDirs.add(path.join(distDir, 'services', product.slug));
+  targetDirs.add(path.join(distDir, 'services', canonicalSlug));
+
+  if (cat === 'review') {
+    targetDirs.add(path.join(distDir, 'reviews', canonicalSlug));
+    targetDirs.add(path.join(distDir, 'reviews', product.slug));
+  } else if (cat === 'smtp') {
+    targetDirs.add(path.join(distDir, 'smtp', product.slug));
+  } else if (cat === 'gmail') {
+    targetDirs.add(path.join(distDir, 'gmail', product.slug));
+  }
+
+  for (const dir of targetDirs) {
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
+    generatedCount++;
+  }
 }
 
 // 3. Generate Technical Blog Guides

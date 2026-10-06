@@ -67,6 +67,7 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
     { url: 'https://buypvagmail.com/', category: 'pages', name: 'Homepage (Live Pricing & Stock)', priority: '1.0', changefreq: 'daily', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/gmail', category: 'products', name: 'Gmail Catalog (All Types)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/smtp', category: 'products', name: 'SMTP Catalog (Mailgun, Brevo, Relay)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/review', category: 'products', name: 'Review Services Catalog (Google & Trustpilot)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/pricing', category: 'pages', name: 'Wholesale Tiered Pricing', priority: '0.85', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/instant-indexing', category: 'pages', name: 'Rank Math Instant Indexing Console', priority: '0.85', changefreq: 'weekly', sitemap: 'page-sitemap.xml' },
     { url: 'https://buypvagmail.com/blog', category: 'guides', name: 'Agency Warmup Guides & SOPs', priority: '0.90', changefreq: 'daily', sitemap: 'post-sitemap.xml' },
@@ -90,6 +91,10 @@ export const InstantIndexingPage: React.FC<InstantIndexingPageProps> = ({
     { url: 'https://buypvagmail.com/smtp/buy-smtp-mailgun-accounts/', category: 'products', name: 'Buy SMTP Mailgun Accounts (50k - 200k/mo)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/smtp/buy-smtp-brevo-accounts/', category: 'products', name: 'Buy SMTP Brevo Accounts (50k - 200k/mo)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
     { url: 'https://buypvagmail.com/smtp/buy-smtp-relay-services-account/', category: 'products', name: 'Buy SMTP Relay Services Account (50k - 200k/mo)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+
+    // Real Online Review Services (Canonical /review/buy-.../ URLs)
+    { url: 'https://buypvagmail.com/review/buy-google-reviews/', category: 'products', name: 'Buy Google Reviews (Local Guide Sticky Reviews)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
+    { url: 'https://buypvagmail.com/review/buy-truatpilot-reviews/', category: 'products', name: 'Buy Truatpilot Reviews (Real Verified Profiles)', priority: '0.95', changefreq: 'daily', sitemap: 'product-sitemap.xml' },
 
     // 18 Vintage Year Tiers (2008 to 2025)
     ...[2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025].map(year => ({

@@ -22,10 +22,13 @@ const fs = require('fs');
 
 // Master List of BuyPvaGmail URLs to Instantly Index
 const URLS_TO_INDEX = [
-  // Core Landing & Service Catalog Pages
+  // Core Landing & Category Pages
   'https://buypvagmail.com/',
   'https://buypvagmail.com/gmail',
+  'https://buypvagmail.com/smtp',
+  'https://buypvagmail.com/review',
   'https://buypvagmail.com/pricing',
+  'https://buypvagmail.com/instant-indexing',
   'https://buypvagmail.com/blog',
   'https://buypvagmail.com/faq',
   'https://buypvagmail.com/about',
@@ -35,15 +38,53 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/privacy',
   'https://buypvagmail.com/sitemap',
 
-  // Product Service Pages
-  'https://buypvagmail.com/gmail/usa-gmail-accounts',
-  'https://buypvagmail.com/gmail/pva-gmail-accounts',
-  'https://buypvagmail.com/gmail/new-gmail-accounts',
-  'https://buypvagmail.com/gmail/aged-mix-country-gmail',
-  'https://buypvagmail.com/gmail/aged-gmail-for-reviews',
-  'https://buypvagmail.com/gmail/aged-gmail-for-google-ads',
+  // Core Gmail Products
+  'https://buypvagmail.com/gmail/buy-usa-gmail-accounts/',
+  'https://buypvagmail.com/gmail/buy-pva-gmail-accounts/',
+  'https://buypvagmail.com/gmail/buy-new-gmail-accounts/',
+  'https://buypvagmail.com/gmail/buy-aged-mix-country-gmail/',
+  'https://buypvagmail.com/gmail/buy-aged-gmail-for-reviews/',
+  'https://buypvagmail.com/gmail/buy-aged-gmail-for-google-ads/',
 
-  // 6 Technical Warmup Guides & Agency SOPs
+  // Enterprise SMTP Sending Products
+  'https://buypvagmail.com/smtp/buy-smtp-mailgun-accounts/',
+  'https://buypvagmail.com/smtp/buy-smtp-brevo-accounts/',
+  'https://buypvagmail.com/smtp/buy-smtp-relay-services-account/',
+
+  // Online Review Services Products
+  'https://buypvagmail.com/review/buy-google-reviews/',
+  'https://buypvagmail.com/review/buy-truatpilot-reviews/',
+
+  // 18 Vintage Year Tiers
+  'https://buypvagmail.com/gmail/aged-2008-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2009-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2010-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2011-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2012-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2013-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2014-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2015-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2016-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2017-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2018-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2019-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2020-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2021-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2022-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2023-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2024-gmail-accounts',
+  'https://buypvagmail.com/gmail/aged-2025-gmail-accounts',
+
+  // All 15 Product & Technical Warmup Guides
+  'https://buypvagmail.com/blog/how-to-buy-usa-gmail-accounts-cold-outreach-guide',
+  'https://buypvagmail.com/blog/why-buy-pva-gmail-accounts-sim-verification-guide',
+  'https://buypvagmail.com/blog/buy-new-gmail-accounts-fresh-pva-bulk-guide',
+  'https://buypvagmail.com/blog/buy-aged-mix-country-gmail-vintage-authority-guide',
+  'https://buypvagmail.com/blog/buy-aged-gmail-accounts-for-reviews-gmb-guide',
+  'https://buypvagmail.com/blog/buy-aged-gmail-accounts-for-google-ads-ppc-guide',
+  'https://buypvagmail.com/blog/buy-smtp-mailgun-accounts-cold-outreach-guide',
+  'https://buypvagmail.com/blog/buy-smtp-brevo-accounts-sending-relay-guide',
+  'https://buypvagmail.com/blog/buy-smtp-relay-services-account-dedicated-mta-guide',
   'https://buypvagmail.com/blog/warming-up-aged-gmail-accounts-cold-outreach',
   'https://buypvagmail.com/blog/safe-login-multiple-gmails-antidetect-browsers',
   'https://buypvagmail.com/blog/google-ads-aged-account-warmup-guide',

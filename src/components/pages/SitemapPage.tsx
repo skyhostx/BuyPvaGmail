@@ -21,7 +21,8 @@ import {
   Headphones,
   Calendar,
   Layers,
-  Sparkles
+  Sparkles,
+  Star
 } from 'lucide-react';
 import { detailedServicesData, VINTAGE_YEAR_TIERS } from '../../data/servicesData';
 import { blogGuides } from '../../data/blogData';
@@ -77,6 +78,16 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
       view: 'smtp' as AppView,
       desc: 'Enterprise Mailgun, Brevo & Dedicated SMTP Relays (50k - 200k/mo) with pre-warmed IPs and verified SPF/DKIM/DMARC.',
       icon: Mail,
+      priority: '0.95',
+      changefreq: 'Daily'
+    },
+    { 
+      title: 'Review Services Category', 
+      url: 'https://buypvagmail.com/review', 
+      path: '/review', 
+      view: 'review' as AppView,
+      desc: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts.',
+      icon: Star,
       priority: '0.95',
       changefreq: 'Daily'
     },

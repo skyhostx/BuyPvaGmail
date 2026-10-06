@@ -443,6 +443,27 @@ export const Footer: React.FC<FooterProps> = ({
             >
               Warranty Guidelines
             </a>
+            <span className="text-slate-700">•</span>
+            <a 
+              href="/sitemap"
+              onClick={(e) => {
+                handleLinkClick(e, () => {
+                  if (onNavigateToPage) onNavigateToPage('sitemap');
+                });
+              }} 
+              className="hover:text-white transition-colors cursor-pointer font-medium text-blue-400"
+            >
+              HTML Sitemap
+            </a>
+            <span className="text-slate-700">•</span>
+            <a 
+              href="/sitemap_index.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors cursor-pointer font-medium text-emerald-400"
+            >
+              XML Sitemap
+            </a>
             <button
               onClick={scrollToTop}
               className="ml-2 p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-800 transition-colors cursor-pointer flex items-center gap-1"
