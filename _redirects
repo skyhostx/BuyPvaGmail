@@ -1,0 +1,14 @@
+# 301 Permanent Redirects for Clean Canonical Structure
+https://www.buypvagmail.com/* https://buypvagmail.com/:splat 301!
+/reviews /review 301
+/reviews/ /review 301
+/services /gmail 301
+/services/ /gmail 301
+/services-catalog /gmail 301
+/smtp-category /smtp 301
+/smtp-services /smtp 301
+/about-us /about 301
+/privacy-policy /privacy 301
+/terms-of-service /terms 301
+/warranty-guidelines /warranty 301
+/html-sitemap /sitemap 301

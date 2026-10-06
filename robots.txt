@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+Allow: /assets/
+Allow: /images/
+Allow: /*.css$
+Allow: /*.js$
 Disallow: /api/
 Disallow: /checkout
 Disallow: /cart
@@ -8,11 +12,11 @@ Disallow: /dashboard
 Disallow: /admin
 
 # Primary Sitemaps for Search Consoles
+Sitemap: https://buypvagmail.com/sitemap.xml
 Sitemap: https://buypvagmail.com/sitemap_index.xml
 Sitemap: https://buypvagmail.com/product-sitemap.xml
 Sitemap: https://buypvagmail.com/post-sitemap.xml
 Sitemap: https://buypvagmail.com/page-sitemap.xml
-Sitemap: https://buypvagmail.com/sitemap.xml
 
 # Search Engine Bot Rules
 User-agent: Googlebot

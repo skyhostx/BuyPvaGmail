@@ -1,0 +1,28 @@
+# Cloudflare Pages & Netlify HTTP Response Headers
+/*
+  X-Robots-Tag: all
+  X-Content-Type-Options: nosniff
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  X-Robots-Tag: all
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: all
+
+/sitemap_index.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: all
+
+/product-sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: all
+
+/page-sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: all
+
+/post-sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: all
