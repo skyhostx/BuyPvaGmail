@@ -94,6 +94,9 @@ export function isSmtpProduct(idOrProduct: string | { id: string; category?: str
 export function getServiceIdFromSlugOrId(slugOrId: string): string {
   if (!slugOrId) return 'usa-gmail-accounts';
   const clean = slugOrId.replace(/\/+$/, '').trim();
+  if (/^(buy-)?aged-\d{4}-gmail(-accounts)?$/.test(clean)) {
+    return 'aged-mix-country-gmail';
+  }
   return SLUG_TO_ID_MAP[clean] || clean;
 }
 

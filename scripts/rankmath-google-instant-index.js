@@ -27,6 +27,7 @@ const URLS_TO_INDEX = [
   'https://buypvagmail.com/gmail',
   'https://buypvagmail.com/smtp',
   'https://buypvagmail.com/review',
+  'https://buypvagmail.com/reviews',
   'https://buypvagmail.com/pricing',
   'https://buypvagmail.com/instant-indexing',
   'https://buypvagmail.com/blog',

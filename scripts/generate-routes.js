@@ -490,6 +490,13 @@ const staticPages = [
     subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
   },
   {
+    path: 'category/review',
+    title: 'Buy Google & Trustpilot Reviews (Local Guide & Verified Accounts) | BuyPvaGmail',
+    description: 'Buy sticky Google Maps and Trustpilot reviews from aged Local Guide profiles and verified accounts. Guaranteed high stick rate and 7-day replacement warranty.',
+    heading: 'Buy Google & Trustpilot Reviews',
+    subheading: 'Authentic non-drop reviews from real aged Local Guide accounts and verified customer profiles.'
+  },
+  {
     path: 'category/gmail',
     title: 'Verified PVA & Aged Gmail Accounts Catalog | BuyPvaGmail',
     description: 'Browse our complete catalog of phone-verified (PVA) and aged Gmail accounts (2008–2025). USA carrier SIM, global mixed, Google Ads, and Maps reviews profiles.',
@@ -550,6 +557,76 @@ function generateHtml(options) {
   return html;
 }
 
+function renderSiteHeader() {
+  return `
+      <header style="max-width:1200px;margin:0 auto 32px auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #1e293b;padding-bottom:16px;">
+        <a href="https://buypvagmail.com/" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:900;">BuyPva<span style="color:#ef4444;">Gmail</span></a>
+        <nav style="display:flex;flex-wrap:wrap;gap:16px;font-size:14px;font-weight:600;">
+          <a href="https://buypvagmail.com/" style="color:#94a3b8;text-decoration:none;">Home</a>
+          <a href="https://buypvagmail.com/gmail" style="color:#94a3b8;text-decoration:none;">Gmail Accounts</a>
+          <a href="https://buypvagmail.com/smtp" style="color:#94a3b8;text-decoration:none;">SMTP Relays</a>
+          <a href="https://buypvagmail.com/review" style="color:#94a3b8;text-decoration:none;">Review Services</a>
+          <a href="https://buypvagmail.com/pricing" style="color:#94a3b8;text-decoration:none;">Wholesale Pricing</a>
+          <a href="https://buypvagmail.com/blog" style="color:#94a3b8;text-decoration:none;">Warmup Guides</a>
+          <a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">FAQ</a>
+          <a href="https://buypvagmail.com/warranty" style="color:#94a3b8;text-decoration:none;">7-Day Warranty</a>
+          <a href="https://buypvagmail.com/sitemap" style="color:#94a3b8;text-decoration:none;">Sitemap</a>
+        </nav>
+      </header>`;
+}
+
+function renderSiteFooter() {
+  return `
+      <footer style="max-width:1200px;margin:50px auto 0 auto;padding-top:32px;border-top:1px solid #1e293b;font-size:13px;color:#94a3b8;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-bottom:32px;">
+          <div>
+            <h3 style="color:#ffffff;font-size:14px;font-weight:700;margin-bottom:12px;">Gmail Accounts</h3>
+            <ul style="list-style:none;padding:0;margin:0;line-height:2;">
+              <li><a href="https://buypvagmail.com/gmail/buy-usa-gmail-accounts/" style="color:#94a3b8;text-decoration:none;">USA Gmail Accounts</a></li>
+              <li><a href="https://buypvagmail.com/gmail/buy-pva-gmail-accounts/" style="color:#94a3b8;text-decoration:none;">PVA Gmail Accounts</a></li>
+              <li><a href="https://buypvagmail.com/gmail/buy-new-gmail-accounts/" style="color:#94a3b8;text-decoration:none;">New Fresh Gmail Accounts</a></li>
+              <li><a href="https://buypvagmail.com/gmail/buy-aged-mix-country-gmail/" style="color:#94a3b8;text-decoration:none;">Aged Mix Country Gmail</a></li>
+              <li><a href="https://buypvagmail.com/gmail/buy-aged-gmail-for-reviews/" style="color:#94a3b8;text-decoration:none;">Aged Gmail For Reviews</a></li>
+              <li><a href="https://buypvagmail.com/gmail/buy-aged-gmail-for-google-ads/" style="color:#94a3b8;text-decoration:none;">Aged Gmail For Google Ads</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color:#ffffff;font-size:14px;font-weight:700;margin-bottom:12px;">SMTP &amp; Review Services</h3>
+            <ul style="list-style:none;padding:0;margin:0;line-height:2;">
+              <li><a href="https://buypvagmail.com/smtp/buy-smtp-mailgun-accounts/" style="color:#94a3b8;text-decoration:none;">Mailgun SMTP Accounts</a></li>
+              <li><a href="https://buypvagmail.com/smtp/buy-smtp-brevo-accounts/" style="color:#94a3b8;text-decoration:none;">Brevo SMTP Accounts</a></li>
+              <li><a href="https://buypvagmail.com/smtp/buy-smtp-relay-services-account/" style="color:#94a3b8;text-decoration:none;">Dedicated SMTP Relays</a></li>
+              <li><a href="https://buypvagmail.com/review/buy-google-reviews/" style="color:#94a3b8;text-decoration:none;">Buy Google Reviews</a></li>
+              <li><a href="https://buypvagmail.com/review/buy-truatpilot-reviews/" style="color:#94a3b8;text-decoration:none;">Buy Trustpilot Reviews</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color:#ffffff;font-size:14px;font-weight:700;margin-bottom:12px;">Resources &amp; Support</h3>
+            <ul style="list-style:none;padding:0;margin:0;line-height:2;">
+              <li><a href="https://buypvagmail.com/pricing" style="color:#94a3b8;text-decoration:none;">Wholesale Tiered Pricing</a></li>
+              <li><a href="https://buypvagmail.com/blog" style="color:#94a3b8;text-decoration:none;">Warmup Knowledge Base</a></li>
+              <li><a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">Frequently Asked Questions</a></li>
+              <li><a href="https://buypvagmail.com/about" style="color:#94a3b8;text-decoration:none;">About BuyPvaGmail</a></li>
+              <li><a href="https://buypvagmail.com/contact" style="color:#94a3b8;text-decoration:none;">24/7 Live Support Desk</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color:#ffffff;font-size:14px;font-weight:700;margin-bottom:12px;">Trust, Policy &amp; Sitemaps</h3>
+            <ul style="list-style:none;padding:0;margin:0;line-height:2;">
+              <li><a href="https://buypvagmail.com/warranty" style="color:#94a3b8;text-decoration:none;">7-Day Replacement Policy</a></li>
+              <li><a href="https://buypvagmail.com/terms" style="color:#94a3b8;text-decoration:none;">Terms of Service</a></li>
+              <li><a href="https://buypvagmail.com/privacy" style="color:#94a3b8;text-decoration:none;">Privacy Policy</a></li>
+              <li><a href="https://buypvagmail.com/sitemap" style="color:#94a3b8;text-decoration:none;">HTML Sitemap</a></li>
+              <li><a href="https://buypvagmail.com/sitemap_index.xml" style="color:#94a3b8;text-decoration:none;">XML Sitemap Index</a></li>
+            </ul>
+          </div>
+        </div>
+        <div style="border-top:1px solid #1e293b;padding-top:16px;text-align:center;font-size:12px;color:#64748b;">
+          &copy; 2026 BuyPvaGmail.com. All rights reserved. 100% Phone Verified &amp; Aged Accounts Marketplace.
+        </div>
+      </footer>`;
+}
+
 console.log('🚀 Generating pre-rendered static HTML routes for SEO & Instant Indexing...');
 
 let generatedCount = 0;
@@ -562,18 +639,7 @@ for (const page of staticPages) {
   const canonical = `https://buypvagmail.com/${page.path}`;
   const bodyContent = `
     <div id="initial-page-loader" style="min-height:100vh;background:#020617;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;padding:24px;">
-      <header style="max-width:1200px;margin:0 auto 32px auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;padding-bottom:16px;">
-        <a href="https://buypvagmail.com/" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:900;">BuyPva<span style="color:#ef4444;">Gmail</span></a>
-        <nav style="display:flex;gap:16px;font-size:14px;font-weight:600;">
-          <a href="https://buypvagmail.com/" style="color:#94a3b8;text-decoration:none;">Home</a>
-          <a href="https://buypvagmail.com/gmail" style="color:#94a3b8;text-decoration:none;">Gmail Catalog</a>
-          <a href="https://buypvagmail.com/pricing" style="color:#94a3b8;text-decoration:none;">Wholesale Pricing</a>
-          <a href="https://buypvagmail.com/blog" style="color:#94a3b8;text-decoration:none;">Warmup Guides</a>
-          <a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">FAQ</a>
-          <a href="https://buypvagmail.com/contact" style="color:#94a3b8;text-decoration:none;">Contact</a>
-          <a href="https://buypvagmail.com/sitemap" style="color:#94a3b8;text-decoration:none;">Sitemap</a>
-        </nav>
-      </header>
+      ${renderSiteHeader()}
       <main style="max-width:1200px;margin:0 auto;">
         <h1 style="font-size:32px;font-weight:900;color:#ffffff;margin-bottom:12px;">${page.heading}</h1>
         <p style="font-size:16px;color:#94a3b8;line-height:1.6;margin-bottom:32px;">${page.subheading}</p>
@@ -584,6 +650,7 @@ for (const page of staticPages) {
           </div>
         </div>
       </main>
+      ${renderSiteFooter()}
     </div>`;
 
   const extraSchema = {
@@ -631,18 +698,7 @@ for (const product of products) {
 
   const bodyContent = `
     <div id="initial-page-loader" style="min-height:100vh;background:#020617;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;padding:24px;">
-      <header style="max-width:1200px;margin:0 auto 32px auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;padding-bottom:16px;">
-        <a href="https://buypvagmail.com/" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:900;">BuyPva<span style="color:#ef4444;">Gmail</span></a>
-        <nav style="display:flex;gap:16px;font-size:14px;font-weight:600;">
-          <a href="https://buypvagmail.com/" style="color:#94a3b8;text-decoration:none;">Home</a>
-          <a href="https://buypvagmail.com/gmail" style="color:#94a3b8;text-decoration:none;">Gmail</a>
-          <a href="https://buypvagmail.com/smtp" style="color:#94a3b8;text-decoration:none;">SMTP</a>
-          <a href="https://buypvagmail.com/review" style="color:#94a3b8;text-decoration:none;">Reviews</a>
-          <a href="https://buypvagmail.com/pricing" style="color:#94a3b8;text-decoration:none;">Pricing</a>
-          <a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">FAQ</a>
-          <a href="https://buypvagmail.com/warranty" style="color:#94a3b8;text-decoration:none;">7-Day Warranty</a>
-        </nav>
-      </header>
+      ${renderSiteHeader()}
       <main style="max-width:1200px;margin:0 auto;">
         <nav style="font-size:12px;color:#94a3b8;margin-bottom:16px;">
           <a href="https://buypvagmail.com/" style="color:#60a5fa;text-decoration:none;">Home</a> / 
@@ -660,6 +716,7 @@ for (const product of products) {
           <a href="${canonical}" style="display:inline-block;padding:12px 28px;background:#ef4444;color:#ffffff;border-radius:10px;text-decoration:none;font-weight:900;font-size:15px;">Configure Order &amp; Buy Now</a>
         </div>
       </main>
+      ${renderSiteFooter()}
     </div>`;
 
   const productSchema = {
@@ -748,6 +805,8 @@ for (const product of products) {
   targetDirs.add(path.join(distDir, cat, product.slug));
   targetDirs.add(path.join(distDir, 'services', product.slug));
   targetDirs.add(path.join(distDir, 'services', canonicalSlug));
+  targetDirs.add(path.join(distDir, canonicalSlug));
+  targetDirs.add(path.join(distDir, product.slug));
 
   if (cat === 'review') {
     targetDirs.add(path.join(distDir, 'reviews', canonicalSlug));
@@ -773,19 +832,14 @@ for (const article of blogArticles) {
   const guidesDir = path.join(distDir, 'guides', article.slug);
   fs.mkdirSync(guidesDir, { recursive: true });
 
+  const rootArticleDir = path.join(distDir, article.slug);
+  fs.mkdirSync(rootArticleDir, { recursive: true });
+
   const canonical = `https://buypvagmail.com/blog/${article.slug}`;
 
   const bodyContent = `
     <div id="initial-page-loader" style="min-height:100vh;background:#020617;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;padding:24px;">
-      <header style="max-width:1200px;margin:0 auto 32px auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;padding-bottom:16px;">
-        <a href="https://buypvagmail.com/" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:900;">BuyPva<span style="color:#ef4444;">Gmail</span></a>
-        <nav style="display:flex;gap:16px;font-size:14px;font-weight:600;">
-          <a href="https://buypvagmail.com/" style="color:#94a3b8;text-decoration:none;">Home</a>
-          <a href="https://buypvagmail.com/gmail" style="color:#94a3b8;text-decoration:none;">Gmail</a>
-          <a href="https://buypvagmail.com/blog" style="color:#94a3b8;text-decoration:none;">Warmup Guides</a>
-          <a href="https://buypvagmail.com/faq" style="color:#94a3b8;text-decoration:none;">FAQ</a>
-        </nav>
-      </header>
+      ${renderSiteHeader()}
       <main style="max-width:850px;margin:0 auto;">
         <nav style="font-size:12px;color:#94a3b8;margin-bottom:16px;">
           <a href="https://buypvagmail.com/" style="color:#60a5fa;text-decoration:none;">Home</a> / 
@@ -801,6 +855,7 @@ for (const article of blogArticles) {
           <a href="https://buypvagmail.com/gmail" style="display:inline-block;padding:10px 20px;background:#3b82f6;color:#ffffff;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">Explore Verified Accounts</a>
         </div>
       </main>
+      ${renderSiteFooter()}
     </div>`;
 
   const articleSchema = {
@@ -842,7 +897,8 @@ for (const article of blogArticles) {
 
   fs.writeFileSync(path.join(articleDir, 'index.html'), html, 'utf8');
   fs.writeFileSync(path.join(guidesDir, 'index.html'), html, 'utf8');
-  generatedCount += 2;
+  fs.writeFileSync(path.join(rootArticleDir, 'index.html'), html, 'utf8');
+  generatedCount += 3;
 }
 
 // 4. Handle Vintage Year URLs: Option B (Redirect/canonical to Aged Mix Country Gmail)
@@ -863,6 +919,25 @@ for (let yr = 2008; yr <= 2025; yr++) {
   fs.writeFileSync(path.join(vintageGmailDir, 'index.html'), vintageHtml, 'utf8');
   fs.writeFileSync(path.join(vintageServicesDir, 'index.html'), vintageHtml, 'utf8');
   generatedCount += 2;
+}
+
+// 5. Ensure 404 route is pre-rendered at /404/index.html
+const notFoundDir = path.join(distDir, '404');
+fs.mkdirSync(notFoundDir, { recursive: true });
+const notFoundSource = fs.existsSync(path.join(distDir, '404.html'))
+  ? fs.readFileSync(path.join(distDir, '404.html'), 'utf8')
+  : fs.readFileSync(path.join(rootDir, 'public', '404.html'), 'utf8');
+fs.writeFileSync(path.join(notFoundDir, 'index.html'), notFoundSource, 'utf8');
+generatedCount++;
+
+// 6. Ensure deployment files (.nojekyll, CNAME, _headers, _redirects, robots.txt, sitemaps) are in dist
+const publicDir = path.resolve(rootDir, 'public');
+for (const file of ['.nojekyll', 'CNAME', '_headers', '_redirects', 'robots.txt', 'sitemap.xml', 'sitemap_index.xml', 'product-sitemap.xml', 'page-sitemap.xml', 'post-sitemap.xml']) {
+  const src = path.join(publicDir, file);
+  const dest = path.join(distDir, file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, dest);
+  }
 }
 
 console.log(`✅ Successfully generated ${generatedCount} pre-rendered static HTML routes!`);

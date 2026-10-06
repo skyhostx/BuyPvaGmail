@@ -160,6 +160,21 @@ function getInitialRoute(): { view: AppView; serviceId: string; invalidPath?: st
       }
     }
 
+    // Direct root-level product or blog slug fallback (e.g. /buy-usa-gmail-accounts or /buy-google-reviews)
+    const singleSegment = effectivePath.replace(/^\//, '').replace(/\/+$/, '');
+    if (singleSegment && !singleSegment.includes('/')) {
+      const decodedSegment = decodeURIComponent(singleSegment);
+      const directMatchedId = getServiceIdFromSlugOrId(decodedSegment);
+      const directMatched = detailedServicesData.find((s) => s.id === directMatchedId || s.id === decodedSegment);
+      if (directMatched) {
+        return { view: 'service-detail', serviceId: directMatched.id };
+      }
+      const directGuide = blogGuides.find((g) => g.slug === decodedSegment);
+      if (directGuide) {
+        return { view: 'blog', serviceId: 'usa-gmail-accounts', articleSlug: directGuide.slug };
+      }
+    }
+
     if (viewParam === 'service-detail') {
       const matched = targetServiceId ? detailedServicesData.find((s) => s.id === targetServiceId) : detailedServicesData[0];
       return { view: 'service-detail', serviceId: (matched || detailedServicesData[0]).id };
