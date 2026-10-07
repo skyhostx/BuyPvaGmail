@@ -263,7 +263,7 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Home', id: 'home' },
     { label: 'Gmail', id: 'services' },
     { label: 'Smtp', id: 'smtp' },
-    { label: 'Review', id: 'review', badge: 'NEW' },
+    { label: 'Review', id: 'review' },
     { label: 'Pricing', id: 'pricing' },
     { label: 'About Us', id: 'about' },
     { label: 'Blog', id: 'blog' },
