@@ -121,3 +121,9 @@ export function getProductPath(idOrProduct: string | { id: string; category?: st
 export function getProductFullUrl(idOrProduct: string | { id: string; category?: string }): string {
   return `https://buypvagmail.com${getProductPath(idOrProduct)}`;
 }
+
+export function getProductSeoTitle(product: { name: string; id: string; category?: string }): string {
+  const isReview = isReviewProduct(product);
+  const suffix = isReview ? '100% Verified Sticky Review' : '100% Verified Account';
+  return `${product.name} - ${suffix}`;
+}

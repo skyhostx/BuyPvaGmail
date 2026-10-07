@@ -41,7 +41,7 @@ import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData, getServiceById } from './data/servicesData';
 import { blogGuides } from './data/blogData';
 import { calculateProductPricing, sanitizeCart } from './utils/pricing';
-import { isSmtpProduct, isReviewProduct, getServiceIdFromSlugOrId, getServiceSlug, getProductPath, getProductFullUrl } from './utils/urlHelpers';
+import { isSmtpProduct, isReviewProduct, getServiceIdFromSlugOrId, getServiceSlug, getProductPath, getProductFullUrl, getProductSeoTitle } from './utils/urlHelpers';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -335,7 +335,7 @@ export default function App() {
 
       if (currentView === 'service-detail') {
         const product = getServiceById(selectedServiceId) || detailedServicesData[0];
-        pageTitle = `${product.name} — Buy Verified Accounts | BuyPvaGmail`;
+        pageTitle = getProductSeoTitle(product);
         pageDesc = `${product.shortDesc} Unit price from $${product.unitPrice.toFixed(2)}. 100% real SIM verified, 2FA secret key, recovery email & 7-day free replacement guarantee.`;
         pageUrl = getProductFullUrl(product);
       } else if (currentView === 'services-catalog') {
