@@ -11,6 +11,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { GmailLogo } from './GmailLogo';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 export const LiveSupportWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,7 +116,7 @@ export const LiveSupportWidget: React.FC = () => {
           {/* Quick Direct Channel Links */}
           <div className="bg-slate-50 px-3 py-2 border-b border-slate-200 flex items-center justify-between gap-1 text-[11px]">
             <a
-              href="https://t.me/BuyPvaGmail"
+              href={TELEGRAM_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1 text-blue-600 font-bold hover:underline"
@@ -125,7 +126,7 @@ export const LiveSupportWidget: React.FC = () => {
             </a>
             <span className="text-slate-300">|</span>
             <a
-              href="https://wa.me/12534080049"
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1 text-emerald-600 font-bold hover:underline"

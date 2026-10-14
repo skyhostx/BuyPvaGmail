@@ -38,6 +38,7 @@ import { ServiceProduct, CartItem, OrderDetails } from '../types';
 import { detailedServicesData } from '../data/servicesData';
 import { calculateProductPricing } from '../utils/pricing';
 import { GmailLogo } from './GmailLogo';
+import { TELEGRAM_SUPPORT_URL } from '../utils/contactLinks';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -754,7 +755,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   };
 
   const getTelegramDeliveryUrl = () => {
-    if (!completedOrder) return 'https://t.me/BuyPvaGmail';
+    if (!completedOrder) return TELEGRAM_SUPPORT_URL;
 
     const itemsSummary = completedOrder.items && completedOrder.items.length > 0
       ? completedOrder.items.map((item) => `- ${item.packageName || `${item.quantity}x ${item.product?.name || 'Account'}`} ($${item.totalPrice} USD)`).join('\n')

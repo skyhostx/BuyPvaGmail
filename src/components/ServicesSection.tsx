@@ -21,6 +21,7 @@ import { ServiceProduct } from '../types';
 import { servicesData, quantityTiers } from '../data/servicesData';
 import { handleLinkClick } from '../utils/navigation';
 import { getProductPath } from '../utils/urlHelpers';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 interface ServicesSectionProps {
   onAddToCart: (product: ServiceProduct, quantity: number, packageId?: string, packageName?: string) => void;
@@ -571,7 +572,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
-              href="https://t.me/BuyPvaGmail"
+              href={TELEGRAM_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"
@@ -580,7 +581,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
               <span>Telegram: @BuyPvaGmail</span>
             </a>
             <a
-              href="https://wa.me/12534080049"
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"

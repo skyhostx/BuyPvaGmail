@@ -11,6 +11,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { faqData } from '../data/faqData';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 export const FaqSection: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>('faq-1');
@@ -104,7 +105,7 @@ export const FaqSection: React.FC = () => {
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
             <a
-              href="https://t.me/BuyPvaGmail"
+              href={TELEGRAM_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"
@@ -113,7 +114,7 @@ export const FaqSection: React.FC = () => {
               <span>Telegram: @BuyPvaGmail</span>
             </a>
             <a
-              href="https://wa.me/12534080049"
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"

@@ -1,4 +1,5 @@
 import React from 'react';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 export const FloatingSocialButtons: React.FC = () => {
   return (
@@ -6,7 +7,7 @@ export const FloatingSocialButtons: React.FC = () => {
       {/* Telegram Floating Button */}
       <a
         id="floating-telegram-btn"
-        href="https://t.me/BuyPvaGmail"
+        href={TELEGRAM_SUPPORT_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with 24/7 Support on Telegram"
@@ -41,7 +42,7 @@ export const FloatingSocialButtons: React.FC = () => {
       {/* WhatsApp Floating Button */}
       <a
         id="floating-whatsapp-btn"
-        href="https://wa.me/12534080049"
+        href={WHATSAPP_SUPPORT_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with 24/7 Support on WhatsApp"

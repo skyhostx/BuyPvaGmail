@@ -24,6 +24,7 @@ import { SiteIdentityLogo } from './GmailLogo';
 import { CartItem } from '../types';
 import { handleLinkClick } from '../utils/navigation';
 import { getProductPath } from '../utils/urlHelpers';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 interface HeaderProps {
   cart: CartItem[];
@@ -345,11 +346,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 text-slate-400 text-xs">
             <Headphones className="w-3.5 h-3.5 text-blue-400" />
             <span>24/7 Live Support: </span>
-            <a href="https://t.me/BuyPvaGmail" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold flex items-center gap-1">
+            <a href={TELEGRAM_SUPPORT_URL} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold flex items-center gap-1">
               @BuyPvaGmail
             </a>
             <span className="text-slate-600">|</span>
-            <a href="https://wa.me/12534080049" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
+            <a href={WHATSAPP_SUPPORT_URL} target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
               +1 (253) 408-0049
             </a>
           </div>

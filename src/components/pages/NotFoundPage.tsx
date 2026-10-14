@@ -17,6 +17,7 @@ import {
 import { detailedServicesData } from '../../data/servicesData';
 import { AppView } from '../../App';
 import { handleLinkClick } from '../../utils/navigation';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../../utils/contactLinks';
 
 interface NotFoundPageProps {
   onNavigateHome: () => void;
@@ -216,7 +217,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href="https://t.me/BuyPvaGmail"
+              href={TELEGRAM_SUPPORT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
@@ -225,7 +226,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
               <span>Telegram Desk</span>
             </a>
             <a
-              href="https://wa.me/12534080049"
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"

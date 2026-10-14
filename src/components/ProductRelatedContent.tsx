@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { DetailedServiceInfo } from '../data/servicesData';
 import { ProductVariant, ServiceProduct } from '../types';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 interface ProductRelatedContentProps {
   service: DetailedServiceInfo;
@@ -1305,7 +1306,7 @@ Usage: Paste this secret key directly into Google Authenticator, 1Password, Bitw
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <a
-            href="https://t.me/buypvagmail"
+            href={TELEGRAM_SUPPORT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-100 text-blue-700 font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer"
@@ -1314,7 +1315,7 @@ Usage: Paste this secret key directly into Google Authenticator, 1Password, Bitw
             <span>Chat on Telegram</span>
           </a>
           <a
-            href="https://wa.me/15551234567"
+            href={WHATSAPP_SUPPORT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer"

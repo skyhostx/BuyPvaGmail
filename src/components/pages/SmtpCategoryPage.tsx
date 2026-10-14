@@ -32,6 +32,7 @@ import { detailedServicesData, DetailedServiceInfo } from '../../data/servicesDa
 import { ServiceProduct } from '../../types';
 import { handleLinkClick } from '../../utils/navigation';
 import { getProductPath } from '../../utils/urlHelpers';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../../utils/contactLinks';
 
 interface SmtpCategoryPageProps {
   onSelectServicePage: (serviceId: string) => void;
@@ -794,7 +795,7 @@ export const SmtpCategoryPage: React.FC<SmtpCategoryPageProps> = ({
 
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <a 
-                href="https://t.me/BuyPvaGmail"
+                href={TELEGRAM_SUPPORT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white text-slate-900 hover:bg-slate-100 font-extrabold px-5 py-3 rounded-xl text-xs flex items-center gap-2 shadow-md transition-all cursor-pointer"
@@ -804,7 +805,7 @@ export const SmtpCategoryPage: React.FC<SmtpCategoryPageProps> = ({
               </a>
 
               <a 
-                href="https://wa.me/12534080049"
+                href={WHATSAPP_SUPPORT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-5 py-3 rounded-xl text-xs flex items-center gap-2 shadow-md transition-all cursor-pointer"

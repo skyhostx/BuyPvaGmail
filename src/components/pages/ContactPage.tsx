@@ -15,6 +15,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { handleLinkClick } from '../../utils/navigation';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../../utils/contactLinks';
 
 interface ContactPageProps {
   onNavigateHome?: () => void;
@@ -249,7 +250,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
               </p>
 
               <a
-                href="https://t.me/BuyPvaGmail"
+                href={TELEGRAM_SUPPORT_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
@@ -276,7 +277,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
               </p>
 
               <a
-                href="https://wa.me/12534080049"
+                href={WHATSAPP_SUPPORT_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"

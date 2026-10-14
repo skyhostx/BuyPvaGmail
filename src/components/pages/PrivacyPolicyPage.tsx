@@ -15,6 +15,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { handleLinkClick } from '../../utils/navigation';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../../utils/contactLinks';
 
 interface PrivacyPolicyPageProps {
   onNavigateHome?: () => void;
@@ -214,7 +215,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({
             </div>
             <div className="flex items-center gap-3 shrink-0 flex-wrap justify-center">
               <a 
-                href="https://t.me/BuyPvaGmail" 
+                href={TELEGRAM_SUPPORT_URL} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
@@ -223,7 +224,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({
                 <span>Telegram Support</span>
               </a>
               <a 
-                href="https://wa.me/12534080049" 
+                href={WHATSAPP_SUPPORT_URL} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"

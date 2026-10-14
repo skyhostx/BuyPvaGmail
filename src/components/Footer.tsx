@@ -19,6 +19,7 @@ import {
 import { SiteIdentityLogo } from './GmailLogo';
 import { handleLinkClick } from '../utils/navigation';
 import { getProductPath } from '../utils/urlHelpers';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 interface FooterProps {
   onOpenOrderModal: (productId?: string) => void;
@@ -136,7 +137,7 @@ export const Footer: React.FC<FooterProps> = ({
             {/* Quick Contact & Status Badges */}
             <div className="flex items-center gap-2.5 pt-2 flex-wrap">
               <a
-                href="https://t.me/BuyPvaGmail"
+                href={TELEGRAM_SUPPORT_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-slate-900 hover:bg-blue-600 hover:text-white text-slate-300 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 transition-all flex items-center gap-2 shadow-xs"
@@ -145,7 +146,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <span>Telegram: @BuyPvaGmail</span>
               </a>
               <a
-                href="https://wa.me/12534080049"
+                href={WHATSAPP_SUPPORT_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-slate-900 hover:bg-emerald-600 hover:text-white text-emerald-400 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-800 transition-all flex items-center gap-2 shadow-xs"

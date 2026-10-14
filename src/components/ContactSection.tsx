@@ -10,6 +10,7 @@ import {
   Sparkles,
   ExternalLink
 } from 'lucide-react';
+import { TELEGRAM_SUPPORT_URL, WHATSAPP_SUPPORT_URL } from '../utils/contactLinks';
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
@@ -53,7 +54,7 @@ export const ContactSection: React.FC = () => {
             
             {/* Telegram Card */}
             <a
-              href="https://t.me/BuyPvaGmail"
+              href={TELEGRAM_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="bg-blue-50/80 hover:bg-blue-100/80 p-5 rounded-2xl border border-blue-200 transition-all flex items-start gap-4 group"
@@ -79,7 +80,7 @@ export const ContactSection: React.FC = () => {
 
             {/* WhatsApp Card */}
             <a
-              href="https://wa.me/12534080049"
+              href={WHATSAPP_SUPPORT_URL}
               target="_blank"
               rel="noreferrer"
               className="bg-emerald-50/80 hover:bg-emerald-100/80 p-5 rounded-2xl border border-emerald-200 transition-all flex items-start gap-4 group"
